@@ -26,6 +26,5 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/home', [HomeController::class, 'index']);
 });
-
-Route::get('/home', [HomeController::class, 'index']);
