@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Navigation;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
 class Home extends Component
 {
