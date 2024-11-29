@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'Page Title' }}</title>
+    <title>@yield('title', 'SiAmi')</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -25,15 +25,6 @@
     <div class="min-h-screen bg-white">
         @livewire('navbar')
 
-        <!-- Page Heading -->
-        {{-- @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif --}}
-
         <!-- Page Content -->
         <main>
             {{ $slot }}
@@ -42,8 +33,31 @@
 
     @stack('modals')
 
+    @if (session('error'))
+        <div id="error-toast" class="toast">
+            <div class="alert alert-error">
+                <span>{{ session('error') }}</span>
+            </div>
+        </div>
+    @endif
+
     @livewireScripts
     <script src="https://kit.fontawesome.com/3cfd8eaa87.js" crossorigin="anonymous"></script>;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const errorToast = document.getElementById('error-toast');
+            if (errorToast) {
+                setTimeout(() => {
+                    errorToast.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        Livewire.on('setTitle', (data) => {
+            // Update the document title dynamically when the event is received
+            document.title = data.title;
+        });
+    </script>
 </body>
 
 </html>

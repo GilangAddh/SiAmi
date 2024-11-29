@@ -7,6 +7,8 @@
                     </path>
                 </svg>
             </label>
+
+            <img src="{{ asset('images/logo.png') }}" class="w-52 hidden md:flex">
         </div>
         <div class="flex-none space-x-3">
             <div class="dropdown dropdown-end">
@@ -48,21 +50,21 @@
         </div>
     </div>
 
-
-    <div class="drawer">
+    <div class="drawer z-10">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-side">
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-white text-base-content min-h-full w-80 p-4">
+            <ul class="menu bg-white text-base-content min-h-full w-80 px-4">
                 <img src="{{ asset('images/logo.png') }}" class="w-52 mb-4">
 
                 <div class="flex justify-center mb-5">
-                    <div class="bg-[#20bcce] text-white uppercase py-1 px-4 rounded-xl text-sm">{{ Auth::user()->role }}
+                    <div class="bg-[#20bcce] text-white uppercase py-1 px-4 rounded-xl text-[12px] ">
+                        {{ Auth::user()->role }}
                     </div>
                 </div>
 
                 @foreach ($menus as $menu)
-                    <li class="mb-1">
+                    <li class="mb-1 text-sm">
                         <a href="{{ url($menu['url']) }}"
                             class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#81c98c] text-white' : '' }}"><i
                                 class="{{ $menu['icon'] }} mr-1 text-xs"></i>
