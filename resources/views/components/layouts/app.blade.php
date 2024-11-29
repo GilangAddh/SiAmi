@@ -52,11 +52,6 @@
                 }, 3000);
             }
         });
-
-        Livewire.on('setTitle', (data) => {
-            // Update the document title dynamically when the event is received
-            document.title = data.title;
-        });
     </script>
 </body>
 

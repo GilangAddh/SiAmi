@@ -15,8 +15,6 @@ class ManajemenPengguna extends Component
 
     public function render()
     {
-        return view('livewire.manajemen-pengguna', [
-            'title' => $this->title,
-        ]);
+        return view('livewire.manajemen-pengguna');
     }
 }
