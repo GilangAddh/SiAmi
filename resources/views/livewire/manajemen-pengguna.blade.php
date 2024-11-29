@@ -1,3 +1,4 @@
+@section('title', $title)
 <div>
-    <p>Tes</p>
+    <p>Ini Manajemen Pengguna</p>
 </div>
