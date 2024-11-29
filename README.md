@@ -49,7 +49,7 @@
 5. **Migrasi dan Seed Database**
 
     ```bash
-    php artisan migrate
+    php artisan migrate:fresh
     ```
 
     ```bash

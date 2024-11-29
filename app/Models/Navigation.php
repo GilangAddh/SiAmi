@@ -10,5 +10,9 @@ class Navigation extends Model
     use HasFactory;
 
     protected $table = 'navigation';
-    protected $fillable = ['menu', 'url', 'role'];
+    protected $fillable = ['menu', 'url', 'roles'];
+
+    protected $casts = [
+        'roles' => 'array',
+    ];
 }
