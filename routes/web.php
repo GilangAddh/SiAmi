@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
+use App\Livewire\Home;
+use App\Livewire\ManajemenPengguna;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::middleware([
@@ -23,9 +29,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', Home::class)->name('dashboard');
 });
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'role:ppm',
+])->group(function () {
+    Route::get('/manajemen-pengguna', ManajemenPengguna::class)->name('manajemen-pengguna');
+});

@@ -11,11 +11,13 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                <ul class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @foreach ($menu as $item)
+                        <x-nav-link href="{{ $item->url }}" :active="request()->routeIs('dashboard')">
+                            {{ $item->menu }}
+                        </x-nav-link>
+                    @endforeach
+                </ul>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
