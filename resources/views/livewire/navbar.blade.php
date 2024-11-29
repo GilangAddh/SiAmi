@@ -1,5 +1,5 @@
 <div>
-    <div class="navbar bg-base-100 px-4 sticky top-0 z-1 shadow-md">
+    <div class="navbar bg-base-100 px-4 shadow-md">
         <div class="flex-1">
             <label for="my-drawer" class="drawer-button cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,13 +53,19 @@
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-side">
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-white text-base-content min-h-full w-80 p-4 space-y-1">
+            <ul class="menu bg-white text-base-content min-h-full w-80 p-4">
                 <img src="{{ asset('images/logo.png') }}" class="w-52 mb-4">
 
+                <div class="flex justify-center mb-5">
+                    <div class="bg-[#20bcce] text-white uppercase py-1 px-4 rounded-xl text-sm">{{ Auth::user()->role }}
+                    </div>
+                </div>
+
                 @foreach ($menus as $menu)
-                    <li>
+                    <li class="mb-1">
                         <a href="{{ url($menu['url']) }}"
-                            class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#8ee19b] text-white' : '' }}">
+                            class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#81c98c] text-white' : '' }}"><i
+                                class="{{ $menu['icon'] }} mr-1 text-xs"></i>
                             {{ $menu['menu'] }}
                         </a>
                     </li>

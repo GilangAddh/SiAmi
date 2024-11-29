@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('menu');
             $table->string('url');
+            $table->string('icon');
             $table->json('roles');
             $table->timestamps();
         });
