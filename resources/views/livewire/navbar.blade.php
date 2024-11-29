@@ -49,15 +49,15 @@
     </div>
 
 
-    <div class="drawer">
+    <div class="drawer z-10">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-side">
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-white text-base-content min-h-full w-80 p-4">
+            <ul class="menu bg-white text-base-content min-h-full w-80 p-4 text-sm">
                 <img src="{{ asset('images/logo.png') }}" class="w-52 mb-4">
 
                 <div class="flex justify-center mb-5">
-                    <div class="bg-[#20bcce] text-white uppercase py-1 px-4 rounded-xl text-sm">{{ Auth::user()->role }}
+                    <div class="bg-[#20bcce] text-white uppercase py-1 px-4 rounded-xl">{{ Auth::user()->role }}
                     </div>
                 </div>
 
