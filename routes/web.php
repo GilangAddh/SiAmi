@@ -36,7 +36,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    'role:ppm', // Middleware untuk role ppm
+    'role:ppm',
 ])->group(function () {
     Route::get('/manajemen-pengguna', ManajemenPengguna::class)->name('manajemen-pengguna');
 });

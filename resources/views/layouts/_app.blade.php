@@ -23,7 +23,7 @@
     <x-banner />
 
     <div class="min-h-screen bg-gray-100">
-        @livewire('navigation-menu')
+        @livewire('navbar')
 
         <!-- Page Heading -->
         @if (isset($header))
@@ -43,6 +43,7 @@
     @stack('modals')
 
     @livewireScripts
+    <script src="https://kit.fontawesome.com/3cfd8eaa87.js" crossorigin="anonymous"></script>;
 </body>
 
 </html>

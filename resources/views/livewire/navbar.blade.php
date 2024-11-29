@@ -1,89 +1,70 @@
-<div class="drawer">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content">
-        <nav x-data="{ open: false }" class="bg-white border-b border-gray-100 w-full">
-            <!-- Primary Navigation Menu -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex">
-                        <div class="shrink-0 flex items-center gap-4 align-items-center">
-                            <label for="my-drawer"><i class="fa-solid fa-bars fa-xl"></i></label>
-                            <a href="{{ route('dashboard') }}">
-                                <x-application-mark class="block h-9 w-auto" />
-                            </a>
-                        </div>
+<div>
+    <div class="navbar bg-base-100 px-4 sticky top-0 z-1 shadow-md">
+        <div class="flex-1">
+            <label for="my-drawer" class="drawer-button cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </label>
+        </div>
+        <div class="flex-none space-x-3">
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                    <div class="indicator">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span class="badge badge-ghost badge-sm indicator-item text-xs">0</span>
                     </div>
-
-                    <div class="sm:flex sm:items-center sm:ms-6">
-                        <div class="ms-3 relative">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                        <button
-                                            class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                            <img class="h-8 w-8 rounded-full object-cover"
-                                                src="{{ Auth::user()->profile_photo_url }}"
-                                                alt="{{ Auth::user()->name }}" />
-                                        </button>
-                                    @else
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                                {{ Auth::user()->name }}
-
-                                                <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    @endif
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <!-- Account Management -->
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
-                                        {{ __('Manage Account') }}
-                                    </div>
-
-                                    <x-dropdown-link href="{{ route('profile.show') }}">
-                                        {{ __('Profile') }}
-                                    </x-dropdown-link>
-
-                                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                        <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                                            {{ __('API Tokens') }}
-                                        </x-dropdown-link>
-                                    @endif
-
-                                    <div class="border-t border-gray-200"></div>
-
-                                    <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}" x-data>
-                                        @csrf
-
-                                        <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                                            {{ __('Log Out') }}
-                                        </x-dropdown-link>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
+                </div>
+                <div tabindex="0" class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
+                    <div class="card-body">
                     </div>
                 </div>
             </div>
-        </nav>
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="flex items-center space-x-2 bg-gray-100 pr-4 rounded-full">
+                    <div class="avatar">
+                        <div class="w-10 rounded-full">
+                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        </div>
+                    </div>
+                    <p class="text-sm">{{ Auth::user()->name }}</p>
+                </div>
+                <ul tabindex="0"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    <li><a href="{{ route('profile.show') }}">Profile</a></li>
+
+
+                    <form method="POST" action="{{ route('logout') }}" x-data>
+                        @csrf
+                        <li><a href="{{ route('logout') }}" @click.prevent="$root.submit();">Logout</a></li>
+                    </form>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="drawer-side">
-        <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-        <div class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-            @foreach ($menus as $menu)
-                <x-nav-link href="{{ url($menu['url']) }}" :active="request()->is(ltrim($menu['url'], '/'))">
-                    {{ __($menu['menu']) }}
-                </x-nav-link>
-            @endforeach
+
+
+    <div class="drawer">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-side">
+            <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <ul class="menu bg-white text-base-content min-h-full w-80 p-4 space-y-1">
+                <img src="{{ asset('images/logo.png') }}" class="w-52 mb-4">
+
+                @foreach ($menus as $menu)
+                    <li>
+                        <a href="{{ url($menu['url']) }}"
+                            class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#8ee19b] text-white' : '' }}">
+                            {{ $menu['menu'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 </div>
