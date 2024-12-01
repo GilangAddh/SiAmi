@@ -1,4 +1,4 @@
-@section('title', $title)
+@section('title', 'Manajemen Pengguna')
 
 @php
     use Carbon\Carbon;
@@ -26,7 +26,7 @@
             </svg>
         </label>
 
-        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm">
+        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm" wire:click="openModal('tambah')">
             Tambah
             <i class="fa-solid fa-plus"></i>
         </button>
@@ -37,7 +37,8 @@
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
                     <th class="text-center">No</th>
-                    <th>Identitas Akun</th>
+                    <th>Identitas Pengguna</th>
+                    <th>Username</th>
                     <th class="text-center">Peran</th>
                     <th>Waktu Pembuatan Akun</th>
                     <th class="text-center">Aksi</th>
@@ -56,11 +57,12 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="font-bold">{{ $user->name }}</div>
+                                    <div class="font-bold">{{ $user->profile_name }}</div>
                                     <div class="text-sm opacity-50">{{ $user->email }}</div>
                                 </div>
                             </div>
                         </td>
+                        <td>{{ $user->name }}</td>
                         <td class="text-center">
                             <div class="badge bg-[#60C0D0] p-3 text-white border-none">{{ $user->role }}</div>
                         </td>
@@ -69,9 +71,12 @@
                         </td>
                         <th>
                             <div class="flex justify-center items-center space-x-2">
-                                <i class="fas fa-eye text-black"></i>
-                                <i class="fas fa-edit text-black"></i>
-                                <i class="fas fa-trash text-black"></i>
+                                <i class="fas fa-eye text-black"
+                                    wire:click="openModal('lihat', {{ $user->id }})"></i>
+                                <i class="fas fa-edit text-black"
+                                    wire:click="openModal('edit', {{ $user->id }})"></i>
+                                <i class="fas fa-trash text-black"
+                                    wire:click="openModal('hapus', {{ $user->id }})"></i>
                             </div>
                         </th>
                     </tr>
@@ -87,4 +92,81 @@
     <div class="mt-4">
         {{ $users->links() }}
     </div>
+
+
+    <dialog class="modal" @if ($isModalOpen) open @endif>
+        <div class="modal-box w-full max-w-2xl">
+            <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
+
+            @if ($modalAction === 'hapus')
+                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{ $profileName }}</span>?
+                </p>
+                <div class="modal-action">
+                    <div class="flex space-x-2 justify-end">
+                        <button
+                            class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                            wire:click="resetModal">Tutup</button>
+
+                        <button class="btn btn-error btn-sm text-white" wire:click="deleteData">Ya,
+                            hapus</button>
+                    </div>
+                </div>
+            @else
+                <form wire:submit.prevent="saveData">
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Nama Pengguna <span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="profileName"
+                            placeholder="Masukkan nama pengguna"
+                            class="input input-bordered w-full input-md @error('profileName') border-red-500 @enderror" />
+
+                        @error('profileName')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Email Pengguna <span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="email" wire:model="email"
+                            placeholder="Masukkan email pengguna"
+                            class="input input-bordered w-full input-md @error('email') border-red-500 @enderror" />
+
+                        @error('email')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Username Akun <span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="name"
+                            placeholder="Masukkan username akun"
+                            class="input input-bordered w-full input-md @error('name') border-red-500 @enderror" />
+
+                        @error('name')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <div class="modal-action">
+                        <div class="flex space-x-2 justify-end">
+                            <button
+                                class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                                wire:click="resetModal">Tutup</button>
+
+                            @if ($modalAction != 'lihat')
+                                <button type="submit"
+                                    class="btn btn-sm bg-[#60c0d0] text-white">{{ $modalAction === 'edit' ? 'Simpan' : 'Tambah' }}</button>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            @endif
+        </div>
+    </dialog>
 </div>

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('url');
             $table->string('icon');
             $table->json('roles');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });
     }
 

@@ -33,7 +33,7 @@
                                 src="{{ Auth::user()->profile_photo_path ? Auth::user()->profile_photo_path : asset('images/avatar.png') }}" />
                         </div>
                     </div>
-                    <p class="text-sm">{{ Auth::user()->name }}</p>
+                    <p class="text-sm">{{ Auth::user()->profile_name }}</p>
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
