@@ -1,6 +1,6 @@
 <div>
     <div class="navbar bg-base-100 px-4 shadow-md">
-        <div class="flex-1 space-x-4">
+        <div class="flex-1 space-x-3">
             <label for="my-drawer" class="drawer-button cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
@@ -9,7 +9,7 @@
             </label>
 
             <img src="{{ asset('images/logo-poltekkes.png') }}" class="w-[200px] hidden md:flex">
-            {{-- <img src="{{ asset('images/logo-blu.png') }}" class="w-[52px] hidden md:flex"> --}}
+            <img src="{{ asset('images/logo-blu.png') }}" class="w-[52px] hidden md:flex">
         </div>
         <div class="flex-none space-x-5">
 
