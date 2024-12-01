@@ -50,8 +50,8 @@
                             <div class="flex items-center gap-3">
                                 <div class="avatar">
                                     <div class="mask mask-squircle h-12 w-12">
-                                        <img src="{{ $user->profile_photo_path ? $user->profile_photo_path : asset('images/avatar.png') }}"
-                                            alt="Avatar Tailwind CSS Component" />
+                                        <img
+                                            src="{{ $user->profile_photo_path ? $user->profile_photo_path : asset('images/avatar.png') }}" />
                                     </div>
                                 </div>
                                 <div>
@@ -66,7 +66,7 @@
                         <td>
                             {{ Carbon::parse($user->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
                         </td>
-                        <th class="text-center">
+                        <th>
                             <div class="flex justify-center items-center space-x-2">
                                 <i class="fas fa-eye text-black"></i>
                                 <i class="fas fa-edit text-black"></i>
@@ -84,6 +84,6 @@
     </div>
 
     <div class="mt-4">
-        {{ $users->links('vendor.pagination.tailwind') }}
+        {{ $users->links() }}
     </div>
 </div>
