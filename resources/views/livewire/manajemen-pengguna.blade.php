@@ -15,11 +15,18 @@
     <h1 class="font-bold text-2xl">Data Akun Pengguna</h1>
 
     <div class="flex justify-between my-6 items-center">
-        {{-- <input type="text" placeholder="Search users..." wire:model.debounce.300ms="search"
-            class="w-1/3 p-2 border border-gray-300 rounded-md mb-4" /> --}}
+        <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
+            <input wire:model.debounce.300ms="search" type="text" class="grow border-none text-sm gap-2 w-full"
+                placeholder="Cari" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
+                <path fill-rule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clip-rule="evenodd" />
+            </svg>
+        </label>
 
-        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3">
-            Tambah Akun
+        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm">
+            Tambah
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
@@ -31,7 +38,7 @@
                     <th class="text-center">No</th>
                     <th>Identitas Akun</th>
                     <th class="text-center">Peran</th>
-                    <th class="text-center">Waktu Pembuatan Akun</th>
+                    <th>Waktu Pembuatan Akun</th>
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
@@ -56,7 +63,7 @@
                         <td class="text-center">
                             <div class="badge bg-[#60C0D0] p-3 text-white border-none">{{ $user->role }}</div>
                         </td>
-                        <td class="text-center">
+                        <td>
                             {{ Carbon::parse($user->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
                         </td>
                         <th class="text-center">
