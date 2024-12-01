@@ -16,7 +16,8 @@
 
     <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
-            <input wire:model.live="search" type="text" class="grow border-none text-sm gap-2 w-full"
+            <input wire:model.live.debounce.400ms="search" type="text"
+                class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full"
                 placeholder="Cari nama atau email" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
                 <path fill-rule="evenodd"
