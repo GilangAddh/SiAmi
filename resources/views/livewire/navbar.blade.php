@@ -21,15 +21,16 @@
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                 </label>
-                <span class="badge badge-ghost badge-sm indicator-item text-xs">0</span>
+                <span class="badge badge-sm indicator-item text-xs bg-white">0</span>
             </div>
 
 
             <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="flex items-center space-x-2 bg-[#F0F0F0] pr-4 rounded-full">
+                <div tabindex="0" role="button" class="flex items-center space-x-2 bg-gray-100 pr-4 rounded-full">
                     <div class="avatar">
                         <div class="w-10 rounded-full">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                            <img
+                                src="{{ Auth::user()->profile_photo_path ? Auth::user()->profile_photo_path : asset('images/avatar.png') }}" />
                         </div>
                     </div>
                     <p class="text-sm">{{ Auth::user()->name }}</p>
@@ -59,7 +60,7 @@
                 </div>
 
                 <div class="flex justify-center mb-5">
-                    <div class="bg-[#0AB9AC] text-white uppercase py-1 px-4 rounded-xl text-[13px]">
+                    <div class="bg-[#60c0d0] text-white uppercase py-1 px-4 rounded-xl text-[13px]">
                         {{ Auth::user()->role }}
                     </div>
                 </div>
