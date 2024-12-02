@@ -70,11 +70,11 @@
                         </td>
                         <th>
                             <div class="flex justify-center items-center space-x-2">
-                                <i class="fas fa-eye text-black"
+                                <i class="fas fa-eye text-black cursor-pointer"
                                     wire:click="openModal('lihat', {{ $user->id }})"></i>
-                                <i class="fas fa-edit text-black"
+                                <i class="fas fa-edit text-black cursor-pointer"
                                     wire:click="openModal('edit', {{ $user->id }})"></i>
-                                <i class="fas fa-trash text-black"
+                                <i class="fas fa-trash text-black cursor-pointer"
                                     wire:click="openModal('hapus', {{ $user->id }})"></i>
                             </div>
                         </th>
@@ -94,7 +94,7 @@
 
 
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-2xl max-h-screen overflow-y-auto">
+        <div class="modal-box w-full max-w-2xl">
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
@@ -189,6 +189,7 @@
                     </label>
 
                     @if ($modalAction != 'lihat')
+
                         <label class="form-control w-full mb-2">
                             <div class="label">
                                 <span class="label-text">
@@ -199,14 +200,22 @@
                                         @endif
                                 </span>
                             </div>
-                            <input type="text" placeholder="Masukkan password"
-                                wire:model.live.debounce.300ms="password"
-                                class="input input-bordered w-full input-md @error('password') border-red-500 @enderror" />
+                            <div class="flex items-center space-x-4">
+                                <input type="text" placeholder="Masukkan password"
+                                    wire:model.live.debounce.300ms="password"
+                                    class="input input-bordered w-full input-md @error('password') border-red-500 @enderror" />
+                                <button type="button"
+                                    class="btn text-white btn-sm px-4 bg-[#60c0d0] border-none px-3 text-sm"
+                                    wire:click="generateRandomPassword">
+                                    Acak
+                                </button>
+                            </div>
 
                             @error('password')
                                 <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                             @enderror
                         </label>
+
 
                         @if ($modalAction === 'tambah' || ($modalAction === 'edit' && $password))
                             <label class="form-control w-full mb-2">
@@ -227,7 +236,7 @@
 
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
-                            <button
+                            <button type="button"
                                 class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
                                 wire:click="resetModal">Tutup</button>
 

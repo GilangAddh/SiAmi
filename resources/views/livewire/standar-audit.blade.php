@@ -88,7 +88,7 @@
     </div>
 
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-2xl max-h-screen overflow-y-auto">
+        <div class="modal-box w-full max-w-2xl">
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
@@ -161,7 +161,7 @@
 
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
-                            <button
+                            <button type="button"
                                 class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
                                 wire:click="resetModal">Tutup</button>
 

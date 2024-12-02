@@ -8,6 +8,7 @@ use Livewire\WithFileUploads;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 class ManajemenPengguna extends Component
 {
@@ -28,6 +29,11 @@ class ManajemenPengguna extends Component
     public $password = '';
     public $confirmPassword = '';
     public $profile_photo_path = null;
+
+    public function generateRandomPassword()
+    {
+        $this->password = Str::random(8);
+    }
 
     public function updatingSearch()
     {
