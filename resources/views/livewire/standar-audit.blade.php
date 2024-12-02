@@ -15,9 +15,10 @@
     <h1 class="font-bold text-2xl">Data Standar Audit</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
-        <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-full max-w-[350px] sm:w-3/5 md:w-1/4">
-            <input wire:model.debounce.300ms="search" type="text" class="grow border-none text-sm gap-2 w-full"
-                placeholder="Cari" wire:model.live.debounce.500ms="search"/>
+        <label
+            class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-full max-w-[350px] sm:w-3/5 md:w-1/4">
+            <input type="text" class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full"
+                placeholder="Cari" wire:model.live.debounce.400ms="search" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
                 <path fill-rule="evenodd"
                     d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
@@ -46,19 +47,19 @@
             <tbody>
                 @forelse ($standar as $index => $item)
                     <tr>
-                        <td class="text-center">{{$index + 1}}</td>
+                        <td class="text-center">{{ $index + 1 }}.</td>
                         <td>
-                            {{$item->nama_standar}}
+                            {{ $item->nama_standar }}
                         </td>
                         <td>
-                            {{$item->nomer_dokumen}}
+                            {{ $item->nomer_dokumen }}
                         </td>
                         <td>
-                            {{$item->nomer_revisi}}
+                            {{ $item->nomer_revisi }}
                         </td>
                         <td>
                             {{ Carbon::parse($item->tanggal_terbit)->locale('id')->translatedFormat('d F Y') }}
-                        </td>                        
+                        </td>
                         <th class="text-center">
                             <div class="flex justify-center items-center space-x-2">
                                 <button wire:click="openModal('lihat', {{ $item->id }})">
@@ -74,8 +75,8 @@
                         </th>
                     </tr>
                 @empty
-                    <tr class="hover">
-                        <td colspan="5" class="text-center">Tidak ada data yang ditemukan.</td>
+                    <tr>
+                        <td colspan="6" class="text-center">Tidak ada data yang ditemukan.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -92,7 +93,7 @@
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
             @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{$nama_standar}}</span>?
+                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{ $nama_standar }}</span>?
                 </p>
                 <div class="modal-action">
                     <div class="flex space-x-2 justify-end">
@@ -110,8 +111,8 @@
                         <div class="label">
                             <span class="label-text">Nama Standar <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="nama_standar"
-                            placeholder="Masukkan nama standar"
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                            wire:model="nama_standar" placeholder="Masukkan nama standar"
                             class="input input-bordered w-full input-md @error('nama_standar') border-red-500 @enderror" />
 
                         @error('nama_standar')
@@ -121,10 +122,10 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomer Dokumen<span class="text-red-500">*</span></span>
+                            <span class="label-text">Nomer Dokumen <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="nomer_dokumen"
-                            placeholder="Masukkan nomor dokumen"
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                            wire:model="nomer_dokumen" placeholder="Masukkan nomor dokumen"
                             class="input input-bordered w-full input-md @error('nomer_dokumen') border-red-500 @enderror" />
 
                         @error('nomer_dokumen')
@@ -134,10 +135,10 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomer Revisi<span class="text-red-500">*</span></span>
+                            <span class="label-text">Nomer Revisi <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="nomer_revisi"
-                            placeholder="Masukkan nomor revisi"
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                            wire:model="nomer_revisi" placeholder="Masukkan nomor revisi"
                             class="input input-bordered w-full input-md @error('nomer_revisi') border-red-500 @enderror" />
 
                         @error('nomer_revisi')
@@ -149,8 +150,8 @@
                         <div class="label">
                             <span class="label-text">Tanggal Terbit <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="date" wire:model="tanggal_terbit"
-                            placeholder="Masukkan nomor revisi"
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="date"
+                            wire:model="tanggal_terbit" placeholder="Masukkan nomor revisi"
                             class="input input-bordered w-full input-md @error('tanggal_terbit') border-red-500 @enderror" />
 
                         @error('tanggal_terbit')

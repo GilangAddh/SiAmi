@@ -37,7 +37,7 @@ class ManajemenPengguna extends Component
     {
         $this->resetModal();
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . ' Pengguna';
+        $this->modalTitle = ucfirst($action) . ' Data Pengguna';
 
         if (in_array($action, ['edit', 'lihat', 'hapus']) && $recordId) {
             $this->recordId = $recordId;

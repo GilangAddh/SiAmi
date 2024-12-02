@@ -12,13 +12,12 @@
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl">Data Akun Pengguna</h1>
+    <h1 class="font-bold text-2xl">Data Pengguna</h1>
 
     <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
             <input wire:model.live.debounce.400ms="search" type="text"
-                class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full"
-                placeholder="Cari nama atau email" />
+                class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full" placeholder="Cari" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
                 <path fill-rule="evenodd"
                     d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
@@ -81,8 +80,8 @@
                         </th>
                     </tr>
                 @empty
-                    <tr class="hover">
-                        <td colspan="5" class="text-center">Tidak ada data yang ditemukan.</td>
+                    <tr>
+                        <td colspan="6" class="text-center">Tidak ada data yang ditemukan.</td>
                     </tr>
                 @endforelse
             </tbody>
