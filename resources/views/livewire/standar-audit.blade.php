@@ -25,7 +25,7 @@
             </svg>
         </label>
 
-        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm">
+        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm" wire:click="openModal('tambah')">
             Tambah
             <i class="fa-solid fa-plus"></i>
         </button>
@@ -57,13 +57,19 @@
                             {{$item->nomer_revisi}}
                         </td>
                         <td>
-                            {{$item->tanggal_terbit}}
+                            {{ Carbon::parse($item->tanggal_terbit)->locale('id')->translatedFormat('d F Y') }}
                         </td>                        
                         <th class="text-center">
                             <div class="flex justify-center items-center space-x-2">
-                                <i class="fas fa-eye text-black"></i>
-                                <i class="fas fa-edit text-black"></i>
-                                <button wire:click="delete({{ $item->id }})"><i class="fas fa-trash text-black"></i></button>
+                                <button wire:click="openModal('lihat', {{ $item->id }})">
+                                    <i class="fas fa-eye text-black"></i>
+                                </button>
+                                <button wire:click="openModal('edit', {{ $item->id }})">
+                                    <i class="fas fa-edit text-black"></i>
+                                </button>
+                                <button wire:click="openModal('hapus', {{ $item->id }})">
+                                    <i class="fas fa-trash text-black"></i>
+                                </button>
                             </div>
                         </th>
                     </tr>
@@ -77,6 +83,95 @@
     </div>
 
     <div class="mt-4">
-        {{ $standar->links('vendor.pagination.tailwind') }}
+        {{ $standar->links() }}
     </div>
+
+    <dialog class="modal" @if ($isModalOpen) open @endif>
+        <div class="modal-box w-full max-w-2xl">
+            <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
+
+            @if ($modalAction === 'hapus')
+                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{$nama_standar}}</span>?
+                </p>
+                <div class="modal-action">
+                    <div class="flex space-x-2 justify-end">
+                        <button
+                            class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                            wire:click="resetModal">Tutup</button>
+
+                        <button class="btn btn-error btn-sm text-white" wire:click="delete">Ya,
+                            hapus</button>
+                    </div>
+                </div>
+            @else
+                <form wire:submit.prevent="saveData">
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Nama Standar <span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="nama_standar"
+                            placeholder="Masukkan nama standar"
+                            class="input input-bordered w-full input-md @error('nama_standar') border-red-500 @enderror" />
+
+                        @error('nama_standar')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Nomer Dokumen<span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="nomer_dokumen"
+                            placeholder="Masukkan nomor dokumen"
+                            class="input input-bordered w-full input-md @error('nomer_dokumen') border-red-500 @enderror" />
+
+                        @error('nomer_dokumen')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Nomer Revisi<span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="nomer_revisi"
+                            placeholder="Masukkan nomor revisi"
+                            class="input input-bordered w-full input-md @error('nomer_revisi') border-red-500 @enderror" />
+
+                        @error('nomer_revisi')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Tanggal Terbit <span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="date" wire:model="tanggal_terbit"
+                            placeholder="Masukkan nomor revisi"
+                            class="input input-bordered w-full input-md @error('tanggal_terbit') border-red-500 @enderror" />
+
+                        @error('tanggal_terbit')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <div class="modal-action">
+                        <div class="flex space-x-2 justify-end">
+                            <button
+                                class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                                wire:click="resetModal">Tutup</button>
+
+                            @if ($modalAction != 'lihat')
+                                <button type="submit"
+                                    class="btn btn-sm bg-[#60c0d0] text-white">{{ $modalAction === 'edit' ? 'Simpan' : 'Tambah' }}</button>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            @endif
+        </div>
+    </dialog>
 </div>

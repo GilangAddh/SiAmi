@@ -8,10 +8,10 @@ use Livewire\Form;
 class StandarAuditForm extends Form
 {
     #[Validate('required|min:5')]
-    public $nama_audit = '';
+    public $nama_standar = '';
 
     #[Validate('required|min:5')]
-    public $nomer_sertifikat = '';
+    public $nomer_dokumen = '';
 
     #[Validate('required|min:5')]
     public $nomer_revisi = '';
