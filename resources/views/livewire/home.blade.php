@@ -1,4 +1,5 @@
-@section('title', $title)
+@section('title', 'Dashbard')
+
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
