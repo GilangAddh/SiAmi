@@ -4,11 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class ManajemenPengguna extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $search = '';
     protected $queryString = ['search'];
@@ -18,15 +21,13 @@ class ManajemenPengguna extends Component
     public $modalAction = '';
     public $recordId = null;
 
-    public $profileName = '';
-    public $email = '';
     public $name = '';
-
-    protected $rules = [
-        'profileName' => 'required|max:255',
-        'email' => 'required|email|max:255',
-        'name' => 'required|max:255',
-    ];
+    public $email = '';
+    public $role = '';
+    public $profileName = '';
+    public $password = '';
+    public $confirmPassword = '';
+    public $profile_photo_path = null;
 
     public function updatingSearch()
     {
@@ -36,6 +37,7 @@ class ManajemenPengguna extends Component
     public function openModal($action, $recordId = null)
     {
         $this->resetModal();
+
         $this->modalAction = $action;
         $this->modalTitle = ucfirst($action) . ' Data Pengguna';
 
@@ -50,27 +52,58 @@ class ManajemenPengguna extends Component
     private function loadRecordData()
     {
         $user = User::findOrFail($this->recordId);
-        $this->profileName = $user->profile_name;
-        $this->email = $user->email;
         $this->name = $user->name;
+        $this->email = $user->email;
+        $this->role = $user->role;
+        $this->profileName = $user->profile_name;
+        $this->profile_photo_path = $user->profile_photo_path;
     }
 
     public function saveData()
     {
-        $this->validate();
+        $rules = [
+            'name' => 'required|max:255|min:5',
+            'email' => 'required|email|max:255|unique:users,email' . ($this->recordId ? ',' . $this->recordId : ''),
+            'role' => 'required',
+            'profileName' => 'required|max:255',
+            'password' => $this->modalAction === 'tambah' ? 'required|min:8' : 'nullable|min:8',
+            'confirmPassword' => $this->modalAction === 'tambah' || ($this->modalAction === 'edit' && $this->password) ? 'required|same:password' : 'nullable|same:password',
+        ];
+
+        if ($this->profile_photo_path instanceof UploadedFile) {
+            $rules['profile_photo_path'] = 'nullable|image|max:2048';
+        }
+
+        $this->validate($rules);
+
+        $profilePhotoPath = $this->handleProfilePhotoUpload();
 
         if ($this->modalAction === 'edit') {
-            $user = User::findOrFail($this->recordId);
-            $user->update([
-                'profile_name' => $this->profileName,
-                'email' => $this->email,
-                'name' => $this->name,
-            ]);
+            tap(User::findOrFail($this->recordId), function ($user) use ($profilePhotoPath) {
+                if ($profilePhotoPath) {
+                    if ($user->profile_photo_path) {
+                        Storage::delete('public/' . $user->profile_photo_path);
+                    }
+
+                    $user->profile_photo_path = $profilePhotoPath;
+                }
+
+                $user->update([
+                    'name' => $this->name,
+                    'email' => $this->email,
+                    'role' => $this->role,
+                    'profile_name' => $this->profileName,
+                    'password' => $this->password ? bcrypt($this->password) : $user->password,
+                ]);
+            });
         } else {
             User::create([
-                'profile_name' => $this->profileName,
-                'email' => $this->email,
                 'name' => $this->name,
+                'email' => $this->email,
+                'role' => $this->role,
+                'profile_name' => $this->profileName,
+                'password' => bcrypt($this->password),
+                'profile_photo_path' => $profilePhotoPath,
             ]);
         }
 
@@ -80,7 +113,13 @@ class ManajemenPengguna extends Component
     public function deleteData()
     {
         if ($this->recordId) {
-            User::findOrFail($this->recordId)->delete();
+            $user = User::findOrFail($this->recordId);
+
+            if ($user->profile_photo_path) {
+                Storage::delete('public/' . $user->profile_photo_path);
+            }
+
+            $user->delete();
         }
 
         $this->resetModal();
@@ -88,13 +127,48 @@ class ManajemenPengguna extends Component
 
     public function resetModal()
     {
-        $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'profileName', 'email', 'name']);
+        $this->resetErrorBag();
+
+        $this->reset([
+            'isModalOpen',
+            'modalTitle',
+            'modalAction',
+            'recordId',
+            'name',
+            'email',
+            'role',
+            'profileName',
+            'password',
+            'confirmPassword',
+            'profile_photo_path',
+        ]);
     }
+
+    private function handleProfilePhotoUpload()
+    {
+        if ($this->profile_photo_path instanceof UploadedFile) {
+            return $this->profile_photo_path->store('profile_photos', 'public');
+        }
+
+        return null;
+    }
+
+    public function getProfilePhotoUrl()
+    {
+        if (is_object($this->profile_photo_path) && method_exists($this->profile_photo_path, 'temporaryUrl')) {
+            return $this->profile_photo_path->temporaryUrl();
+        }
+
+        return $this->profile_photo_path
+            ? asset('storage/' . $this->profile_photo_path)
+            : asset('images/avatar.png');
+    }
+
 
     public function render()
     {
-        $users = User::where('profile_name', 'like', '%' . $this->search . '%')
+        $users = User::query()
+            ->where('profile_name', 'like', '%' . $this->search . '%')
             ->orWhere('email', 'like', '%' . $this->search . '%')
             ->orWhere('name', 'like', '%' . $this->search . '%')
             ->orderBy('created_at', 'desc')

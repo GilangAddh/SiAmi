@@ -50,9 +50,9 @@
                         <td>
                             <div class="flex items-center gap-3">
                                 <div class="avatar">
-                                    <div class="mask mask-squircle h-12 w-12">
+                                    <div class="rounded-full h-12 w-12">
                                         <img
-                                            src="{{ $user->profile_photo_path ? $user->profile_photo_path : asset('images/avatar.png') }}" />
+                                            src="{{ $user->profile_photo_path ? Storage::url($user->profile_photo_path) : asset('images/avatar.png') }}" />
                                     </div>
                                 </div>
                                 <div>
@@ -94,7 +94,7 @@
 
 
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-2xl">
+        <div class="modal-box w-full max-w-2xl max-h-screen overflow-y-auto">
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
@@ -113,7 +113,26 @@
                 </div>
             @else
                 <form wire:submit.prevent="saveData">
-                    <label class="form-control w-full mb-2">
+                    <div class="text-center">
+                        <div class="avatar mt-2 justify-center flex mb-1">
+                            <div class="w-28 rounded-full border border-1">
+                                <img src='{{ $this->getProfilePhotoUrl() }}' />
+                            </div>
+                        </div>
+
+                        @if ($modalAction != 'lihat')
+                            <div class="flex justify-center">
+                                <input type="file" wire:model.live="profile_photo_path"
+                                    class="file-input file-input-ghost file-input-sm w-full max-w-xs" />
+                            </div>
+                        @endif
+
+                        @error('profile_photo_path')
+                            <span class="text-red-500 text-sm error-message text-center">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <label class="form-control w-full my-2">
                         <div class="label">
                             <span class="label-text">Nama Pengguna <span class="text-red-500">*</span></span>
                         </div>
@@ -151,6 +170,60 @@
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Peran <span class="text-red-500">*</span></span>
+                        </div>
+                        <select wire:model="role" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered select-md @error('role') border-red-500 @enderror">
+                            <option value="" selected disabled>Pilih peran</option>
+                            <option value="auditor">Auditor</option>
+                            <option value="auditee">Auditee</option>
+                            <option value="ppm">PPM</option>
+                        </select>
+
+                        @error('role')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    @if ($modalAction != 'lihat')
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text">
+                                    @if ($modalAction === 'edit')
+                                        Reset
+                                        @endif Password @if ($modalAction === 'tambah')
+                                            <span class="text-red-500">*</span>
+                                        @endif
+                                </span>
+                            </div>
+                            <input type="text" placeholder="Masukkan password"
+                                wire:model.live.debounce.300ms="password"
+                                class="input input-bordered w-full input-md @error('password') border-red-500 @enderror" />
+
+                            @error('password')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        @if ($modalAction === 'tambah' || ($modalAction === 'edit' && $password))
+                            <label class="form-control w-full mb-2">
+                                <div class="label">
+                                    <span class="label-text">
+                                        Konfirmasi Password <span class="text-red-500">*</span>
+                                    </span>
+                                </div>
+                                <input type="text" placeholder="Konfirmasi password" wire:model="confirmPassword"
+                                    class="input input-bordered w-full input-md @error('confirmPassword') border-red-500 @enderror" />
+
+                                @error('confirmPassword')
+                                    <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        @endif
+                    @endif
 
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
