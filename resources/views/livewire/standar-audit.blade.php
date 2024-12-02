@@ -161,7 +161,7 @@
 
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
-                            <button
+                            <button type="button"
                                 class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
                                 wire:click="resetModal">Tutup</button>
 

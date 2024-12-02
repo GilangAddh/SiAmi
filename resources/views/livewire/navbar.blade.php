@@ -30,7 +30,7 @@
                     <div class="avatar">
                         <div class="w-10 rounded-full">
                             <img
-                                src="{{ Auth::user()->profile_photo_path ? Auth::user()->profile_photo_path : asset('images/avatar.png') }}" />
+                                src="{{ Auth::user()->profile_photo_path ? Storage::url(Auth::user()->profile_photo_path) : asset('images/avatar.png') }}" />
                         </div>
                     </div>
                     <p class="text-sm">{{ Auth::user()->profile_name }}</p>
