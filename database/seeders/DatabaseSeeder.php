@@ -16,21 +16,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'PPM User',
+            'name' => 'user1ppm',
+            'profile_name' => 'Admin 1 PPM',
             'email' => 'ppm@example.com',
             'password' => bcrypt('password'),
             'role' => 'ppm',
         ]);
 
         User::create([
-            'name' => 'Auditor User',
+            'name' => 'user1auditor',
+            'profile_name' => 'Admin 1 Auditor',
             'email' => 'auditor@example.com',
             'password' => bcrypt('password'),
             'role' => 'auditor',
         ]);
 
         User::create([
-            'name' => 'Auditee User',
+            'name' => 'user1auditee',
+            'profile_name' => 'Admin 1 Auditee',
             'email' => 'auditee@example.com',
             'password' => bcrypt('password'),
             'role' => 'auditee',
@@ -39,6 +42,7 @@ class DatabaseSeeder extends Seeder
         Navigation::insert([
             ['menu' => 'Dashboard', 'url' => '/dashboard',  'icon' => "fa-solid fa-database", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
             ['menu' => 'Manajemen Pengguna', 'url' => '/manajemen-pengguna', 'icon' => "fa-solid fa-user", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Standar Audit', 'url' => '/standar-audit', 'icon' => "fa-solid fa-user", 'roles' => json_encode(['ppm'])],
         ]);
     }
 }

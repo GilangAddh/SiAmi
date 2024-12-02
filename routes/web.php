@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Home;
 use App\Livewire\ManajemenPengguna;
+use App\Livewire\StandarAudit;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,4 +40,5 @@ Route::middleware([
     'role:ppm',
 ])->group(function () {
     Route::get('/manajemen-pengguna', ManajemenPengguna::class)->name('manajemen-pengguna');
+    Route::get('/standar-audit', StandarAudit::class)->name('standar-audit');
 });

@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('navigation', function (Blueprint $table) {
+        Schema::create('standar_audit', function (Blueprint $table) {
             $table->id();
-            $table->string('menu');
-            $table->string('url');
-            $table->string('icon');
-            $table->json('roles');
+            $table->string('nama_standar');
+            $table->string('nomer_dokumen');
+            $table->string('nomer_revisi');
+            $table->date('tanggal_terbit');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('navigation');
+        Schema::dropIfExists('standar_audit');
     }
 };
