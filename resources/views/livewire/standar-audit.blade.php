@@ -150,9 +150,9 @@
                         <div class="label">
                             <span class="label-text">Tanggal Terbit <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="date"
-                            wire:model="tanggal_terbit" placeholder="Masukkan nomor revisi"
-                            class="input input-bordered w-full input-md @error('tanggal_terbit') border-red-500 @enderror" />
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                            placeholder="Masukkan tanggal terbit" wire:model="tanggal_terbit"
+                            class="input input-bordered w-full input-md flatpickr-free @error('tanggal_terbit') border-red-500 @enderror" />
 
                         @error('tanggal_terbit')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
