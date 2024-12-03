@@ -113,7 +113,7 @@ class ManajemenPengguna extends Component
             ]);
         }
 
-        $this->resetModal();
+        return redirect()->route('manajemen-pengguna');
     }
 
     public function deleteData()
