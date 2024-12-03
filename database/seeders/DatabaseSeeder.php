@@ -16,24 +16,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'user1ppm',
-            'profile_name' => 'Admin 1 PPM',
+            'name' => 'userppm',
+            'profile_name' => 'Admin PPM',
             'email' => 'ppm@example.com',
             'password' => bcrypt('password'),
             'role' => 'ppm',
         ]);
 
         User::create([
-            'name' => 'user1auditor',
-            'profile_name' => 'Admin 1 Auditor',
+            'name' => 'userauditor',
+            'profile_name' => 'Admin Auditor',
             'email' => 'auditor@example.com',
             'password' => bcrypt('password'),
             'role' => 'auditor',
         ]);
 
         User::create([
-            'name' => 'user1auditee',
-            'profile_name' => 'Admin 1 Auditee',
+            'name' => 'userauditee',
+            'profile_name' => 'Admin Auditee',
             'email' => 'auditee@example.com',
             'password' => bcrypt('password'),
             'role' => 'auditee',
@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
         Navigation::insert([
             ['menu' => 'Dashboard', 'url' => '/dashboard',  'icon' => "fa-solid fa-database", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
             ['menu' => 'Manajemen Pengguna', 'url' => '/manajemen-pengguna', 'icon' => "fa-solid fa-user", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Manajemen Menu', 'url' => '/manajemen-menu', 'icon' => "fa-solid fa-list", 'roles' => json_encode(['ppm'])],
             ['menu' => 'Standar Audit', 'url' => '/standar-audit', 'icon' => "fa-solid fa-gavel", 'roles' => json_encode(['ppm'])],
         ]);
     }
