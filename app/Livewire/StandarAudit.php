@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-// use App\Livewire\Forms\StandarAuditForm;
 use App\Models\StandarAudit as ModelsStandarAudit;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -20,17 +19,17 @@ class StandarAudit extends Component
     public $modalAction = '';
     public $recordId = null;
 
-    #[Validate('required|min:5')]
     public $nama_standar = '';
-
-    #[Validate('required|min:5')]
     public $nomer_dokumen = '';
-
-    #[Validate('required|min:5')]
     public $nomer_revisi = '';
-
-    #[Validate('required|date')]
     public $tanggal_terbit = '';
+
+    protected $rules = [
+        'nama_standar' => 'required|min:5|max:255',
+        'nomer_dokumen' => 'required|min:5|max:255',
+        'nomer_revisi' => 'required|min:5|max:255',
+        'tanggal_terbit' => 'required|date',
+    ];
 
     public function mount()
     {
