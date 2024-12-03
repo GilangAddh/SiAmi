@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('menu');
             $table->string('url');
             $table->string('icon');
-            $table->json('roles');
+            $table->json('roles')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });
