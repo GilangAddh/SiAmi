@@ -108,11 +108,11 @@
                             Kode Icon <span class="text-red-500">*</span>
                         </span>
                     </div>
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             placeholder="Masukkan kode icon" wire:model.live.debounce.300ms="icon"
                             class="input input-bordered w-full input-md @error('icon') border-red-500 @enderror" />
-                        <i class="{{ $icon }} text-md bg-[#60c0d0] py-4 px-5 rounded text-white"></i>
+                        <i class="{{ $icon }} text-md bg-[#60c0d0] p-4 rounded-full text-white"></i>
                     </div>
 
                     @error('icon')
