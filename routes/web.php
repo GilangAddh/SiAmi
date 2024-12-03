@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Home;
+use App\Livewire\IndikatorStandarAudit;
 use App\Livewire\ManajemenPengguna;
 use App\Livewire\StandarAudit;
 use App\Livewire\ManajemenMenu;
@@ -36,4 +37,5 @@ Route::middleware([
     Route::get('/manajemen-pengguna', ManajemenPengguna::class)->name('manajemen-pengguna');
     Route::get('/manajemen-menu', ManajemenMenu::class)->name('manajemen-menu');
     Route::get('/standar-audit', StandarAudit::class)->name('standar-audit');
+    Route::get('/indikator-standar-audit', IndikatorStandarAudit::class)->name('indikator-standar-audit');
 });
