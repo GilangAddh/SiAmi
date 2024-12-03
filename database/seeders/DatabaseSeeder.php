@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             ['menu' => 'Manajemen Pengguna', 'url' => '/manajemen-pengguna', 'icon' => "fa-solid fa-user", 'roles' => json_encode(['ppm'])],
             ['menu' => 'Manajemen Menu', 'url' => '/manajemen-menu', 'icon' => "fa-solid fa-list", 'roles' => json_encode(['ppm'])],
             ['menu' => 'Standar Audit', 'url' => '/standar-audit', 'icon' => "fa-solid fa-gavel", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Indikator Standar Audit', 'url' => '/indikator-standar-audit', 'icon' => "fa-solid fa-question", 'roles' => json_encode(['ppm'])],
         ]);
     }
 }

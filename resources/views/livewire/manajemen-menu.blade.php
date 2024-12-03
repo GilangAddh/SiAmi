@@ -50,7 +50,7 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <i class="{{ $menu->icon }} text-xs"></i>
+                            <i class="{{ $menu->icon }} w-5 h-5"></i>
                         </td>
                         <th>
                             <div class="flex justify-center items-center space-x-2">
@@ -108,11 +108,13 @@
                             Kode Icon <span class="text-red-500">*</span>
                         </span>
                     </div>
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-4">
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             placeholder="Masukkan kode icon" wire:model.live.debounce.300ms="icon"
                             class="input input-bordered w-full input-md @error('icon') border-red-500 @enderror" />
-                        <i class="{{ $icon }} text-md bg-[#60c0d0] p-4 rounded-full text-white"></i>
+                        <div class="bg-[#60c0d0] rounded-lg text-white py-4 px-5 flex items-center justify-center">
+                            <i class="{{ $icon }}"></i>
+                        </div>
                     </div>
 
                     @error('icon')

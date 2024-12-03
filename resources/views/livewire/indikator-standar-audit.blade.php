@@ -7,12 +7,12 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>{{$title}}</li>
+            <li>{{ $title }}</li>
             <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Index</a></li>
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data {{$title}}</h1>
+    <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data {{ $title }}</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
         <select class="select select-bordered w-full max-w-xs">
@@ -54,7 +54,8 @@
                             {{ $item->indikator_pertanyaan }}
                         </td>
                         <td>
-                            <a href="{{ asset('storage/' . $item->bukti_objektif) }}" target="_blank" class="underline text-blue-500">
+                            <a href="{{ asset('storage/' . $item->bukti_objektif) }}" target="_blank"
+                                class="underline text-[#60C0D0]">
                                 Lihat File
                             </a>
                         </td>
@@ -91,7 +92,8 @@
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
             @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{ $pertanyaan_standar }}</span>?
+                <p>Apakah anda yakin ingin menghapus <span
+                        class="text-red-500 font-medium">{{ $pertanyaan_standar }}</span>?
                 </p>
                 <div class="modal-action">
                     <div class="flex space-x-2 justify-end">
@@ -107,9 +109,11 @@
                 <form wire:submit.prevent="saveData">
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Standar Audit<span class="text-red-500">*</span></span>
+                            <span class="label-text">Standar Audit <span class="text-red-500">*</span></span>
                         </div>
-                        <select {{ $modalAction === 'lihat' ? 'disabled' : '' }}  class="select select-bordered w-full @error('nomer_pertanyaan_standar') border-red-500 @enderror" wire:model="id_standar">
+                        <select {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered w-full @error('nomer_pertanyaan_standar') border-red-500 @enderror"
+                            wire:model="id_standar">
                             <option value="" selected disabled>Standar Audit</option>
                             @foreach ($standar as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama_standar }}</option>
@@ -123,7 +127,7 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomer Pertanyaan Standar <span class="text-red-500">*</span></span>
+                            <span class="label-text">Nomor Pertanyaan Standar <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="number"
                             wire:model="nomer_pertanyaan_standar" placeholder="Masukkan nomor pertanyaan"
@@ -160,42 +164,46 @@
                         @enderror
                     </label>
 
-                    @if($modalAction == 'tambah')
+                    @if ($modalAction == 'tambah')
                         <label class="form-control w-full mb-2">
                             <div class="label">
                                 <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
                             </div>
                             <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="file"
-                                class="file-input file-input-bordered w-full input-md p-0 @error('bukti_objektif') border-red-500 @enderror" wire:model="bukti_objektif" />
+                                class="file-input file-input-ghost file-input-bordered w-full file-input-md @error('bukti_objektif') border-red-500 @enderror"
+                                wire:model="bukti_objektif" />
 
                             @error('bukti_objektif')
                                 <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                             @enderror
                         </label>
                     @endif
-                    @if($modalAction == 'edit')
+                    @if ($modalAction == 'edit')
                         <label class="form-control w-full mb-2">
                             <div class="label">
                                 <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
                             </div>
                             <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="file"
-                                class="file-input file-input-bordered w-full input-md p-0 @error('new_bukti_objektif') border-red-500 @enderror" wire:model="new_bukti_objektif" />
+                                class="file-input file-input-ghost file-input-bordered w-full file-input-md @error('new_bukti_objektif') border-red-500 @enderror"
+                                wire:model="new_bukti_objektif" />
 
                             @error('new_bukti_objektif')
                                 <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                             @enderror
                         </label>
                     @endif
-                    @if($modalAction != 'tambah')
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
-                            
-                        </div>
-                        <a href="{{ asset('storage/' . $bukti_objektif) }}" target="_blank" class="underline text-blue-500 ml-1">
-                            Lihat File
-                        </a>
-                    </label>
+                    @if ($modalAction != 'tambah')
+                        <label class="form-control w-full mb-2">
+                            @if ($modalAction == 'lihat')
+                                <div class="label">
+                                    <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
+                                </div>
+                            @endif
+                            <a href="{{ asset('storage/' . $bukti_objektif) }}" target="_blank"
+                                class="underline text-[#60c0d0] ml-1">
+                                Lihat File
+                            </a>
+                        </label>
                     @endif
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">

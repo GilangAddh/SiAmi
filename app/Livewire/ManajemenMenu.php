@@ -92,7 +92,7 @@ class ManajemenMenu extends Component
         $menus = Navigation::where('menu', 'like', '%' . $this->search . '%')
             ->orWhere('url', 'like', '%' . $this->search . '%')
             ->orWhereJsonContains('roles', $this->search)
-            ->orderBy('menu', 'asc')
+            ->orderBy('created_at', 'asc')
             ->paginate(10);
 
         return view('livewire.manajemen-menu', compact('menus'));

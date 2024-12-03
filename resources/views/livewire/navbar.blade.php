@@ -69,7 +69,7 @@
                     <li class="mb-1 text-sm">
                         <a href="{{ url($menu['url']) }}"
                             class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
-                                class="{{ $menu['icon'] }} mr-1 text-xs"></i>
+                                class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i>
                             {{ $menu['menu'] }}
                         </a>
                     </li>
