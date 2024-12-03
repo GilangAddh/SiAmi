@@ -14,7 +14,7 @@ class Navbar extends Component
     public function mount()
     {
         $this->role = Auth::user()->role;
-        $this->menus = Navigation::whereJsonContains('roles', $this->role)->get();
+        $this->menus = Navigation::whereJsonContains('roles', $this->role)->orderBy('menu', 'asc')->get();
     }
 
     public function render()
