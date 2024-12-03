@@ -39,7 +39,7 @@
                     <th class="text-center">No</th>
                     <th>Nama Standar</th>
                     <th class="text-center">Nomor Dokumen</th>
-                    <th>Nomer Revisi</th>
+                    <th>Nomor Revisi</th>
                     <th>Tanggal Terbit</th>
                     <th class="text-center">Aksi</th>
                 </tr>
@@ -122,7 +122,7 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomer Dokumen <span class="text-red-500">*</span></span>
+                            <span class="label-text">Nomor Dokumen <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             wire:model="nomer_dokumen" placeholder="Masukkan nomor dokumen"
@@ -135,7 +135,7 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomer Revisi <span class="text-red-500">*</span></span>
+                            <span class="label-text">Nomor Revisi <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             wire:model="nomer_revisi" placeholder="Masukkan nomor revisi"
@@ -150,7 +150,7 @@
                         <div class="label">
                             <span class="label-text">Tanggal Terbit <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
                             placeholder="Masukkan tanggal terbit" wire:model="tanggal_terbit"
                             class="input input-bordered w-full input-md flatpickr-free @error('tanggal_terbit') border-red-500 @enderror" />
 

@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Models\StandarAudit as ModelsStandarAudit;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Validate;
+use Carbon\Carbon;
 
 class StandarAudit extends Component
 {
@@ -72,6 +72,8 @@ class StandarAudit extends Component
 
     public function saveData()
     {
+        $this->tanggal_terbit = Carbon::createFromFormat('d/m/Y', $this->tanggal_terbit)->format('Y-m-d');
+
         $this->validate();
 
         if ($this->modalAction === 'edit') {
@@ -91,7 +93,7 @@ class StandarAudit extends Component
         $this->nama_standar = $standar->nama_standar;
         $this->nomer_dokumen = $standar->nomer_dokumen;
         $this->nomer_revisi = $standar->nomer_revisi;
-        $this->tanggal_terbit = $standar->tanggal_terbit;
+        $this->tanggal_terbit = Carbon::parse($standar->tanggal_terbit)->format('d/m/Y');
     }
 
     public function delete()
