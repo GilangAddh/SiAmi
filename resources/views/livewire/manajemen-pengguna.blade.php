@@ -32,15 +32,15 @@
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
-        <table class="table table-zebra">
+        <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
-                    <th class="text-center">No</th>
-                    <th>Identitas Pengguna</th>
-                    <th>Username</th>
-                    <th class="text-center">Peran</th>
-                    <th>Waktu Pembuatan Akun</th>
-                    <th class="text-center">Aksi</th>
+                    <td class="text-center">No</td>
+                    <td>Identitas Pengguna</td>
+                    <td>Username</td>
+                    <td class="text-center">Peran</td>
+                    <td>Waktu Pembuatan Akun</td>
+                    <th class="bg-[#60c0d0]"></th>
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +68,7 @@
                         <td>
                             {{ Carbon::parse($user->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
                         </td>
-                        <th>
+                        <th class="shadow-lg">
                             <div class="flex justify-center items-center space-x-2">
                                 <i class="fas fa-eye text-black cursor-pointer"
                                     wire:click="openModal('lihat', {{ $user->id }})"></i>
