@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('indikator_standar_audit', function (Blueprint $table) {
             $table->id();
-            $table->integer('nomer_pertanyaan_standar');
+            $table->string('nomer_pertanyaan_standar');
             $table->string('pertanyaan_standar');
             $table->string('indikator_pertanyaan');
             $table->string('bukti_objektif');
