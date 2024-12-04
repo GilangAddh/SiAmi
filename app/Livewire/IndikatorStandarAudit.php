@@ -15,6 +15,9 @@ class IndikatorStandarAudit extends Component
     use WithFileUploads;
 
     public $title;
+    public $subtitle;
+    public $id;
+
     public $search;
     public $isModalOpen = false;
     public $modalTitle = '';
@@ -32,21 +35,24 @@ class IndikatorStandarAudit extends Component
     protected $rules = [
         'nomer_pertanyaan_standar' => 'required',
         'pertanyaan_standar' => 'required|min:5',
-        'indikator_pertanyaan' => 'required|min:5',
+        'indikator_pertanyaan' => 'required',
         'id_standar' => 'required',
     ];
 
-    public function mount()
+    public function mount($id)
     {
-        $this->title = "Indikator Standar Audit";
+        $this->id = $id;
+        $standar = StandarAudit::findOrFail($this->id);
+        $this->subtitle = $standar->nama_standar;
+        $this->title = "Indikator $this->subtitle";
     }
 
     public function render()
     {
         $standar = StandarAudit::all();
-        $indikator = ModelsIndikatorStandarAudit::
-            // where('id_standar', '=', $this->search)
-            orderBy('created_at', 'desc')
+        $indikator = ModelsIndikatorStandarAudit::where('id_standar', '=', $this->id)
+            ->where('nomer_pertanyaan_standar', 'ilike', '%' . $this->search . '%')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('livewire.indikator-standar-audit', [

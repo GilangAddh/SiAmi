@@ -8,7 +8,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Standar Audit</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Index</a></li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
         </ul>
     </div>
 
@@ -48,7 +48,8 @@
                     <tr>
                         <td class="text-center">{{ $index + 1 }}.</td>
                         <td>
-                            {{ $item->nama_standar }}
+                            <a
+                                href="{{ route('indikator-standar-audit', ['id' => $item->id]) }}">{{ $item->nama_standar }}</a>
                         </td>
                         <td>
                             {{ $item->nomer_dokumen }}

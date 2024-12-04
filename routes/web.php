@@ -37,5 +37,5 @@ Route::middleware([
     Route::get('/unit-kerja', UnitKerja::class)->name('unit-kerja');
     Route::get('/kelola-peran', KelolaPeran::class)->name('kelola-peran');
     Route::get('/standar-audit', StandarAudit::class)->name('standar-audit');
-    Route::get('/indikator-standar-audit', IndikatorStandarAudit::class)->name('indikator-standar-audit');
+    Route::get('/indikator-standar-audit/{id}', action: IndikatorStandarAudit::class)->name('indikator-standar-audit');
 });
