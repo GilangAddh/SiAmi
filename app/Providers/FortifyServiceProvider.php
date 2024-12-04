@@ -54,6 +54,12 @@ class FortifyServiceProvider extends ServiceProvider
                 ->first();
 
             if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+                if (!$user->is_active) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'login' => 'Your account has been deactivated. Please contact support.',
+                    ]);
+                }
+
                 return $user;
             }
         });

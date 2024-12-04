@@ -43,7 +43,7 @@
                             {{ $menu->menu }}
                         </td>
                         <td class="capitalize">
-                            {{ $menu->type == 'parent' || $menu->type == 'standalone' ? $menu->type : 'Child ' . $menu->type }}
+                            {{ $menu->type == 'parent' || $menu->type == 'standalone' || $menu->type == 'hidden' ? $menu->type : 'Child ' . $menu->type }}
                         </td>
                         <td>{{ $menu->url }}</td>
                         <td>

@@ -1,4 +1,4 @@
-@section('title', 'Unit Kerja')
+@section('title', 'Auditor')
 
 @php
     use Carbon\Carbon;
@@ -7,12 +7,12 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>Unit Kerja</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('unit-kerja') }}">Index</a></li>
+            <li>Auditor</li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('auditor') }}">Index</a></li>
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl">Data Unit Kerja</h1>
+    <h1 class="font-bold text-2xl">Data Auditor</h1>
 
     <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
@@ -36,7 +36,8 @@
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
                     <td class="text-center">No</td>
-                    <td>Profil Unit Kerja</td>
+                    <td>NIP</td>
+                    <td>Profil Auditor</td>
                     <td>Username</td>
                     <td class="text-center">Status</td>
                     <td class="text-center">Waktu Pembuatan Akun</td>
@@ -47,6 +48,7 @@
                 @forelse ($users as $index => $user)
                     <tr>
                         <td class="text-center">{{ $users->firstItem() + $index }}.</td>
+                        <td>{{ $user->no_identity }}</td>
                         <td>
                             <div class="flex items-center gap-3">
                                 <div class="avatar">
@@ -137,13 +139,26 @@
 
                     <label class="form-control w-full my-2">
                         <div class="label">
-                            <span class="label-text">Nama Unit Kerja <span class="text-red-500">*</span></span>
+                            <span class="label-text">Nama Auditor <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="profileName"
-                            placeholder="Masukkan nama unit kerja"
+                            placeholder="Masukkan nama auditor"
                             class="input input-bordered w-full input-md @error('profileName') border-red-500 @enderror" />
 
                         @error('profileName')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">NIP Auditor <span class="text-red-500">*</span></span>
+                        </div>
+                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="no_identity"
+                            placeholder="Masukkan NIP auditor"
+                            class="input input-bordered w-full input-md @error('no_identity') border-red-500 @enderror" />
+
+                        @error('no_identity')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>
