@@ -57,7 +57,7 @@
                             <a href="{{ asset('storage/' . $item->bukti_objektif) }}" target="_blank">
                                 <i class="fa-solid fa-file
                                             text-black"></i>
-                                <span class="text-[#60C0D0] underline ml-2">{{ $item->original_bukti_objektif }}</span>
+                                <span class="ml-2">{{ $item->original_bukti_objektif }}</span>
                             </a>
                         </td>
                         <th class="shadow-xl">
