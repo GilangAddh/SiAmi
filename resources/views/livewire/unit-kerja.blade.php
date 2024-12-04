@@ -1,4 +1,4 @@
-@section('title', 'Manajemen Pengguna')
+@section('title', 'Unit Kerja')
 
 @php
     use Carbon\Carbon;
@@ -7,12 +7,12 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>Manajemen Pengguna</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('manajemen-pengguna') }}">Index</a></li>
+            <li>Unit Kerja</li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('unit-kerja') }}">Index</a></li>
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl">Data Pengguna</h1>
+    <h1 class="font-bold text-2xl">Data Unit Kerja</h1>
 
     <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">

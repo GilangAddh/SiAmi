@@ -66,15 +66,37 @@
                 </div>
 
                 @foreach ($menus as $menu)
-                    <li class="mb-1 text-sm">
-                        <a href="{{ url($menu['url']) }}"
-                            class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
-                                class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i>
-                            {{ $menu['menu'] }}
-                        </a>
-                    </li>
+                    @if ($menu['type'] == 'parent')
+                        <li class="mb-1 text-sm">
+                            <details close>
+                                <summary>
+                                    <i class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i> {{ $menu['menu'] }}
+                                </summary>
+                                <ul class="px-2">
+                                    @foreach ($menus as $child)
+                                        @if ($child['type'] == $menu['menu'])
+                                            <li class="mb-1 text-sm">
+                                                <a href="{{ url($child['url']) }}"
+                                                    class="{{ request()->is(trim($child['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
+                                                        class="{{ $child['icon'] }} w-4 h-4 mr-1"></i>
+                                                    {{ $child['menu'] }}
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </details>
+                        </li>
+                    @elseif ($menu['type'] == 'standalone')
+                        <li class="mb-1 text-sm">
+                            <a href="{{ url($menu['url']) }}"
+                                class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
+                                    class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i>
+                                {{ $menu['menu'] }}
+                            </a>
+                        </li>
+                    @endif
                 @endforeach
-            </ul>
         </div>
     </div>
 

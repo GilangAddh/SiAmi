@@ -40,11 +40,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Navigation::insert([
-            ['menu' => 'Dashboard', 'url' => '/dashboard',  'icon' => "fa-solid fa-database", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
-            ['menu' => 'Manajemen Pengguna', 'url' => '/manajemen-pengguna', 'icon' => "fa-solid fa-user", 'roles' => json_encode(['ppm'])],
-            ['menu' => 'Manajemen Menu', 'url' => '/manajemen-menu', 'icon' => "fa-solid fa-list", 'roles' => json_encode(['ppm'])],
-            ['menu' => 'Standar Audit', 'url' => '/standar-audit', 'icon' => "fa-solid fa-bars-progress", 'roles' => json_encode(['ppm'])],
-            ['menu' => 'Indikator Standar Audit', 'url' => '/indikator-standar-audit', 'icon' => "fa-solid fa-list-check", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Dashboard', 'type' => 'standalone', 'url' => '/dashboard',  'icon' => "fa-solid fa-house", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
+
+            ['menu' => 'Master Data', 'type' => 'parent', 'url' => '', 'icon' => "fa-solid fa-database", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Standar Audit', 'type' => 'Master Data', 'url' => '/standar-audit', 'icon' => "fa-solid fa-bars-progress", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Indikator Standar Audit', 'type' => 'Master Data', 'url' => '/indikator-standar-audit', 'icon' => "fa-solid fa-list-check", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Unit Kerja', 'type' => 'Master Data', 'url' => '/unit-kerja', 'icon' => "fa-solid fa-people-group", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Auditor', 'type' => 'Master Data', 'url' => '/auditor', 'icon' => "fa-solid fa-stamp", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Periode Audit', 'type' => 'Master Data', 'url' => '/periode-audit', 'icon' => "fa-regular fa-clock", 'roles' => json_encode(['ppm'])],
+
+            ['menu' => 'Kelola Peran', 'type' => 'standalone', 'url' => '/kelola-peran', 'icon' => "fa-solid fa-list", 'roles' => json_encode(['ppm'])],
         ]);
     }
 }

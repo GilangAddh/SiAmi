@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('navigation', function (Blueprint $table) {
             $table->id();
-            $table->string('menu');
-            $table->string('url');
+            $table->string('menu')->unique();
+            $table->string('url')->nullable();
+            $table->string('type');
             $table->string('icon');
             $table->json('roles')->nullable();
             $table->timestamp('created_at')->useCurrent();

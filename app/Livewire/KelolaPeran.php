@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Navigation;
 
-class ManajemenMenu extends Component
+class KelolaPeran extends Component
 {
     use WithPagination;
 
@@ -19,6 +19,7 @@ class ManajemenMenu extends Component
     public $recordId = null;
 
     public $menu = '';
+    public $type = '';
     public $url = '';
     public $icon = '';
     public $roles = [];
@@ -33,7 +34,7 @@ class ManajemenMenu extends Component
         $this->resetModal();
 
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . ' Data Menu';
+        $this->modalTitle = ucfirst($action) . ' Data Akses Menu';
 
         $this->recordId = $recordId;
         $this->loadRecordData();
@@ -45,6 +46,7 @@ class ManajemenMenu extends Component
     {
         $menu = Navigation::findOrFail($this->recordId);
         $this->menu = $menu->menu;
+        $this->type = $menu->type;
         $this->url = $menu->url;
         $this->icon = $menu->icon;
         $this->roles = $menu->roles;
@@ -53,8 +55,8 @@ class ManajemenMenu extends Component
     public function saveData()
     {
         $rules = [
-            'menu' => 'required|max:255',
-            'icon' => 'required|max:255',
+            'type' => 'required|min:3|max:255',
+            'icon' => 'required|min:3|max:255',
             'roles' => 'nullable|array',
         ];
 
@@ -62,13 +64,13 @@ class ManajemenMenu extends Component
 
         tap(Navigation::findOrFail($this->recordId), function ($menu) {
             $menu->update([
-                'menu' => $this->menu,
+                'type' => $this->type,
                 'icon' => $this->icon,
                 'roles' => $this->roles ?? [],
             ]);
         });
 
-        return redirect()->route('manajemen-menu');
+        return redirect()->route('kelola-peran');
     }
 
     public function resetModal()
@@ -81,6 +83,7 @@ class ManajemenMenu extends Component
             'modalAction',
             'recordId',
             'menu',
+            'type',
             'url',
             'icon',
             'roles',
@@ -91,10 +94,11 @@ class ManajemenMenu extends Component
     {
         $menus = Navigation::where('menu', 'like', '%' . $this->search . '%')
             ->orWhere('url', 'like', '%' . $this->search . '%')
+            ->orWhere('type', 'like', '%' . $this->search . '%')
             ->orWhereJsonContains('roles', $this->search)
             ->orderBy('created_at', 'asc')
             ->paginate(10);
 
-        return view('livewire.manajemen-menu', compact('menus'));
+        return view('livewire.kelola-peran', compact('menus'));
     }
 }

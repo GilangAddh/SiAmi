@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
-class ManajemenPengguna extends Component
+class UnitKerja extends Component
 {
     use WithPagination, WithFileUploads;
 
@@ -45,7 +45,7 @@ class ManajemenPengguna extends Component
         $this->resetModal();
 
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . ' Data Pengguna';
+        $this->modalTitle = ucfirst($action) . ' Data Unit Kerja';
 
         if (in_array($action, ['edit', 'lihat', 'hapus']) && $recordId) {
             $this->recordId = $recordId;
@@ -113,7 +113,7 @@ class ManajemenPengguna extends Component
             ]);
         }
 
-        return redirect()->route('manajemen-pengguna');
+        return redirect()->route('unit-kerja');
     }
 
     public function deleteData()
@@ -180,6 +180,6 @@ class ManajemenPengguna extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.manajemen-pengguna', compact('users'));
+        return view('livewire.unit-kerja', compact('users'));
     }
 }

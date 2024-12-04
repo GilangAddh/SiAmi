@@ -1,14 +1,14 @@
-@section('title', 'Manajemen Menu')
+@section('title', 'Kelola Peran')
 
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>Manajemen Menu</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('manajemen-menu') }}">Index</a></li>
+            <li>Kelola Peran</li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('kelola-peran') }}">Index</a></li>
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl">Data Menu</h1>
+    <h1 class="font-bold text-2xl">Data Akses Peran</h1>
 
     <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
@@ -28,6 +28,7 @@
                 <tr class="text-md">
                     <td class="text-center">No</td>
                     <td>Menu</td>
+                    <td>Tipe</td>
                     <td>Url</td>
                     <td>Akses Peran</td>
                     <td class="text-center">Icon</td>
@@ -40,6 +41,9 @@
                         <td class="text-center">{{ $menus->firstItem() + $index }}.</td>
                         <td>
                             {{ $menu->menu }}
+                        </td>
+                        <td class="capitalize">
+                            {{ $menu->type == 'parent' || $menu->type == 'standalone' ? $menu->type : 'Child ' . $menu->type }}
                         </td>
                         <td>{{ $menu->url }}</td>
                         <td>

@@ -36,7 +36,7 @@
                     <td>Standar Audit</td>
                     <td class="text-center">Pertanyaan</td>
                     <td>Indikator Pertanyaan</td>
-                    <td class="text-center">Bukti Objektif</td>
+                    <td>Bukti Objektif</td>
                     <th class="bg-[#60c0d0] shadow-xl"></th>
                 </tr>
             </thead>
@@ -53,8 +53,9 @@
                         <td>
                             {{ $item->indikator_pertanyaan }}
                         </td>
-                        <td class="text-center">
-                            <a href="{{ asset('storage/' . $item->bukti_objektif) }}" target="_blank">
+                        <td>
+                            <a class="link link-hover" href="{{ asset('storage/' . $item->bukti_objektif) }}"
+                                target="_blank">
                                 <i class="fa-solid fa-file
                                             text-black"></i>
                                 <span class="ml-2">{{ $item->original_bukti_objektif }}</span>
