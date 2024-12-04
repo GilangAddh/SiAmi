@@ -15,7 +15,7 @@
     <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data {{ $title }}</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
-        <select class="select select-bordered w-full max-w-xs">
+        <select class="select select-bordered w-3/5 md:w-1/4">
             <option value="" selected disabled>Cari Standar Audit</option>
             @foreach ($standar as $item)
                 <option value="{{ $item->id }}">{{ $item->nama_standar }}</option>
@@ -29,15 +29,15 @@
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
-        <table class="table table-zebra">
+        <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
-                    <th class="text-center">No</th>
-                    <th>Standar Audit</th>
-                    <th class="text-center">Pertanyaan</th>
-                    <th>Indikator Pertanyaan</th>
-                    <th>Bukti Objektif</th>
-                    <th class="text-center">Aksi</th>
+                    <td class="text-center">No</td>
+                    <td>Standar Audit</td>
+                    <td class="text-center">Pertanyaan</td>
+                    <td>Indikator Pertanyaan</td>
+                    <td class="text-center">Bukti Objektif</td>
+                    <th class="bg-[#60c0d0] shadow-xl"></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,13 +53,14 @@
                         <td>
                             {{ $item->indikator_pertanyaan }}
                         </td>
-                        <td>
-                            <a href="{{ asset('storage/' . $item->bukti_objektif) }}" target="_blank"
-                                class="underline text-[#60C0D0]">
-                                Lihat File
+                        <td class="text-center">
+                            <a href="{{ asset('storage/' . $item->bukti_objektif) }}" target="_blank">
+                                <i class="fa-solid fa-file
+                                            text-black"></i>
+                                <span class="text-[#60C0D0] underline ml-2">{{ $item->original_bukti_objektif }}</span>
                             </a>
                         </td>
-                        <th class="text-center">
+                        <th class="shadow-xl">
                             <div class="flex justify-center items-center space-x-2">
                                 <button wire:click="openModal('lihat', {{ $item->id }})">
                                     <i class="fas fa-eye text-black"></i>

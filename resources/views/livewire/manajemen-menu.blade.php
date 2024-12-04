@@ -23,15 +23,15 @@
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
-        <table class="table table-zebra">
+        <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
-                    <th class="text-center">No</th>
-                    <th>Menu</th>
-                    <th>Url</th>
-                    <th>Akses Peran</th>
-                    <th class="text-center">Icon</th>
-                    <th class="text-center">Aksi</th>
+                    <td class="text-center">No</td>
+                    <td>Menu</td>
+                    <td>Url</td>
+                    <td>Akses Peran</td>
+                    <td class="text-center">Icon</td>
+                    <th class="bg-[#60c0d0] shadow-xl"></th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                         <td class="text-center">
                             <i class="{{ $menu->icon }} w-5 h-5"></i>
                         </td>
-                        <th>
+                        <th class="shadow-xl">
                             <div class="flex justify-center items-center space-x-2">
                                 <i class="fas fa-eye text-black cursor-pointer"
                                     wire:click="openModal('lihat', {{ $menu->id }})"></i>

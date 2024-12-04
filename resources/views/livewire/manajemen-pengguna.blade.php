@@ -40,7 +40,7 @@
                     <td>Username</td>
                     <td class="text-center">Peran</td>
                     <td>Waktu Pembuatan Akun</td>
-                    <th class="bg-[#60c0d0]"></th>
+                    <th class="bg-[#60c0d0] shadow-xl"></th>
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +68,7 @@
                         <td>
                             {{ Carbon::parse($user->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
                         </td>
-                        <th class="shadow-lg">
+                        <th class="shadow-xl">
                             <div class="flex justify-center items-center space-x-2">
                                 <i class="fas fa-eye text-black cursor-pointer"
                                     wire:click="openModal('lihat', {{ $user->id }})"></i>

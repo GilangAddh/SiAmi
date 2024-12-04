@@ -15,8 +15,7 @@
     <h1 class="font-bold text-2xl">Data Standar Audit</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
-        <label
-            class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-full max-w-[350px] sm:w-3/5 md:w-1/4">
+        <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
             <input type="text" class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full"
                 placeholder="Cari" wire:model.live.debounce.400ms="search" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
@@ -33,15 +32,15 @@
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
-        <table class="table table-zebra">
+        <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
-                    <th class="text-center">No</th>
-                    <th>Nama Standar</th>
-                    <th class="text-center">Nomor Dokumen</th>
-                    <th>Nomor Revisi</th>
-                    <th>Tanggal Terbit</th>
-                    <th class="text-center">Aksi</th>
+                    <td class="text-center">No</td>
+                    <td>Nama Standar</td>
+                    <td class="text-center">Nomor Dokumen</td>
+                    <td>Nomor Revisi</td>
+                    <td>Tanggal Terbit</td>
+                    <th class="bg-[#60c0d0] shadow-xl"></th>
                 </tr>
             </thead>
             <tbody>
@@ -60,7 +59,7 @@
                         <td>
                             {{ Carbon::parse($item->tanggal_terbit)->locale('id')->translatedFormat('d F Y') }}
                         </td>
-                        <th class="text-center">
+                        <th class="shadow-xl">
                             <div class="flex justify-center items-center space-x-2">
                                 <button wire:click="openModal('lihat', {{ $item->id }})">
                                     <i class="fas fa-eye text-black"></i>

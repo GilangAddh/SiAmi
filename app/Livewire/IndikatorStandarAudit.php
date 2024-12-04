@@ -92,8 +92,11 @@ class IndikatorStandarAudit extends Component
 
             if ($this->modalAction === 'edit') {
                 $buktiObjektifPath = null;
+                $originalFileName = null;
+
                 if ($this->new_bukti_objektif) {
                     $buktiObjektifPath = $this->new_bukti_objektif->store('bukti_objektif', 'public');
+                    $originalFileName = $this->new_bukti_objektif->getClientOriginalName();
                 }
                 $record = ModelsIndikatorStandarAudit::findOrFail($this->recordId);
                 $data = $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar']);
@@ -101,19 +104,26 @@ class IndikatorStandarAudit extends Component
                 // Perbarui path file jika file baru diunggah
                 if ($buktiObjektifPath) {
                     $data['bukti_objektif'] = $buktiObjektifPath;
+                    $data['original_bukti_objektif'] = $originalFileName;
                 }
 
                 $record->update($data);
             } else {
-
                 $buktiObjektifPath = null;
+                $originalFileName = null;
+
                 if ($this->bukti_objektif) {
                     $buktiObjektifPath = $this->bukti_objektif->store('bukti_objektif', 'public');
+                    $originalFileName = $this->bukti_objektif->getClientOriginalName();
                 }
+
                 ModelsIndikatorStandarAudit::create(
                     array_merge(
                         $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar']),
-                        ['bukti_objektif' => $buktiObjektifPath]
+                        [
+                            'bukti_objektif' => $buktiObjektifPath,
+                            'original_bukti_objektif' => $originalFileName
+                        ]
                     )
                 );
             }
