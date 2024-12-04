@@ -7,8 +7,8 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>{{ $title }}</li>
             <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
+            <li>{{ $title }}</li>
             <li>{{ $subtitle }}</li>
         </ul>
     </div>
@@ -191,7 +191,7 @@
                                 <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
                             </div>
                             <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="file"
-                                class="file-input file-input-bordered w-full file-input-md @error('bukti_objektif') border-red-500 @enderror"
+                                class="file-input file-input-ghost file-input-bordered w-full file-input-md @error('bukti_objektif') border-red-500 @enderror"
                                 wire:model="bukti_objektif" />
 
                             @error('bukti_objektif')
@@ -205,7 +205,7 @@
                                 <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
                             </div>
                             <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="file"
-                                class="file-input file-input-bordered w-full file-input-md @error('new_bukti_objektif') border-red-500 @enderror"
+                                class="file-input file-input-ghost file-input-bordered w-full file-input-md @error('new_bukti_objektif') border-red-500 @enderror"
                                 wire:model="new_bukti_objektif" />
 
                             @error('new_bukti_objektif')
