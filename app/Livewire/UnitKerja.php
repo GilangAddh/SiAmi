@@ -24,7 +24,7 @@ class UnitKerja extends Component
 
     public $name = '';
     public $email = '';
-    public $role = '';
+    public $status = true;
     public $profileName = '';
     public $password = '';
     public $confirmPassword = '';
@@ -60,7 +60,7 @@ class UnitKerja extends Component
         $user = User::findOrFail($this->recordId);
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->role;
+        $this->status = $user->is_active;
         $this->profileName = $user->profile_name;
         $this->profile_photo_path = $user->profile_photo_path;
     }
@@ -68,19 +68,23 @@ class UnitKerja extends Component
     public function saveData()
     {
         $rules = [
-            'name' => 'required|max:255|min:5',
-            'email' => 'required|email|max:255|unique:users,email' . ($this->recordId ? ',' . $this->recordId : ''),
-            'role' => 'required',
-            'profileName' => 'required|max:255',
+            'name' => 'required|max:255|min:5|regex:/^\S*$/',
+            'email' => 'required|email|max:255|min:5|unique:users,email' . ($this->recordId ? ',' . $this->recordId : ''),
+            'status' => 'required',
+            'profileName' => 'required|max:255|min:3',
             'password' => $this->modalAction === 'tambah' ? 'required|min:8' : 'nullable|min:8',
             'confirmPassword' => $this->modalAction === 'tambah' || ($this->modalAction === 'edit' && $this->password) ? 'required|same:password' : 'nullable|same:password',
+        ];
+
+        $messages = [
+            'name.regex' => 'The name must not contain any whitespace.',
         ];
 
         if ($this->profile_photo_path instanceof UploadedFile) {
             $rules['profile_photo_path'] = 'nullable|image|max:2048';
         }
 
-        $this->validate($rules);
+        $this->validate($rules, $messages);
 
         $profilePhotoPath = $this->handleProfilePhotoUpload();
 
@@ -97,19 +101,21 @@ class UnitKerja extends Component
                 $user->update([
                     'name' => $this->name,
                     'email' => $this->email,
-                    'role' => $this->role,
+                    'is_active' => $this->status,
                     'profile_name' => $this->profileName,
                     'password' => $this->password ? bcrypt($this->password) : $user->password,
+                    'role' => 'auditee',
                 ]);
             });
         } else {
             User::create([
                 'name' => $this->name,
                 'email' => $this->email,
-                'role' => $this->role,
+                'is_active' => $this->status,
                 'profile_name' => $this->profileName,
                 'password' => bcrypt($this->password),
                 'profile_photo_path' => $profilePhotoPath,
+                'role' => 'auditee',
             ]);
         }
 
@@ -142,7 +148,7 @@ class UnitKerja extends Component
             'recordId',
             'name',
             'email',
-            'role',
+            'status',
             'profileName',
             'password',
             'confirmPassword',
@@ -174,9 +180,12 @@ class UnitKerja extends Component
     public function render()
     {
         $users = User::query()
-            ->where('profile_name', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orWhere('name', 'like', '%' . $this->search . '%')
+            ->where('role', 'auditee')
+            ->where(function ($query) {
+                $query->where('profile_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%')
+                    ->orWhere('name', 'like', '%' . $this->search . '%');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

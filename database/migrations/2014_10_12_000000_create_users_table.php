@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->boolean('is_active')->default(true);
         });
     }
 

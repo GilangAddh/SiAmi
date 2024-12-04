@@ -36,10 +36,10 @@
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
                     <td class="text-center">No</td>
-                    <td>Identitas Pengguna</td>
+                    <td>Profil Unit Kerja</td>
                     <td>Username</td>
-                    <td class="text-center">Peran</td>
-                    <td>Waktu Pembuatan Akun</td>
+                    <td class="text-center">Status</td>
+                    <td class="text-center">Waktu Pembuatan Akun</td>
                     <th class="bg-[#60c0d0] shadow-xl"></th>
                 </tr>
             </thead>
@@ -63,19 +63,22 @@
                         </td>
                         <td>{{ $user->name }}</td>
                         <td class="text-center">
-                            <div class="badge bg-[#60C0D0] p-3 text-white border-none">{{ $user->role }}</div>
+                            <div
+                                class="badge {{ $user->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
+                                {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}</div>
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ Carbon::parse($user->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
                         </td>
+
                         <th class="shadow-xl">
                             <div class="flex justify-center items-center space-x-2">
                                 <i class="fas fa-eye text-black cursor-pointer"
                                     wire:click="openModal('lihat', {{ $user->id }})"></i>
                                 <i class="fas fa-edit text-black cursor-pointer"
                                     wire:click="openModal('edit', {{ $user->id }})"></i>
-                                <i class="fas fa-trash text-black cursor-pointer"
-                                    wire:click="openModal('hapus', {{ $user->id }})"></i>
+                                {{-- <i class="fas fa-trash text-black cursor-pointer"
+                                    wire:click="openModal('hapus', {{ $user->id }})"></i> --}}
                             </div>
                         </th>
                     </tr>
@@ -134,10 +137,10 @@
 
                     <label class="form-control w-full my-2">
                         <div class="label">
-                            <span class="label-text">Nama Pengguna <span class="text-red-500">*</span></span>
+                            <span class="label-text">Nama Unit Kerja <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="profileName"
-                            placeholder="Masukkan nama pengguna"
+                            placeholder="Masukkan nama unit kerja"
                             class="input input-bordered w-full input-md @error('profileName') border-red-500 @enderror" />
 
                         @error('profileName')
@@ -147,10 +150,10 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Email Pengguna <span class="text-red-500">*</span></span>
+                            <span class="label-text">Email <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="email" wire:model="email"
-                            placeholder="Masukkan email pengguna"
+                            placeholder="Masukkan email aktif"
                             class="input input-bordered w-full input-md @error('email') border-red-500 @enderror" />
 
                         @error('email')
@@ -173,17 +176,15 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Peran <span class="text-red-500">*</span></span>
+                            <span class="label-text">Status <span class="text-red-500">*</span></span>
                         </div>
-                        <select wire:model="role" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
-                            class="select select-bordered select-md @error('role') border-red-500 @enderror">
-                            <option value="" selected disabled>Pilih peran</option>
-                            <option value="auditor">Auditor</option>
-                            <option value="auditee">Auditee</option>
-                            <option value="ppm">PPM</option>
+                        <select wire:model="status" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered select-md @error('status') border-red-500 @enderror">
+                            <option value="true" selected>Aktif</option>
+                            <option value="false">Nonaktif</option>
                         </select>
 
-                        @error('role')
+                        @error('status')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>
