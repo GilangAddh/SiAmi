@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'ppm@example.com',
             'password' => bcrypt('password'),
             'role' => 'ppm',
+            'is_active' => true,
         ]);
 
         User::create([
@@ -29,6 +30,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'auditor@example.com',
             'password' => bcrypt('password'),
             'role' => 'auditor',
+            'no_identity' => '1234567890',
+            'is_active' => true,
         ]);
 
         User::create([
@@ -37,6 +40,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'auditee@example.com',
             'password' => bcrypt('password'),
             'role' => 'auditee',
+            'is_active' => true,
         ]);
 
         Navigation::insert([
