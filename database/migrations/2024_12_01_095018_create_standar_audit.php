@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_terbit');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->boolean('is_active')->default(false);
         });
     }
 
