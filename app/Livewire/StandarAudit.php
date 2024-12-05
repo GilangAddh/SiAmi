@@ -75,7 +75,7 @@ class StandarAudit extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit', 'is_active']);
     }
 
     public function saveData()
@@ -102,6 +102,7 @@ class StandarAudit extends Component
         $this->nomer_dokumen = $standar->nomer_dokumen;
         $this->nomer_revisi = $standar->nomer_revisi;
         $this->tanggal_terbit = Carbon::parse($standar->tanggal_terbit)->format('d/m/Y');
+        $this->is_active = $standar->is_active;
     }
 
     public function delete()
