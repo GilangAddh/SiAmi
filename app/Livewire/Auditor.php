@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
-class UnitKerja extends Component
+class Auditor extends Component
 {
     use WithPagination, WithFileUploads;
 
@@ -29,6 +29,7 @@ class UnitKerja extends Component
     public $password = '';
     public $confirmPassword = '';
     public $profile_photo_path = null;
+    public $no_identity = '';
 
     public function generateRandomPassword()
     {
@@ -45,7 +46,7 @@ class UnitKerja extends Component
         $this->resetModal();
 
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . ' Data Unit Kerja';
+        $this->modalTitle = ucfirst($action) . ' Data Auditor';
 
         if (in_array($action, ['edit', 'lihat', 'hapus']) && $recordId) {
             $this->recordId = $recordId;
@@ -63,12 +64,14 @@ class UnitKerja extends Component
         $this->status = $user->is_active;
         $this->profileName = $user->profile_name;
         $this->profile_photo_path = $user->profile_photo_path;
+        $this->no_identity = $user->no_identity;
     }
 
     public function saveData()
     {
         $rules = [
             'name' => 'required|max:255|min:5|regex:/^\S*$/',
+            'no_identity' => 'required|max:255|min:5|regex:/^\d+$/',
             'email' => 'required|email|max:255|min:5|unique:users,email' . ($this->recordId ? ',' . $this->recordId : ''),
             'status' => 'required',
             'profileName' => 'required|max:255|min:3',
@@ -78,6 +81,7 @@ class UnitKerja extends Component
 
         $messages = [
             'name.regex' => 'The name must not contain any whitespace.',
+            'no_identity.regex' => 'No identity must contain only numbers.',
         ];
 
         if ($this->profile_photo_path instanceof UploadedFile) {
@@ -104,7 +108,8 @@ class UnitKerja extends Component
                     'is_active' => $this->status,
                     'profile_name' => $this->profileName,
                     'password' => $this->password ? bcrypt($this->password) : $user->password,
-                    'role' => 'auditee',
+                    'role' => 'auditor',
+                    'no_identity' => $this->no_identity
                 ]);
             });
         } else {
@@ -115,11 +120,12 @@ class UnitKerja extends Component
                 'profile_name' => $this->profileName,
                 'password' => bcrypt($this->password),
                 'profile_photo_path' => $profilePhotoPath,
-                'role' => 'auditee',
+                'role' => 'auditor',
+                'no_identity' => $this->no_identity
             ]);
         }
 
-        return redirect()->route('unit-kerja');
+        return redirect()->route('auditor');
     }
 
     public function deleteData()
@@ -153,6 +159,7 @@ class UnitKerja extends Component
             'password',
             'confirmPassword',
             'profile_photo_path',
+            'no_identity'
         ]);
     }
 
@@ -180,15 +187,16 @@ class UnitKerja extends Component
     public function render()
     {
         $users = User::query()
-            ->where('role', 'auditee')
+            ->where('role', 'auditor')
             ->where(function ($query) {
                 $query->where('profile_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('no_identity', 'like', '%' . $this->search . '%')
                     ->orWhere('email', 'like', '%' . $this->search . '%')
                     ->orWhere('name', 'like', '%' . $this->search . '%');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.unit-kerja', compact('users'));
+        return view('livewire.auditor', compact('users'));
     }
 }
