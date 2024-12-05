@@ -1,4 +1,4 @@
-@section('title', 'Dashbard')
+@section('title', 'Dashboard')
 
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
