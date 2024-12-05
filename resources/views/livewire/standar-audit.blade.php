@@ -35,6 +35,7 @@
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md text-center">
+                    <td>Status</td>
                     <td class="text-center">No</td>
                     <td>Nama Standar</td>
                     <td>Nomor Dokumen</td>
@@ -46,6 +47,11 @@
             <tbody>
                 @forelse ($standar as $index => $item)
                     <tr class="text-center">
+                        <td>
+                            <div
+                                class="badge {{ $item->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
+                                {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}</div>
+                        </td>
                         <td>{{ $index + 1 }}.</td>
                         <td>
                             {{ $item->nama_standar }}
@@ -161,6 +167,21 @@
                             class="input input-bordered w-full input-md flatpickr-free @error('tanggal_terbit') border-red-500 @enderror" />
 
                         @error('tanggal_terbit')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                        </div>
+                        <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered select-md @error('is_active') border-red-500 @enderror">
+                            <option value="true" selected>Aktif</option>
+                            <option value="false">Nonaktif</option>
+                        </select>
+
+                        @error('is_active')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>

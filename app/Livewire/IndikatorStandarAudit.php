@@ -29,12 +29,14 @@ class IndikatorStandarAudit extends Component
     public $bukti_objektif;
     public $new_bukti_objektif;
     public $id_standar = '';
+    public $is_active = true;
 
     protected $rules = [
         'nomer_pertanyaan_standar' => 'required',
         'pertanyaan_standar' => 'required|min:5',
         'indikator_pertanyaan' => 'required',
         'id_standar' => 'required',
+        'is_active' => 'required'
     ];
 
     public function mount($id)
@@ -50,6 +52,7 @@ class IndikatorStandarAudit extends Component
         $standar = StandarAudit::all();
         $indikator = ModelsIndikatorStandarAudit::where('id_standar', '=', $this->id_standar)
             ->where('nomer_pertanyaan_standar', 'ilike', '%' . $this->search . '%')
+            ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -81,7 +84,7 @@ class IndikatorStandarAudit extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'is_active']);
     }
 
     public function saveData()
@@ -90,8 +93,6 @@ class IndikatorStandarAudit extends Component
             $this->rules['bukti_objektif'] = 'required|file|mimes:pdf|max:2048';
         }
         $this->validate();
-
-
         try {
 
             if ($this->modalAction === 'edit') {
@@ -103,7 +104,7 @@ class IndikatorStandarAudit extends Component
                     $originalFileName = $this->new_bukti_objektif->getClientOriginalName();
                 }
                 $record = ModelsIndikatorStandarAudit::findOrFail($this->recordId);
-                $data = $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar']);
+                $data = $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']);
 
                 // Perbarui path file jika file baru diunggah
                 if ($buktiObjektifPath) {
@@ -123,7 +124,7 @@ class IndikatorStandarAudit extends Component
 
                 ModelsIndikatorStandarAudit::create(
                     array_merge(
-                        $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar']),
+                        $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']),
                         [
                             'bukti_objektif' => $buktiObjektifPath,
                             'original_bukti_objektif' => $originalFileName
@@ -147,6 +148,7 @@ class IndikatorStandarAudit extends Component
         $this->indikator_pertanyaan = $indikator->indikator_pertanyaan;
         $this->bukti_objektif = $indikator->bukti_objektif;
         $this->id_standar = $indikator->id_standar;
+        $this->is_active = $indikator->is_active;
     }
 
     public function delete()
