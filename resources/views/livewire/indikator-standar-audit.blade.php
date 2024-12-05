@@ -8,7 +8,6 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
-            <li>{{ $title }}</li>
             <li>{{ $subtitle }}</li>
             <li>Indikator {{ $subtitle }}</li>
         </ul>
