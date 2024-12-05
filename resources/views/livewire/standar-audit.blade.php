@@ -34,22 +34,27 @@
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
-                <tr class="text-md">
+                <tr class="text-md text-center">
+                    <td>Status</td>
                     <td class="text-center">No</td>
                     <td>Nama Standar</td>
-                    <td class="text-center">Nomor Dokumen</td>
+                    <td>Nomor Dokumen</td>
                     <td>Nomor Revisi</td>
                     <td>Tanggal Terbit</td>
-                    <th class="bg-[#60c0d0] shadow-xl"></th>
+                    <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($standar as $index => $item)
-                    <tr>
-                        <td class="text-center">{{ $index + 1 }}.</td>
+                    <tr class="text-center">
                         <td>
-                            <a class="link text-[#60C0D0]"
-                                href="{{ route('indikator-standar-audit', ['id' => $item->id]) }}">{{ $item->nama_standar }}</a>
+                            <div
+                                class="badge {{ $item->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
+                                {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}</div>
+                        </td>
+                        <td>{{ $index + 1 }}.</td>
+                        <td>
+                            {{ $item->nama_standar }}
                         </td>
                         <td>
                             {{ $item->nomer_dokumen }}
@@ -60,17 +65,24 @@
                         <td>
                             {{ Carbon::parse($item->tanggal_terbit)->locale('id')->translatedFormat('d F Y') }}
                         </td>
-                        <th class="shadow-xl">
-                            <div class="flex justify-center items-center space-x-2">
-                                <button wire:click="openModal('lihat', {{ $item->id }})">
-                                    <i class="fas fa-eye text-black"></i>
-                                </button>
-                                <button wire:click="openModal('edit', {{ $item->id }})">
-                                    <i class="fas fa-edit text-black"></i>
-                                </button>
-                                <button wire:click="openModal('hapus', {{ $item->id }})">
-                                    <i class="fas fa-trash text-black"></i>
-                                </button>
+                        <th class="shadow-xl max-w-48">
+                            <div class="flex gap-2 md:justify-evenly">
+                                <div>
+                                    <a href="{{ route('indikator-standar-audit', ['id' => $item->id]) }}"
+                                        class="underline text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
+                                            class="hidden md:inline">Indikator</span></a>
+                                </div>
+                                <div class="flex justify-center items-center space-x-2">
+                                    <button wire:click="openModal('lihat', {{ $item->id }})">
+                                        <i class="fas fa-eye text-black"></i>
+                                    </button>
+                                    <button wire:click="openModal('edit', {{ $item->id }})">
+                                        <i class="fas fa-edit text-black"></i>
+                                    </button>
+                                    <button wire:click="openModal('hapus', {{ $item->id }})">
+                                        <i class="fas fa-trash text-black"></i>
+                                    </button>
+                                </div>
                             </div>
                         </th>
                     </tr>
@@ -155,6 +167,21 @@
                             class="input input-bordered w-full input-md flatpickr-free @error('tanggal_terbit') border-red-500 @enderror" />
 
                         @error('tanggal_terbit')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                        </div>
+                        <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered select-md @error('is_active') border-red-500 @enderror">
+                            <option value="true" selected>Aktif</option>
+                            <option value="false">Nonaktif</option>
+                        </select>
+
+                        @error('is_active')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>

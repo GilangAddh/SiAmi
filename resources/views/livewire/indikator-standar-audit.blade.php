@@ -8,20 +8,14 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
-            <li>{{ $title }}</li>
             <li>{{ $subtitle }}</li>
+            <li>Indikator {{ $subtitle }}</li>
         </ul>
     </div>
 
     <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data {{ $title }}</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
-        {{-- <select class="select select-bordered w-3/5 md:w-1/4">
-            <option value="" selected disabled>Cari Standar Audit</option>
-            @foreach ($standar as $item)
-                <option value="{{ $item->id }}">{{ $item->nama_standar }}</option>
-            @endforeach
-        </select> --}}
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
             <input type="text" class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full"
                 placeholder="Cari" wire:model.live.debounce.400ms="search" />
@@ -41,27 +35,33 @@
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
-                <tr class="text-md">
+                <tr class="text-md text-center">
+                    <td class="text-center">Status</td>
                     <td class="text-center">No</td>
                     <td>Standar Audit</td>
                     <td>Nomor Pertanyaan</td>
-                    <td class="text-center">Pertanyaan</td>
+                    <td>Pertanyaan</td>
                     <td>Indikator Pertanyaan</td>
                     <td>Bukti Objektif</td>
-                    <th class="bg-[#60c0d0] shadow-xl"></th>
+                    <th class="bg-[#60c0d0] shadow-xl">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($indikator as $index => $item)
-                    <tr>
-                        <td class="text-center">{{ $index + 1 }}.</td>
+                    <tr class="text-center">
+                        <td>
+                            <div
+                                class="badge {{ $item->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
+                                {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}</div>
+                        </td>
+                        <td>{{ $index + 1 }}.</td>
                         <td>
                             {{ $item->standarAudit->nama_standar }}
                         </td>
                         <td>
                             {{ $item->nomer_pertanyaan_standar }}
                         </td>
-                        <td class="max-w-64">
+                        <td class="max-w-64 text-justify">
                             {{ $item->pertanyaan_standar }}
                         </td>
                         <td>
@@ -133,6 +133,7 @@
                             <span class="label-text">Standar Audit <span class="text-red-500">*</span></span>
                         </div>
                         <select {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            {{ $modalAction === 'tambah' ? 'disabled' : '' }}
                             class="select select-bordered w-full @error('nomer_pertanyaan_standar') border-red-500 @enderror"
                             wire:model="id_standar">
                             <option value="" selected disabled>Standar Audit</option>
@@ -226,6 +227,21 @@
                             </a>
                         </label>
                     @endif
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                        </div>
+                        <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered select-md @error('is_active') border-red-500 @enderror">
+                            <option value="true" selected>Aktif</option>
+                            <option value="false">Nonaktif</option>
+                        </select>
+
+                        @error('is_active')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
                             <button

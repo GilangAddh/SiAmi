@@ -10,7 +10,7 @@ class IndikatorStandarAudit extends Model
     use HasFactory;
 
     protected $table = 'indikator_standar_audit';
-    protected $fillable = ['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'original_bukti_objektif', 'id_standar'];
+    protected $fillable = ['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'original_bukti_objektif', 'id_standar', 'is_active'];
 
     public function standarAudit()
     {

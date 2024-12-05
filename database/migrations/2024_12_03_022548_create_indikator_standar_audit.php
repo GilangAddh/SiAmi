@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_standar');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->boolean('is_active')->default(false);
         });
     }
 

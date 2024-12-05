@@ -23,12 +23,14 @@ class StandarAudit extends Component
     public $nomer_dokumen = '';
     public $nomer_revisi = '';
     public $tanggal_terbit = '';
+    public $is_active = true;
 
     protected $rules = [
         'nama_standar' => 'required|min:5|max:255',
         'nomer_dokumen' => 'required|min:5|max:255',
         'nomer_revisi' => 'required|min:5|max:255',
         'tanggal_terbit' => 'required|date',
+        'is_active' => 'required'
     ];
 
     public function mount()
@@ -39,6 +41,7 @@ class StandarAudit extends Component
     public function render()
     {
         $standar = ModelsStandarAudit::where('nama_standar', 'ilike', '%' . $this->search . '%')
+            ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -83,10 +86,10 @@ class StandarAudit extends Component
 
         if ($this->modalAction === 'edit') {
             $user = ModelsStandarAudit::findOrFail($this->recordId);
-            $user->update($this->only(['nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit']));
+            $user->update($this->only(['nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit', 'is_active']));
         } else {
             ModelsStandarAudit::create(
-                $this->only(['nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit'])
+                $this->only(['nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit', 'is_active'])
             );
         }
         $this->resetModal();
