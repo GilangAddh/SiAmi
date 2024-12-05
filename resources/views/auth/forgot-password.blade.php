@@ -1,12 +1,17 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
-
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        <div class="flex justify-between items-center mb-6">
+            <img src="{{ asset('images/logo-poltekkes.png') }}" class="w-[175px] sm:w-[215px] h-auto">
+            <img src="{{ asset('images/logo-blu.png') }}" class="w-[45px] sm:w-[55px] h-auto">
         </div>
+
+        <h1 class="font-semibold mb-1 text-sm sm:text-lg">Reset Password</h1>
+
+        <div class="mb-4 text-xs sm:text-sm text-gray-600">
+            {{ __('Masukkan email akun anda untuk mendapatkan link reset password.') }}
+        </div>
+
+        <x-validation-errors class="mb-4 text-sm" />
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
@@ -14,20 +19,26 @@
             </div>
         @endif
 
-        <x-validation-errors class="mb-4" />
-
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
 
             <div class="block">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                    required autofocus autocomplete="username" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end mt-5">
                 <x-button>
-                    {{ __('Email Password Reset Link') }}
+                    {{ __('Kirim Link Reset Password') }}
                 </x-button>
+            </div>
+
+            <div class="block mt-2">
+                <a class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
+                    href="{{ route('login') }}">
+                    {{ __('Kembali ke halaman masuk') }}
+                </a>
             </div>
         </form>
     </x-authentication-card>
