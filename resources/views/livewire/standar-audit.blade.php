@@ -8,7 +8,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Standar Audit</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Index</a></li>
         </ul>
     </div>
 
@@ -34,22 +34,21 @@
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
-                <tr class="text-md">
+                <tr class="text-md text-center">
                     <td class="text-center">No</td>
                     <td>Nama Standar</td>
-                    <td class="text-center">Nomor Dokumen</td>
+                    <td>Nomor Dokumen</td>
                     <td>Nomor Revisi</td>
                     <td>Tanggal Terbit</td>
-                    <th class="bg-[#60c0d0] shadow-xl"></th>
+                    <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($standar as $index => $item)
-                    <tr>
-                        <td class="text-center">{{ $index + 1 }}.</td>
+                    <tr class="text-center">
+                        <td>{{ $index + 1 }}.</td>
                         <td>
-                            <a
-                                href="{{ route('indikator-standar-audit', ['id' => $item->id]) }}">{{ $item->nama_standar }}</a>
+                            {{ $item->nama_standar }}
                         </td>
                         <td>
                             {{ $item->nomer_dokumen }}
@@ -60,17 +59,24 @@
                         <td>
                             {{ Carbon::parse($item->tanggal_terbit)->locale('id')->translatedFormat('d F Y') }}
                         </td>
-                        <th class="shadow-xl">
-                            <div class="flex justify-center items-center space-x-2">
-                                <button wire:click="openModal('lihat', {{ $item->id }})">
-                                    <i class="fas fa-eye text-black"></i>
-                                </button>
-                                <button wire:click="openModal('edit', {{ $item->id }})">
-                                    <i class="fas fa-edit text-black"></i>
-                                </button>
-                                <button wire:click="openModal('hapus', {{ $item->id }})">
-                                    <i class="fas fa-trash text-black"></i>
-                                </button>
+                        <th class="shadow-xl max-w-48">
+                            <div class="flex gap-2 md:justify-evenly">
+                                <div>
+                                    <a href="{{ route('indikator-standar-audit', ['id' => $item->id]) }}"
+                                        class="underline text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
+                                            class="hidden md:inline">Indikator</span></a>
+                                </div>
+                                <div class="flex justify-center items-center space-x-2">
+                                    <button wire:click="openModal('lihat', {{ $item->id }})">
+                                        <i class="fas fa-eye text-black"></i>
+                                    </button>
+                                    <button wire:click="openModal('edit', {{ $item->id }})">
+                                        <i class="fas fa-edit text-black"></i>
+                                    </button>
+                                    <button wire:click="openModal('hapus', {{ $item->id }})">
+                                        <i class="fas fa-trash text-black"></i>
+                                    </button>
+                                </div>
                             </div>
                         </th>
                     </tr>

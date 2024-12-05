@@ -7,9 +7,9 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>{{ $title }}</li>
             <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
             <li>{{ $subtitle }}</li>
+            <li>Indikator {{ $subtitle }}</li>
         </ul>
     </div>
 
@@ -35,20 +35,20 @@
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
-                <tr class="text-md">
+                <tr class="text-md text-center">
                     <td class="text-center">No</td>
                     <td>Standar Audit</td>
                     <td>Nomor Pertanyaan</td>
-                    <td class="text-center">Pertanyaan</td>
+                    <td>Pertanyaan</td>
                     <td>Indikator Pertanyaan</td>
                     <td>Bukti Objektif</td>
-                    <th class="bg-[#60c0d0] shadow-xl"></th>
+                    <th class="bg-[#60c0d0] shadow-xl">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($indikator as $index => $item)
-                    <tr>
-                        <td class="text-center">{{ $index + 1 }}.</td>
+                    <tr class="text-center">
+                        <td>{{ $index + 1 }}.</td>
                         <td>
                             {{ $item->standarAudit->nama_standar }}
                         </td>
@@ -58,7 +58,7 @@
                         <td class="max-w-64 text-justify">
                             {{ $item->pertanyaan_standar }}
                         </td>
-                        <td class="text-center">
+                        <td>
                             {{ $item->indikator_pertanyaan }}
                         </td>
                         <td class="max-w-40">
