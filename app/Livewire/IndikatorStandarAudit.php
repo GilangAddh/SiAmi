@@ -16,8 +16,6 @@ class IndikatorStandarAudit extends Component
 
     public $title;
     public $subtitle;
-    public $id;
-
     public $search;
     public $isModalOpen = false;
     public $modalTitle = '';
@@ -41,8 +39,8 @@ class IndikatorStandarAudit extends Component
 
     public function mount($id)
     {
-        $this->id = $id;
-        $standar = StandarAudit::findOrFail($this->id);
+        $this->id_standar = $id;
+        $standar = StandarAudit::findOrFail($this->id_standar);
         $this->subtitle = $standar->nama_standar;
         $this->title = "Indikator $this->subtitle";
     }
@@ -50,7 +48,7 @@ class IndikatorStandarAudit extends Component
     public function render()
     {
         $standar = StandarAudit::all();
-        $indikator = ModelsIndikatorStandarAudit::where('id_standar', '=', $this->id)
+        $indikator = ModelsIndikatorStandarAudit::where('id_standar', '=', $this->id_standar)
             ->where('nomer_pertanyaan_standar', 'ilike', '%' . $this->search . '%')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -83,7 +81,7 @@ class IndikatorStandarAudit extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'id_standar']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif']);
     }
 
     public function saveData()

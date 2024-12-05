@@ -16,12 +16,6 @@
     <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data {{ $title }}</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
-        {{-- <select class="select select-bordered w-3/5 md:w-1/4">
-            <option value="" selected disabled>Cari Standar Audit</option>
-            @foreach ($standar as $item)
-                <option value="{{ $item->id }}">{{ $item->nama_standar }}</option>
-            @endforeach
-        </select> --}}
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
             <input type="text" class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full"
                 placeholder="Cari" wire:model.live.debounce.400ms="search" />
@@ -61,10 +55,10 @@
                         <td>
                             {{ $item->nomer_pertanyaan_standar }}
                         </td>
-                        <td class="max-w-64">
+                        <td class="max-w-64 text-justify">
                             {{ $item->pertanyaan_standar }}
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ $item->indikator_pertanyaan }}
                         </td>
                         <td class="max-w-40">
@@ -133,6 +127,7 @@
                             <span class="label-text">Standar Audit <span class="text-red-500">*</span></span>
                         </div>
                         <select {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            {{ $modalAction === 'tambah' ? 'disabled' : '' }}
                             class="select select-bordered w-full @error('nomer_pertanyaan_standar') border-red-500 @enderror"
                             wire:model="id_standar">
                             <option value="" selected disabled>Standar Audit</option>
