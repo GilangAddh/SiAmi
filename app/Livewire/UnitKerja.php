@@ -119,7 +119,7 @@ class UnitKerja extends Component
             ]);
         }
 
-        return redirect()->route('unit-kerja');
+        $this->resetModal();
     }
 
     public function deleteData()

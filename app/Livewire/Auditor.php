@@ -125,7 +125,7 @@ class Auditor extends Component
             ]);
         }
 
-        return redirect()->route('auditor');
+        $this->resetModal();
     }
 
     public function deleteData()
