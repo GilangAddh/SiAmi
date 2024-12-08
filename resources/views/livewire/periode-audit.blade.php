@@ -109,7 +109,7 @@
                             <span class="label-text">Tanggal Awal <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
-                            placeholder="Masukkan tanggal mulai" wire:model="{{ Carbon::parse($tanggal_mulai) }}"
+                            placeholder="Masukkan tanggal mulai" wire:model="tanggal_mulai"
                             class="input input-bordered w-full input-md flatpickr-free @error('tanggal_mulai') border-red-500 @enderror" />
 
                         @error('tanggal_terbit')
