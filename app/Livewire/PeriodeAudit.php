@@ -24,7 +24,7 @@ class PeriodeAudit extends Component
 
     protected $rules = [
         'tanggal_mulai' => 'date|required',
-        'tanggal_akhir' => 'date|required',
+        'tanggal_akhir' => 'date|required|after:tanggal_mulai',
         'is_active' => 'required',
     ];
 
@@ -63,7 +63,7 @@ class PeriodeAudit extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'tanggal_mulai', 'tanggal_akhir']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'tanggal_mulai', 'tanggal_akhir', 'is_active']);
     }
     public function saveData()
     {
@@ -88,6 +88,7 @@ class PeriodeAudit extends Component
         $standar = ModelsPeriodeAudit::findOrFail($this->recordId);
         $this->tanggal_mulai = Carbon::parse($standar->tanggal_mulai)->format('d/m/Y');
         $this->tanggal_akhir = Carbon::parse($standar->tanggal_akhir)->format('d/m/Y');
+        $this->is_active = $standar->is_active;
     }
 
     public function delete()
