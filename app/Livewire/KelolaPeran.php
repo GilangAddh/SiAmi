@@ -55,8 +55,6 @@ class KelolaPeran extends Component
     public function saveData()
     {
         $rules = [
-            'type' => 'required|min:3|max:255',
-            'icon' => 'required|min:3|max:255',
             'roles' => 'nullable|array',
         ];
 
@@ -64,8 +62,6 @@ class KelolaPeran extends Component
 
         tap(Navigation::findOrFail($this->recordId), function ($menu) {
             $menu->update([
-                'type' => $this->type,
-                'icon' => $this->icon,
                 'roles' => $this->roles ?? [],
             ]);
         });
@@ -96,7 +92,7 @@ class KelolaPeran extends Component
             ->orWhere('url', 'like', '%' . $this->search . '%')
             ->orWhere('type', 'like', '%' . $this->search . '%')
             ->orWhereJsonContains('roles', $this->search)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
 
         return view('livewire.kelola-peran', compact('menus'));
