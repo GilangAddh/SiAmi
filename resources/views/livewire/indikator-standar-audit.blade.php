@@ -113,8 +113,8 @@
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
             @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus <span
-                        class="text-red-500 font-medium">{{ $pertanyaan_standar }}</span>?
+                <p>Apakah anda yakin ingin menghapus pertanyaan dengan nomer<span
+                        class="text-red-500 font-medium">{{ $nomer_pertanyaan_standar }}</span>?
                 </p>
                 <div class="modal-action">
                     <div class="flex space-x-2 justify-end">

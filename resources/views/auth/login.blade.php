@@ -5,7 +5,7 @@
             <img src="{{ asset('images/logo-blu.png') }}" class="w-[45px] sm:w-[55px] h-auto">
         </div>
 
-        <h1 class="font-semibold mb-1 text-sm sm:text-lg">Selamat Datang di {{ config('app.name') }}</h1>
+        <h1 class="font-semibold mb-1 text-sm sm:text-lg">Selamat Datang di SIAMI</h1>
 
         <div class="mb-4 text-xs sm:text-sm text-gray-600">
             {{ __('Masukkan email/username dan password untuk masuk.') }}
