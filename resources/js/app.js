@@ -4,12 +4,14 @@ import "flatpickr/dist/flatpickr.min.css";
 
 document.addEventListener("DOMContentLoaded", () => {
     flatpickr(".flatpickr-free", {
-        dateFormat: "d/m/Y",
+        locale: "id",
+        dateFormat: "j F Y",
         disableMobile: true,
     });
 
     flatpickr(".flatpickr-nofuture", {
-        dateFormat: "d/m/Y",
+        locale: "id",
+        dateFormat: "j F Y",
         disableMobile: true,
         maxDate: "today",
     });

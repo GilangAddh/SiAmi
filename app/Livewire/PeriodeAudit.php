@@ -23,8 +23,8 @@ class PeriodeAudit extends Component
     public $is_active = true;
 
     protected $rules = [
-        'tanggal_mulai' => 'date|required',
-        'tanggal_akhir' => 'date|required|after:tanggal_mulai',
+        'tanggal_mulai' => 'required|date_format:d/m/Y',
+        'tanggal_akhir' => 'required|date_format:d/m/Y|after:tanggal_mulai',
         'is_active' => 'required',
     ];
 
@@ -50,7 +50,7 @@ class PeriodeAudit extends Component
     {
         $this->resetModal();
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . 'Data Periode Audit';
+        $this->modalTitle = ucfirst($action) . ' Data Periode Audit';
 
         if (in_array($action, ['edit', 'lihat', 'hapus']) && $recordId) {
             $this->recordId = $recordId;
@@ -67,10 +67,10 @@ class PeriodeAudit extends Component
     }
     public function saveData()
     {
+        $this->validate();
+
         $this->tanggal_mulai = Carbon::createFromFormat('d/m/Y', $this->tanggal_mulai)->format('Y-m-d');
         $this->tanggal_akhir = Carbon::createFromFormat('d/m/Y', $this->tanggal_akhir)->format('Y-m-d');
-
-        $this->validate();
 
         if ($this->modalAction === 'edit') {
             $user = ModelsPeriodeAudit::findOrFail($this->recordId);

@@ -89,16 +89,20 @@
                     <div class="label">
                         <span class="label-text">Nama Menu <span class="text-red-500">*</span></span>
                     </div>
-                    <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="menu"
-                        placeholder="Masukkan nama menu"
-                        class="input input-bordered w-full input-md @error('menu') border-red-500 @enderror" />
-
-                    @error('menu')
-                        <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                    @enderror
+                    <input disabled type="text" wire:model="menu" placeholder="Masukkan nama menu"
+                        class="input input-bordered w-full input-md" />
                 </label>
 
                 <label class="form-control w-full mb-2">
+                    <div class="label">
+                        <span class="label-text">Tipe Menu <span class="text-red-500">*</span></span>
+                    </div>
+                    <input disabled type="text" wire:model="type" placeholder="Masukkan tipe menu"
+                        class="input input-bordered w-full input-md" />
+                </label>
+
+                <label class="form-control
+                        w-full mb-2">
                     <div class="label">
                         <span class="label-text">Url Menu</span>
                     </div>
@@ -113,17 +117,12 @@
                         </span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            placeholder="Masukkan kode icon" wire:model.live.debounce.300ms="icon"
-                            class="input input-bordered w-full input-md @error('icon') border-red-500 @enderror" />
+                        <input disabled type="text" placeholder="Masukkan kode icon"
+                            wire:model.live.debounce.300ms="icon" class="input input-bordered w-full input-md" />
                         <div class="bg-[#60c0d0] rounded-lg text-white py-4 px-5 flex items-center justify-center">
                             <i class="{{ $icon }}"></i>
                         </div>
                     </div>
-
-                    @error('icon')
-                        <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                    @enderror
                 </label>
 
                 <label class="form-control w-full mb-2">

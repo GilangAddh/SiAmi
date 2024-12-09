@@ -8,7 +8,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Periode Audit</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Index</a></li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('periode-audit') }}">Index</a></li>
         </ul>
     </div>
 
@@ -37,7 +37,7 @@
                 <tr class="text-md text-center">
                     <td>Status</td>
                     <td class="text-center">No</td>
-                    <td>Tanggal Awal</td>
+                    <td>Tanggal Mulai</td>
                     <td>Tanggal Akhir</td>
                     <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
@@ -52,7 +52,7 @@
                         </td>
                         <td>{{ $index + 1 }}.</td>
                         <td>
-                            {{ Carbon::parse($item->tanggal_awal)->locale('id')->translatedFormat('d F Y') }}
+                            {{ Carbon::parse($item->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }}
                         </td>
                         <td>
                             {{ Carbon::parse($item->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}
@@ -106,13 +106,13 @@
                 <form wire:submit.prevent="saveData">
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Tanggal Awal <span class="text-red-500">*</span></span>
+                            <span class="label-text">Tanggal Mulai <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
                             placeholder="Masukkan tanggal mulai" wire:model="tanggal_mulai"
                             class="input input-bordered w-full input-md flatpickr-free @error('tanggal_mulai') border-red-500 @enderror" />
 
-                        @error('tanggal_terbit')
+                        @error('tanggal_mulai')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>
