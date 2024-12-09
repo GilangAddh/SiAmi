@@ -22,8 +22,8 @@ class PeriodeAudit extends Component
     public $is_active = true;
 
     protected $rules = [
-        'tanggal_mulai' => 'required|date_format_id',
-        'tanggal_akhir' => 'required|date_format_id|after:tanggal_mulai',
+        'tanggal_mulai' => 'required|text_date_format',
+        'tanggal_akhir' => 'required|text_date_format|after:tanggal_mulai',
         'is_active' => 'required',
     ];
 
