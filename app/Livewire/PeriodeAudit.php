@@ -5,9 +5,12 @@ namespace App\Livewire;
 use App\Models\PeriodeAudit as ModelsPeriodeAudit;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class PeriodeAudit extends Component
 {
+    use WithPagination;
+
     public $title;
     public $search_start = '';
     public $search_end = '';

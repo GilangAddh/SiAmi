@@ -29,7 +29,7 @@ class StandarAudit extends Component
         'nama_standar' => 'required|min:5|max:255',
         'nomer_dokumen' => 'required|min:5|max:255',
         'nomer_revisi' => 'required|min:5|max:255',
-        'tanggal_terbit' => 'required|date',
+        'tanggal_terbit' => 'required|text_date_format',
         'is_active' => 'required'
     ];
 
@@ -80,9 +80,9 @@ class StandarAudit extends Component
 
     public function saveData()
     {
-        $this->tanggal_terbit = Carbon::createFromFormat('d/m/Y', $this->tanggal_terbit)->format('Y-m-d');
-
         $this->validate();
+
+        $this->tanggal_terbit = Carbon::createFromFormat('j F Y', $this->tanggal_terbit)->format('Y-m-d');
 
         if ($this->modalAction === 'edit') {
             $user = ModelsStandarAudit::findOrFail($this->recordId);
@@ -101,7 +101,7 @@ class StandarAudit extends Component
         $this->nama_standar = $standar->nama_standar;
         $this->nomer_dokumen = $standar->nomer_dokumen;
         $this->nomer_revisi = $standar->nomer_revisi;
-        $this->tanggal_terbit = Carbon::parse($standar->tanggal_terbit)->format('d/m/Y');
+        $this->tanggal_terbit = Carbon::parse($standar->tanggal_terbit)->translatedFormat('d F Y');
         $this->is_active = $standar->is_active;
     }
 
