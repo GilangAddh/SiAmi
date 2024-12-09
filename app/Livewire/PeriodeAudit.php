@@ -8,7 +8,6 @@ use Livewire\Component;
 
 class PeriodeAudit extends Component
 {
-
     public $title;
     public $search_start = '';
     public $search_end = '';
@@ -23,8 +22,8 @@ class PeriodeAudit extends Component
     public $is_active = true;
 
     protected $rules = [
-        'tanggal_mulai' => 'required|date_format:d/m/Y',
-        'tanggal_akhir' => 'required|date_format:d/m/Y|after:tanggal_mulai',
+        'tanggal_mulai' => 'required|date_format_id',
+        'tanggal_akhir' => 'required|date_format_id|after:tanggal_mulai',
         'is_active' => 'required',
     ];
 
@@ -69,8 +68,8 @@ class PeriodeAudit extends Component
     {
         $this->validate();
 
-        $this->tanggal_mulai = Carbon::createFromFormat('d/m/Y', $this->tanggal_mulai)->format('Y-m-d');
-        $this->tanggal_akhir = Carbon::createFromFormat('d/m/Y', $this->tanggal_akhir)->format('Y-m-d');
+        $this->tanggal_mulai = Carbon::createFromFormat('j F Y', $this->tanggal_mulai)->format('Y-m-d');
+        $this->tanggal_akhir = Carbon::createFromFormat('j F Y', $this->tanggal_akhir)->format('Y-m-d');
 
         if ($this->modalAction === 'edit') {
             $user = ModelsPeriodeAudit::findOrFail($this->recordId);
@@ -86,8 +85,8 @@ class PeriodeAudit extends Component
     private function loadRecordData()
     {
         $standar = ModelsPeriodeAudit::findOrFail($this->recordId);
-        $this->tanggal_mulai = Carbon::parse($standar->tanggal_mulai)->format('d/m/Y');
-        $this->tanggal_akhir = Carbon::parse($standar->tanggal_akhir)->format('d/m/Y');
+        $this->tanggal_mulai = Carbon::parse($standar->tanggal_mulai)->translatedFormat('d F Y');
+        $this->tanggal_akhir = Carbon::parse($standar->tanggal_akhir)->translatedFormat('d F Y');
         $this->is_active = $standar->is_active;
     }
 

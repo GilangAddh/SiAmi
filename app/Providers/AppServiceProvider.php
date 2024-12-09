@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +21,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Validator::extend('date_format_id', function ($attribute, $value, $parameters, $validator) {
+            $date = \DateTime::createFromFormat('j F Y', $value);
+            return $date && $date->format('j F Y') === $value;
+        });
     }
 }

@@ -1,18 +1,19 @@
 import "./bootstrap";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import "flatpickr/dist/themes/material_blue.css";
 
 document.addEventListener("DOMContentLoaded", () => {
     flatpickr(".flatpickr-free", {
-        locale: "id",
         dateFormat: "j F Y",
         disableMobile: true,
+        theme: "material_blue",
     });
 
     flatpickr(".flatpickr-nofuture", {
-        locale: "id",
         dateFormat: "j F Y",
         disableMobile: true,
         maxDate: "today",
+        theme: "material_blue",
     });
 });
