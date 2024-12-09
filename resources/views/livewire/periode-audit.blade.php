@@ -90,7 +90,9 @@
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
             @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus data ini?
+                <p>Apakah anda yakin ingin menghapus periode <span class="text-red-500 font-medium">
+                        {{ $tanggal_mulai }} -
+                        {{ $tanggal_akhir }}</span>?
                 </p>
                 <div class="modal-action">
                     <div class="flex space-x-2 justify-end">
