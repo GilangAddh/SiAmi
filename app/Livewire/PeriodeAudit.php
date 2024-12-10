@@ -37,15 +37,32 @@ class PeriodeAudit extends Component
 
     public function render()
     {
-        $periode = ModelsPeriodeAudit::orderBy('is_active', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $query = ModelsPeriodeAudit::orderBy('is_active', 'desc')
+            ->orderBy('created_at', 'desc');
+
+        if (!empty($this->search_start)) {
+            $query->where('tanggal_mulai', '>=', $this->search_start);
+        }
+
+        if (!empty($this->search_end)) {
+            $query->where('tanggal_akhir', '<=', $this->search_end);
+        }
+
+        $periode = $query->paginate(10);
+
         return view('livewire.periode-audit', ['periode' => $periode]);
     }
+
 
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function resetSearch()
+    {
+        $this->search_start = '';
+        $this->search_end = '';
     }
 
     public function openModal($action, $recordId = null)
