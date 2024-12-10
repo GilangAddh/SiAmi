@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\IndikatorStandarAudit as ModelsIndikatorStandarAudit;
 use App\Models\StandarAudit;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
@@ -153,7 +154,8 @@ class IndikatorStandarAudit extends Component
     public function delete()
     {
         $indikator = ModelsIndikatorStandarAudit::findOrFail($this->recordId);
-
+        $filepath = 'public/' . $indikator->bukti_objektif;
+        Storage::delete($filepath);
         $indikator->delete();
         $this->resetModal();
     }
