@@ -125,7 +125,7 @@
 
                         @if ($modalAction != 'lihat')
                             <div class="flex justify-center">
-                                <input type="file" wire:model.live="profile_photo_path"
+                                <input type="file" wire:model.live="profile_photo_path" accept="image/*"
                                     class="file-input file-input-ghost file-input-sm w-full max-w-xs" />
                             </div>
                         @endif

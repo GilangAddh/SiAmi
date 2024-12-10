@@ -37,7 +37,7 @@
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li><a href="{{ route('profile.show') }}">Profile</a></li>
+                    <li><a href="{{ route('profile.show') }}">Profil</a></li>
 
 
                     <form method="POST" action="{{ route('logout') }}" x-data>
