@@ -61,8 +61,7 @@ class PeriodeAudit extends Component
 
     public function resetSearch()
     {
-        $this->search_start = '';
-        $this->search_end = '';
+        $this->reset(['search_start', 'search_end']);
     }
 
     public function openModal($action, $recordId = null)
@@ -84,6 +83,7 @@ class PeriodeAudit extends Component
         $this->resetValidation();
         $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'tanggal_mulai', 'tanggal_akhir', 'is_active']);
     }
+
     public function saveData()
     {
         $this->validate();
@@ -100,6 +100,7 @@ class PeriodeAudit extends Component
             );
         }
         $this->resetModal();
+        $this->resetSearch();
     }
 
     private function loadRecordData()
@@ -113,8 +114,9 @@ class PeriodeAudit extends Component
     public function delete()
     {
         $standar = ModelsPeriodeAudit::findOrFail($this->recordId);
-
         $standar->delete();
+
         $this->resetModal();
+        $this->resetSearch();
     }
 }

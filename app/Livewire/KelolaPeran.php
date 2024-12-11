@@ -67,6 +67,7 @@ class KelolaPeran extends Component
         });
 
         return redirect()->route('kelola-peran');
+        // resetPage
     }
 
     public function resetModal()
@@ -82,8 +83,13 @@ class KelolaPeran extends Component
             'type',
             'url',
             'icon',
-            'roles',
+            'roles'
         ]);
+    }
+
+    public function resetSearch()
+    {
+        $this->reset(['search']);
     }
 
     public function render()

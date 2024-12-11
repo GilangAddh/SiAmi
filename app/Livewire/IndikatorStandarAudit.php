@@ -87,6 +87,11 @@ class IndikatorStandarAudit extends Component
         $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'is_active']);
     }
 
+    public function resetSearch()
+    {
+        $this->reset(['search']);
+    }
+
     public function saveData()
     {
         if ($this->modalAction == 'tambah') {
@@ -133,7 +138,8 @@ class IndikatorStandarAudit extends Component
                 );
             }
 
-            $this->resetModal(); // Reset modal setelah berhasil menyimpan
+            $this->resetModal();
+            $this->resetSearch();
             session()->flash('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             session()->flash('error', 'Gagal menyimpan data: ' . $e->getMessage());
@@ -158,5 +164,6 @@ class IndikatorStandarAudit extends Component
         Storage::delete($filepath);
         $indikator->delete();
         $this->resetModal();
+        $this->resetSearch();
     }
 }

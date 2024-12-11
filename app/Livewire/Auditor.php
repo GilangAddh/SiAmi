@@ -126,6 +126,7 @@ class Auditor extends Component
         }
 
         $this->resetModal();
+        $this->resetSearch();
     }
 
     public function deleteData()
@@ -141,6 +142,7 @@ class Auditor extends Component
         }
 
         $this->resetModal();
+        $this->resetSearch();
     }
 
     public function resetModal()
@@ -161,6 +163,11 @@ class Auditor extends Component
             'profile_photo_path',
             'no_identity'
         ]);
+    }
+
+    public function resetSearch()
+    {
+        $this->reset(['search']);
     }
 
     private function handleProfilePhotoUpload()

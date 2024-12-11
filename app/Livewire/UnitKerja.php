@@ -119,6 +119,7 @@ class UnitKerja extends Component
             ]);
         }
 
+        $this->resetSearch();
         $this->resetModal();
     }
 
@@ -134,6 +135,7 @@ class UnitKerja extends Component
             $user->delete();
         }
 
+        $this->resetSearch();
         $this->resetModal();
     }
 
@@ -152,8 +154,13 @@ class UnitKerja extends Component
             'profileName',
             'password',
             'confirmPassword',
-            'profile_photo_path',
+            'profile_photo_path'
         ]);
+    }
+
+    public function resetSearch()
+    {
+        $this->reset(['search']);
     }
 
     private function handleProfilePhotoUpload()
