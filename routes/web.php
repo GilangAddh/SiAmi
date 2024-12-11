@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\DetailPemetaan;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Home;
 use App\Livewire\IndikatorStandarAudit;
@@ -44,4 +45,5 @@ Route::middleware([
     Route::get('/periode-audit', PeriodeAudit::class)->name('periode-audit');
     Route::get('/indikator-standar-audit/{id}', action: IndikatorStandarAudit::class)->name('indikator-standar-audit');
     Route::get('/pemetaan-standar-audit', PemetaanStandarAudit::class)->name('pemetaan-standar-audit');
+    Route::get('/detail-pemetaan/{id}', action: DetailPemetaan::class)->name('detail-pemetaan');
 });
