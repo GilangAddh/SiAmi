@@ -16,4 +16,9 @@ class StandarAudit extends Model
     {
         return $this->hasMany(IndikatorStandarAudit::class, 'id_standar');
     }
+
+    public function pemetaanStandarAudit()
+    {
+        return $this->hasMany(PemetaanStandarAudit::class, 'id_standar');
+    }
 }

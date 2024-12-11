@@ -63,4 +63,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function pemetaanStandarAudit()
+    {
+        return $this->hasMany(PemetaanStandarAudit::class, 'id_user');
+    }
 }
