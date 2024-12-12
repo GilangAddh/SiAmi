@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -47,6 +48,7 @@ class FortifyServiceProvider extends ServiceProvider
             $request->validate([
                 'login' => 'required|string',
                 'password' => 'required|string',
+                'g-recaptcha-response' => 'required|captcha',
             ]);
 
             $user = \App\Models\User::where('email', $request->login)

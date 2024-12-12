@@ -5,3 +5,19 @@
 [x-cloak] {
     display: none;
 }
+
+.g-recaptcha {
+    transform: scale(0.74);
+    -webkit-transform: scale(0.74);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+}
+
+@media (min-width: 768px) {
+    .g-recaptcha {
+        transform: scale(0.83);
+        -webkit-transform: scale(0.83);
+        transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+    }
+}

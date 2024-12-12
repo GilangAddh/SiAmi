@@ -41,8 +41,10 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-center mt-4">
-                <x-button class="w-full mt-3">
+            <div class="g-recaptcha mt-4" data-sitekey="{{ config('captcha.sitekey') }}"></div>
+
+            <div class="flex items-center justify-center mt-2">
+                <x-button class="w-full">
                     {{ __('Masuk') }}
                 </x-button>
             </div>
@@ -56,5 +58,7 @@
                 @endif
             </div>
         </form>
+
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     </x-authentication-card>
 </x-guest-layout>
