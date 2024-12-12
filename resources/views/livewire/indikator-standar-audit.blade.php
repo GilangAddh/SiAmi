@@ -1,7 +1,3 @@
-@php
-    use Carbon\Carbon;
-@endphp
-
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
@@ -41,7 +37,7 @@
                     <td>Pertanyaan</td>
                     <td>Indikator Pertanyaan</td>
                     <td>Bukti Objektif</td>
-                    <th class="bg-[#60c0d0] shadow-xl">Action</th>
+                    <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
             </thead>
             <tbody>

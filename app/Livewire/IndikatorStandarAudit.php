@@ -65,7 +65,7 @@ class IndikatorStandarAudit extends Component
     {
         $this->resetModal();
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . ' Data Indikator Standar Audit';
+        $this->modalTitle = ucfirst($action) . ' Data Indikator ' . $this->subtitle;
 
         if (in_array($action, ['edit', 'lihat', 'hapus']) && $recordId) {
             $this->recordId = $recordId;

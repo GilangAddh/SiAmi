@@ -189,9 +189,9 @@ class UnitKerja extends Component
         $users = User::query()
             ->where('role', 'auditee')
             ->where(function ($query) {
-                $query->where('profile_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%')
-                    ->orWhere('name', 'like', '%' . $this->search . '%');
+                $query->where('profile_name', 'ilike', '%' . $this->search . '%')
+                    ->orWhere('email', 'ilike', '%' . $this->search . '%')
+                    ->orWhere('name', 'ilike', '%' . $this->search . '%');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);

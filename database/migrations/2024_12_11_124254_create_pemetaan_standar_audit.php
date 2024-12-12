@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('indikator_standar_audit', function (Blueprint $table) {
+        Schema::create('pemetaan_standar_audit', function (Blueprint $table) {
             $table->id();
-            $table->string('nomer_pertanyaan_standar');
-            $table->string('pertanyaan_standar');
-            $table->string('indikator_pertanyaan');
-            $table->string('bukti_objektif');
-            $table->string('original_bukti_objektif');
             $table->unsignedBigInteger('id_standar');
+            $table->unsignedBigInteger('id_user');
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
-            $table->boolean('is_active')->default(false);
+            $table->timestamp('updated_at');
 
             $table->foreign('id_standar')->references('id')->on('standar_audit')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('id_user')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('indikator_standar_audit');
+        Schema::dropIfExists('pemetaan_standar_audit');
     }
 };

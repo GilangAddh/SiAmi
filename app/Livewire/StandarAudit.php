@@ -42,11 +42,6 @@ class StandarAudit extends Component
         return view('livewire.standar-audit', ['standar' => $standar])->layout('components.layouts.app')->title("Standar Audit");
     }
 
-    public function indikatorStandar($id)
-    {
-        $this->redirect("/indikator-standar-audit/$id");
-    }
-
     public function updatingSearch()
     {
         $this->resetPage();

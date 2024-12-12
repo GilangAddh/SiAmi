@@ -88,9 +88,9 @@ class KelolaPeran extends Component
 
     public function render()
     {
-        $menus = Navigation::where('menu', 'like', '%' . $this->search . '%')
-            ->orWhere('url', 'like', '%' . $this->search . '%')
-            ->orWhere('type', 'like', '%' . $this->search . '%')
+        $menus = Navigation::where('menu', 'ilike', '%' . $this->search . '%')
+            ->orWhere('url', 'ilike', '%' . $this->search . '%')
+            ->orWhere('type', 'ilike', '%' . $this->search . '%')
             ->orWhereJsonContains('roles', $this->search)
             ->orderBy('id', 'asc')
             ->paginate(10);
