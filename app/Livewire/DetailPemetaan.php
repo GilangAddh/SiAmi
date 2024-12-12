@@ -62,12 +62,13 @@ class DetailPemetaan extends Component
 
     private function loadRecordData()
     {
-        $this->indikator = IndikatorStandarAudit::where('id_standar', $this->recordId)->get();
+        $this->indikator = IndikatorStandarAudit::where('id_standar', $this->recordId)
+            ->where('is_active', true)->get();
     }
 
     public function save()
     {
-        if (empty($this->selectedStandar)) {
+        if ($this->selectedStandar == $this->existingStandar) {
             session()->flash('message', 'Tidak ada standar yang dipilih.');
             return redirect()->route('pemetaan-standar-audit');
         }
