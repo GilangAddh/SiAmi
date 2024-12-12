@@ -82,7 +82,7 @@ class KelolaPeran extends Component
             'type',
             'url',
             'icon',
-            'roles',
+            'roles'
         ]);
     }
 

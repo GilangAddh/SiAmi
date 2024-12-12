@@ -78,6 +78,11 @@ class StandarAudit extends Component
         $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit', 'is_active']);
     }
 
+    public function resetSearch()
+    {
+        $this->reset(['search']);
+    }
+
     public function saveData()
     {
         $this->validate();
@@ -93,6 +98,7 @@ class StandarAudit extends Component
             );
         }
         $this->resetModal();
+        $this->resetSearch();
     }
 
     private function loadRecordData()
@@ -111,5 +117,6 @@ class StandarAudit extends Component
 
         $standar->delete();
         $this->resetModal();
+        $this->resetSearch();
     }
 }
