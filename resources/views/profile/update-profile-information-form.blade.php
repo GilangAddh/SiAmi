@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Perbarui informasi profil/akun anda.') }}
+        {{ __('Pastikan informasi profil/akun anda valid & terkini.') }}
     </x-slot>
 
     <x-slot name="form">
@@ -104,22 +104,3 @@
         </x-button>
     </x-slot>
 </x-form-section>
-
-{{-- <script>
-    document.getElementById('photo').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('profile-photo-preview');
-
-        if (file && file.type.startsWith('image')) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-            };
-
-            reader.readAsDataURL(file);
-        } else {
-            event.target.value = '';
-        }
-    });
-</script> --}}

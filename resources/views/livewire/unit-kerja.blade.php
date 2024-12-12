@@ -1,5 +1,3 @@
-@section('title', 'Unit Kerja')
-
 @php
     use Carbon\Carbon;
 @endphp
@@ -40,7 +38,7 @@
                     <td>Username</td>
                     <td class="text-center">Status</td>
                     <td class="text-center">Waktu Pembuatan Akun</td>
-                    <th class="bg-[#60c0d0] shadow-xl"></th>
+                    <th class="bg-[#60c0d0] shadow-xl text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>

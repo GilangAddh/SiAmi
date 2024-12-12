@@ -54,6 +54,8 @@ class DatabaseSeeder extends Seeder
             ['menu' => 'Periode Audit', 'type' => 'Master Data', 'url' => '/periode-audit', 'icon' => "fa-regular fa-clock", 'roles' => json_encode(['ppm'])],
 
             ['menu' => 'Kelola Peran', 'type' => 'standalone', 'url' => '/kelola-peran', 'icon' => "fa-solid fa-list", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Pemetaan Standar Audit', 'type' => 'standalone', 'url' => '/pemetaan-standar-audit', 'icon' => "fa-solid fa-code-branch", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Detail Pemetaan', 'type' => 'hidden', 'url' => '/detail-pemetaan', 'icon' => "fa-solid fa-list-check", 'roles' => json_encode(['ppm'])],
         ]);
     }
 }

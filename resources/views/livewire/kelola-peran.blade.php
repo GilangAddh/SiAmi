@@ -1,5 +1,3 @@
-@section('title', 'Kelola Peran')
-
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
@@ -32,7 +30,7 @@
                     <td>Url</td>
                     <td>Akses Peran</td>
                     <td class="text-center">Icon</td>
-                    <th class="bg-[#60c0d0] shadow-xl"></th>
+                    <th class="bg-[#60c0d0] shadow-xl text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>

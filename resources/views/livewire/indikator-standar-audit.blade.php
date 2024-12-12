@@ -1,9 +1,3 @@
-@section('title', $title)
-
-@php
-    use Carbon\Carbon;
-@endphp
-
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
@@ -13,7 +7,7 @@
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data {{ $title }}</h1>
+    <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data Indikator {{ $subtitle }}</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
@@ -43,7 +37,7 @@
                     <td>Pertanyaan</td>
                     <td>Indikator Pertanyaan</td>
                     <td>Bukti Objektif</td>
-                    <th class="bg-[#60c0d0] shadow-xl">Action</th>
+                    <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,19 +126,9 @@
                         <div class="label">
                             <span class="label-text">Standar Audit <span class="text-red-500">*</span></span>
                         </div>
-                        <select {{ $modalAction === 'lihat' ? 'disabled' : '' }}
-                            {{ $modalAction === 'tambah' ? 'disabled' : '' }}
-                            class="select select-bordered w-full @error('nomer_pertanyaan_standar') border-red-500 @enderror"
-                            wire:model="id_standar">
-                            <option value="" selected disabled>Standar Audit</option>
-                            @foreach ($standar as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama_standar }}</option>
-                            @endforeach
-                        </select>
 
-                        @error('id_standar')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
+                        <input disabled type="text" value="{{ $subtitle }}"
+                            class="input input-bordered w-full input-md" />
                     </label>
 
                     <label class="form-control w-full mb-2">
