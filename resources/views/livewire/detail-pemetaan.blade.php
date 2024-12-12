@@ -1,8 +1,9 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>Pemetaan Standar Audit</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('pemetaan-standar-audit') }}">Index</a></li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('pemetaan-standar-audit') }}">Pemetaan Standar
+                    Audit</a></li>
+            <li>Pemetaan Standar</li>
         </ul>
     </div>
 
@@ -20,6 +21,7 @@
                 <tr class="text-md">
                     <td class="text-center">No</td>
                     <td>Standar</td>
+                    <td>Status</td>
                     <th class="bg-[#60c0d0] shadow-xl text-center">Indikator</th>
                 </tr>
             </thead>
@@ -27,7 +29,8 @@
                 @forelse ($standar as $index => $item)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
-                        <td><input type="checkbox" class="checkbox mr-2">{{ $item->nama_standar }}</td>
+                        <td>{{ $item->nama_standar }}</td>
+                        <td><input type="checkbox" class="checkbox mr-2"></td>
                         <th class="shadow-xl text-center">
                             <button wire:click="">
                                 <i class="fas fa-eye text-black"></i>
