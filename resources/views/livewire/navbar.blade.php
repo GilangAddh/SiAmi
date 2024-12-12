@@ -29,11 +29,10 @@
                 <div tabindex="0" role="button" class="flex items-center space-x-2 bg-gray-100 pr-4 rounded-full">
                     <div class="avatar">
                         <div class="w-10 rounded-full">
-                            <img
-                                src="{{ Auth::user()->profile_photo_path ? Storage::url(Auth::user()->profile_photo_path) : asset('images/avatar.png') }}" />
+                            <img src="{{ $profilePhoto ? Storage::url($profilePhoto) : asset('images/avatar.png') }}" />
                         </div>
                     </div>
-                    <p class="text-sm">{{ Auth::user()->profile_name }}</p>
+                    <p class="text-sm">{{ $profileName }}</p>
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
@@ -61,13 +60,13 @@
 
                 <div class="flex justify-center mb-5">
                     <div class="bg-[#60c0d0] text-white uppercase py-1 px-4 rounded-xl text-[13px]">
-                        {{ Auth::user()->role }}
+                        {{ $role }}
                     </div>
                 </div>
 
                 @foreach ($menus as $menu)
                     @if ($menu['type'] == 'parent')
-                        <li class="mb-1 text-sm">
+                        <li class="mb-1 text-sm" wire:key="{{ $menu->id }}">
                             <details close>
                                 <summary>
                                     <i class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i> {{ $menu['menu'] }}
@@ -75,7 +74,7 @@
                                 <ul class="px-2">
                                     @foreach ($menus as $child)
                                         @if ($child['type'] == $menu['menu'])
-                                            <li class="mb-1 text-sm">
+                                            <li class="mb-1 text-sm" wire:key="{{ $child->id }}">
                                                 <a href="{{ url($child['url']) }}"
                                                     class="{{ request()->is(trim($child['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
                                                         class="{{ $child['icon'] }} w-4 h-4 mr-1"></i>
@@ -88,7 +87,7 @@
                             </details>
                         </li>
                     @elseif ($menu['type'] == 'standalone')
-                        <li class="mb-1 text-sm">
+                        <li class="mb-1 text-sm" wire:key="{{ $menu->id }}">
                             <a href="{{ url($menu['url']) }}"
                                 class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
                                     class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i>

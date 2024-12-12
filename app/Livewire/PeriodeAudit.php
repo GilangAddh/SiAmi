@@ -11,7 +11,6 @@ class PeriodeAudit extends Component
 {
     use WithPagination;
 
-    public $title;
     public $search_start = '';
     public $search_end = '';
     public $isModalOpen = false;
@@ -30,11 +29,6 @@ class PeriodeAudit extends Component
         'is_active' => 'required',
     ];
 
-    public function mount()
-    {
-        $this->title = 'Periode Audit';
-    }
-
     public function render()
     {
         $query = ModelsPeriodeAudit::orderBy('is_active', 'desc')
@@ -50,7 +44,7 @@ class PeriodeAudit extends Component
 
         $periode = $query->paginate(10);
 
-        return view('livewire.periode-audit', ['periode' => $periode]);
+        return view('livewire.periode-audit', ['periode' => $periode])->layout('components.layouts.app')->title("Periode Audit");
     }
 
 

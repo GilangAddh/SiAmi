@@ -41,5 +41,5 @@ Route::middleware([
     Route::get('/kelola-peran', KelolaPeran::class)->name('kelola-peran');
     Route::get('/standar-audit', StandarAudit::class)->name('standar-audit');
     Route::get('/periode-audit', PeriodeAudit::class)->name('periode-audit');
-    Route::get('/indikator-standar-audit/{id}', action: IndikatorStandarAudit::class)->name('indikator-standar-audit');
+    Route::get('/indikator-standar-audit/{standarAudit}', action: IndikatorStandarAudit::class)->name('indikator-standar-audit');
 });

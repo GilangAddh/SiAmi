@@ -14,7 +14,6 @@ class IndikatorStandarAudit extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $title;
     public $subtitle;
     public $search;
     public $isModalOpen = false;
@@ -35,21 +34,17 @@ class IndikatorStandarAudit extends Component
         'nomer_pertanyaan_standar' => 'required',
         'pertanyaan_standar' => 'required|min:5',
         'indikator_pertanyaan' => 'required',
-        'id_standar' => 'required',
         'is_active' => 'required'
     ];
 
-    public function mount($id)
+    public function mount(StandarAudit $standarAudit)
     {
-        $this->id_standar = $id;
-        $standar = StandarAudit::findOrFail($this->id_standar);
-        $this->subtitle = $standar->nama_standar;
-        $this->title = "Indikator $this->subtitle";
+        $this->id_standar = $standarAudit->id;
+        $this->subtitle = $standarAudit->nama_standar;
     }
 
     public function render()
     {
-        $standar = StandarAudit::all();
         $indikator = ModelsIndikatorStandarAudit::where('id_standar', '=', $this->id_standar)
             ->where('nomer_pertanyaan_standar', 'ilike', '%' . $this->search . '%')
             ->orderBy('is_active', 'desc')
@@ -57,9 +52,8 @@ class IndikatorStandarAudit extends Component
             ->paginate(10);
 
         return view('livewire.indikator-standar-audit', [
-            'indikator' => $indikator,
-            'standar' => $standar
-        ]);
+            'indikator' => $indikator
+        ])->layout('components.layouts.app')->title("Indikator $this->subtitle");
     }
 
     public function updatingSearch()
@@ -153,7 +147,6 @@ class IndikatorStandarAudit extends Component
         $this->pertanyaan_standar = $indikator->pertanyaan_standar;
         $this->indikator_pertanyaan = $indikator->indikator_pertanyaan;
         $this->bukti_objektif = $indikator->bukti_objektif;
-        $this->id_standar = $indikator->id_standar;
         $this->is_active = $indikator->is_active;
     }
 

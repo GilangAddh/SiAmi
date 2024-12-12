@@ -196,6 +196,6 @@ class UnitKerja extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.unit-kerja', compact('users'));
+        return view('livewire.unit-kerja', compact('users'))->layout('components.layouts.app')->title("Unit Kerja");
     }
 }

@@ -11,7 +11,6 @@ class StandarAudit extends Component
 {
     use WithPagination;
 
-    public $title;
     public $search = '';
 
     public $isModalOpen = false;
@@ -33,11 +32,6 @@ class StandarAudit extends Component
         'is_active' => 'required'
     ];
 
-    public function mount()
-    {
-        $this->title = "Standar Audit";
-    }
-
     public function render()
     {
         $standar = ModelsStandarAudit::where('nama_standar', 'ilike', '%' . $this->search . '%')
@@ -45,7 +39,7 @@ class StandarAudit extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.standar-audit', ['standar' => $standar]);
+        return view('livewire.standar-audit', ['standar' => $standar])->layout('components.layouts.app')->title("Standar Audit");
     }
 
     public function indikatorStandar($id)

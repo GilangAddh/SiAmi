@@ -95,6 +95,6 @@ class KelolaPeran extends Component
             ->orderBy('id', 'asc')
             ->paginate(10);
 
-        return view('livewire.kelola-peran', compact('menus'));
+        return view('livewire.kelola-peran', compact('menus'))->layout('components.layouts.app')->title('Kelola Peran');
     }
 }

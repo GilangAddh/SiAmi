@@ -1,5 +1,3 @@
-@section('title', $title)
-
 @php
     use Carbon\Carbon;
 @endphp
@@ -68,7 +66,7 @@
                         <th class="shadow-xl max-w-48">
                             <div class="flex gap-2 md:justify-evenly">
                                 <div>
-                                    <a href="{{ route('indikator-standar-audit', ['id' => $item->id]) }}"
+                                    <a href="{{ route('indikator-standar-audit', ['standarAudit' => $item]) }}"
                                         class="underline text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
                                             class="hidden md:inline">Indikator</span></a>
                                 </div>

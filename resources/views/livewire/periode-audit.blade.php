@@ -1,5 +1,3 @@
-@section('title', $title)
-
 @php
     use Carbon\Carbon;
 @endphp

@@ -1,5 +1,3 @@
-@section('title', 'Unit Kerja')
-
 @php
     use Carbon\Carbon;
 @endphp

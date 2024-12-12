@@ -1,5 +1,3 @@
-@section('title', 'Auditor')
-
 @php
     use Carbon\Carbon;
 @endphp

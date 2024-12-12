@@ -1,5 +1,3 @@
-@section('title', 'Kelola Peran')
-
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
