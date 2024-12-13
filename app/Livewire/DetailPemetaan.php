@@ -77,7 +77,7 @@ class DetailPemetaan extends Component
     public function save()
     {
         if ($this->selectedStandar == $this->existingStandar) {
-            session()->flash('message', 'Tidak ada standar yang dipilih.');
+            $this->js('SwalGlobal.fire({icon: "error", title: "Gagal", text: "Tidak ada standar baru yang dipilih."})');
             return;
         }
 
@@ -93,6 +93,8 @@ class DetailPemetaan extends Component
         }, $this->selectedStandar);
 
         PemetaanStandarAudit::insert($data);
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Pemetaan standar berhasil disimpan."})');
 
         return redirect()->route('pemetaan-standar-audit')->with('success', 'Pemetaan berhasil disimpan.');
     }

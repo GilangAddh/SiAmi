@@ -88,6 +88,8 @@ class StandarAudit extends Component
         }
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data standar berhasil disimpan."})');
     }
 
     private function loadRecordData()
@@ -107,5 +109,7 @@ class StandarAudit extends Component
         $standar->delete();
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data standar berhasil dihapus."})');
     }
 }

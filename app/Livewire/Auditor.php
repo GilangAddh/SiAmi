@@ -127,6 +127,8 @@ class Auditor extends Component
 
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data auditor berhasil disimpan."})');
     }
 
     public function deleteData()
@@ -143,6 +145,8 @@ class Auditor extends Component
 
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data auditor berhasil dihapus."})');
     }
 
     public function resetModal()
