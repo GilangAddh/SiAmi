@@ -45,13 +45,8 @@ class DetailPemetaan extends Component
 
     public function render()
     {
-        $standar = StandarAudit::where('is_active',  true)->orderBy('created_at', 'desc')
-            ->paginate(10);
-
         $standar = StandarAudit::where('is_active', true)
-            ->where('nama_standar', 'ilike', '%' . $this->search . '%')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->where('nama_standar', 'ilike', '%' . $this->search . '%')->get();
 
         return view('livewire.detail-pemetaan', ['standar' => $standar])->layout('components.layouts.app')->title("Pemetaan Standar " . $this->profile_name);
     }

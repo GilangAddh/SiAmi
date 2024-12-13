@@ -9,7 +9,7 @@
 
     <h1 class="font-bold text-2xl">Standar Audit {{ $this->profile_name }}</h1>
 
-    <div class="flex justify-between my-6 items-center">
+    {{-- <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
             <input wire:model.live.debounce.400ms="search" type="text"
                 class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full" placeholder="Cari" />
@@ -19,9 +19,9 @@
                     clip-rule="evenodd" />
             </svg>
         </label>
-    </div>
+    </div> --}}
 
-    <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
+    <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
@@ -55,10 +55,6 @@
         </table>
     </div>
 
-    <div class="mt-4">
-        {{ $standar->links() }}
-    </div>
-
     <div class="my-6 flex justify-between">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
@@ -80,6 +76,8 @@
                             <td class="text-center">No</td>
                             <td>Nomor Pertanyaan</td>
                             <td>Pertanyaan</td>
+                            <td>Indikator Pertanyaan</td>
+                            <td>Bukti Objektif</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,10 +90,22 @@
                                 <td class="max-w-64 text-justify">
                                     {{ $item->pertanyaan_standar }}
                                 </td>
+                                <td>
+                                    {{ $item->indikator_pertanyaan }}
+                                </td>
+                                <td class="max-w-40">
+                                    <a class="link link-hover" href="{{ asset('storage/' . $item->bukti_objektif) }}"
+                                        target="_blank">
+                                        <i
+                                            class="fa-solid fa-file
+                                                    text-black"></i>
+                                        <span class="ml-2">{{ $item->original_bukti_objektif }}</span>
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center">Tidak ada data yang ditemukan.</td>
+                                <td colspan="5" class="text-center">Tidak ada data yang ditemukan.</td>
                             </tr>
                         @endforelse
                     </tbody>
