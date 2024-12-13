@@ -11,6 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/3cfd8eaa87.js" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -34,25 +35,18 @@
     @stack('modals')
 
     @if (session('error'))
-        <div id="error-toast" class="toast">
-            <div class="alert alert-error">
-                <span>{{ session('error') }}</span>
-            </div>
-        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                SwalGlobal.fire({
+                    icon: "error",
+                    title: "Gagal",
+                    text: "{{ session('error') }}",
+                });
+            });
+        </script>
     @endif
 
     @livewireScripts
-    <script src="https://kit.fontawesome.com/3cfd8eaa87.js" crossorigin="anonymous"></script>;
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const errorToast = document.getElementById('error-toast');
-            if (errorToast) {
-                setTimeout(() => {
-                    errorToast.style.display = 'none';
-                }, 3000);
-            }
-        });
-    </script>
 </body>
 
 </html>

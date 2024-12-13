@@ -121,6 +121,8 @@ class UnitKerja extends Component
 
         $this->resetSearch();
         $this->resetModal();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data unit kerja berhasil disimpan."})');
     }
 
     public function deleteData()

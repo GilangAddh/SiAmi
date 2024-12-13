@@ -134,9 +134,9 @@ class IndikatorStandarAudit extends Component
 
             $this->resetModal();
             $this->resetSearch();
-            session()->flash('success', 'Data berhasil disimpan.');
+            $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data indikator berhasil disimpan."})');
         } catch (\Exception $e) {
-            session()->flash('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            $this->js('SwalGlobal.fire({icon: "error", title: "Gagal", text: "Data indikator gagal disimpan."})');
         }
     }
 
@@ -158,5 +158,7 @@ class IndikatorStandarAudit extends Component
         $indikator->delete();
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data indikator berhasil dihapus."})');
     }
 }

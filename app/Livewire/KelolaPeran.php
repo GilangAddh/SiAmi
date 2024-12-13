@@ -66,6 +66,8 @@ class KelolaPeran extends Component
             ]);
         });
 
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Akses berhasil disimpan."})');
+
         return redirect()->route('kelola-peran');
     }
 

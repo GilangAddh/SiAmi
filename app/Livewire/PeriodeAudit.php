@@ -95,6 +95,8 @@ class PeriodeAudit extends Component
         }
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Periode berhasil disimpan."})');
     }
 
     private function loadRecordData()
@@ -112,5 +114,7 @@ class PeriodeAudit extends Component
 
         $this->resetModal();
         $this->resetSearch();
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Periode berhasil dihapus."})');
     }
 }
