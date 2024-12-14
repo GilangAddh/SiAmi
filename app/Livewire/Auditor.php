@@ -103,8 +103,8 @@ class Auditor extends Component
                 }
 
                 $user->update([
-                    'name' => $this->name,
-                    'email' => $this->email,
+                    'name' => strtolower($this->name),
+                    'email' => strtolower($this->email),
                     'is_active' => $this->status,
                     'profile_name' => $this->profileName,
                     'password' => $this->password ? bcrypt($this->password) : $user->password,
@@ -114,8 +114,8 @@ class Auditor extends Component
             });
         } else {
             User::create([
-                'name' => $this->name,
-                'email' => $this->email,
+                'name' => strtolower($this->name),
+                'email' => strtolower($this->email),
                 'is_active' => $this->status,
                 'profile_name' => $this->profileName,
                 'password' => bcrypt($this->password),

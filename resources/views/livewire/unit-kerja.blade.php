@@ -167,7 +167,7 @@
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="email" wire:model="email"
                             placeholder="Masukkan email aktif"
-                            class="input input-bordered w-full input-md @error('email') border-red-500 @enderror" />
+                            class="input lowercase input-bordered w-full input-md @error('email') border-red-500 @enderror" />
 
                         @error('email')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
@@ -180,7 +180,7 @@
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="name"
                             placeholder="Masukkan username akun"
-                            class="input input-bordered w-full input-md @error('name') border-red-500 @enderror" />
+                            class="input lowercase input-bordered w-full input-md @error('name') border-red-500 @enderror" />
 
                         @error('name')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>

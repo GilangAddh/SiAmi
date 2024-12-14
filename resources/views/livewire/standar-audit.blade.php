@@ -77,9 +77,9 @@
                                     <button wire:click="openModal('edit', {{ $item->id }})">
                                         <i class="fas fa-edit text-black"></i>
                                     </button>
-                                    <button wire:click="openModal('hapus', {{ $item->id }})">
+                                    {{-- <button wire:click="openModal('hapus', {{ $item->id }})">
                                         <i class="fas fa-trash text-black"></i>
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </div>
                         </th>
