@@ -33,10 +33,10 @@
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
+                    <td class="text-center">Status</td>
                     <td class="text-center">No</td>
                     <td>Profil Unit Kerja</td>
                     <td>Username</td>
-                    <td class="text-center">Status</td>
                     <td class="text-center">Waktu Pembuatan Akun</td>
                     <th class="bg-[#60c0d0] shadow-xl text-center">Aksi</th>
                 </tr>
@@ -44,6 +44,11 @@
             <tbody>
                 @forelse ($users as $index => $user)
                     <tr>
+                        <td class="text-center">
+                            <div
+                                class="badge {{ $user->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
+                                {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}</div>
+                        </td>
                         <td class="text-center">{{ $users->firstItem() + $index }}.</td>
                         <td>
                             <div class="flex items-center gap-3">
@@ -60,11 +65,6 @@
                             </div>
                         </td>
                         <td>{{ $user->name }}</td>
-                        <td class="text-center">
-                            <div
-                                class="badge {{ $user->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
-                                {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}</div>
-                        </td>
                         <td class="text-center">
                             {{ Carbon::parse($user->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
                         </td>
@@ -148,6 +148,21 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
+                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                        </div>
+                        <select wire:model="status" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                            class="select select-bordered select-md @error('status') border-red-500 @enderror">
+                            <option value="true" selected>Aktif</option>
+                            <option value="false">Nonaktif</option>
+                        </select>
+
+                        @error('status')
+                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                        @enderror
+                    </label>
+
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
                             <span class="label-text">Email <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="email" wire:model="email"
@@ -168,21 +183,6 @@
                             class="input input-bordered w-full input-md @error('name') border-red-500 @enderror" />
 
                         @error('name')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text">Status <span class="text-red-500">*</span></span>
-                        </div>
-                        <select wire:model="status" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
-                            class="select select-bordered select-md @error('status') border-red-500 @enderror">
-                            <option value="true" selected>Aktif</option>
-                            <option value="false">Nonaktif</option>
-                        </select>
-
-                        @error('status')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>

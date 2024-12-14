@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\User;
 
-class PemetaanStandarAudit extends Component
+class JadwalAudit extends Component
 {
     use WithPagination;
 
@@ -30,6 +30,6 @@ class PemetaanStandarAudit extends Component
             ->orderBy('profile_name', 'asc')
             ->paginate(10);
 
-        return view('livewire.pemetaan-standar-audit', ['unit' => $unit])->layout('components.layouts.app')->title('Pemetaan Standar Audit');
+        return view('livewire.jadwal-audit', ['unit' => $unit])->layout('components.layouts.app')->title('Jadwal Audit');
     }
 }

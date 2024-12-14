@@ -108,20 +108,22 @@
                         class="input input-bordered w-full input-md" />
                 </label>
 
-                <label class="form-control w-full mb-2">
-                    <div class="label">
-                        <span class="label-text">
-                            Kode Icon <span class="text-red-500">*</span>
-                        </span>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <input disabled type="text" placeholder="Masukkan kode icon"
-                            wire:model.live.debounce.300ms="icon" class="input input-bordered w-full input-md" />
-                        <div class="bg-[#60c0d0] rounded-lg text-white py-4 px-5 flex items-center justify-center">
-                            <i class="{{ $icon }}"></i>
+                @if ($icon)
+                    <label class="form-control w-full mb-2">
+                        <div class="label">
+                            <span class="label-text">
+                                Kode Icon <span class="text-red-500">*</span>
+                            </span>
                         </div>
-                    </div>
-                </label>
+                        <div class="flex items-center space-x-4">
+                            <input disabled type="text" placeholder="Masukkan kode icon"
+                                wire:model.live.debounce.300ms="icon" class="input input-bordered w-full input-md" />
+                            <div class="bg-[#60c0d0] rounded-lg text-white py-4 px-5 flex items-center justify-center">
+                                <i class="{{ $icon }}"></i>
+                            </div>
+                        </div>
+                    </label>
+                @endif
 
                 <label class="form-control w-full mb-2">
                     <div class="label mb-1">

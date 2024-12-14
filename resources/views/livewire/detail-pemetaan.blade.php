@@ -42,7 +42,7 @@
                             </button>
                         </td>
                         <th class="shadow-xl text-center">
-                            <input type="checkbox" class="checkbox [--chkbg:#60c0d0] [--chkfg:#ffffff]""
+                            <input type="checkbox" class="checkbox [--chkbg:#60c0d0] [--chkfg:#ffffff]"
                                 wire:model="selectedStandar" value="{{ $item->id }}">
                         </th>
                     </tr>

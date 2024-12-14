@@ -68,4 +68,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(PemetaanStandarAudit::class, 'id_user');
     }
+
+    public function auditors()
+    {
+        return $this->hasManyThrough(User::class, PemetaanAuditor::class, 'id_unit_kerja', 'id', 'id', 'id_auditor');
+    }
+
+    public function mappedUnits()
+    {
+        return $this->hasManyThrough(User::class, PemetaanAuditor::class, 'id_auditor', 'id', 'id', 'id_unit_kerja');
+    }
 }

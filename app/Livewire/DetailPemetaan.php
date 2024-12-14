@@ -13,8 +13,6 @@ class DetailPemetaan extends Component
 {
     use WithPagination;
 
-    public $search = '';
-
     public $profile_name = '';
     public $id_unit;
 
@@ -38,15 +36,9 @@ class DetailPemetaan extends Component
         $this->selectedStandar = $this->existingStandar;
     }
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
     public function render()
     {
-        $standar = StandarAudit::where('is_active', true)
-            ->where('nama_standar', 'ilike', '%' . $this->search . '%')->get();
+        $standar = StandarAudit::where('is_active', true)->orderBy('nama_standar', 'asc')->get();
 
         return view('livewire.detail-pemetaan', ['standar' => $standar])->layout('components.layouts.app')->title("Pemetaan Standar " . $this->profile_name);
     }
@@ -91,6 +83,6 @@ class DetailPemetaan extends Component
 
         $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Pemetaan standar berhasil disimpan."})');
 
-        return redirect()->route('pemetaan-standar-audit')->with('success', 'Pemetaan berhasil disimpan.');
+        return redirect()->route('pemetaan-standar-audit');
     }
 }

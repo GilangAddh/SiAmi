@@ -8,6 +8,8 @@ use App\Livewire\KelolaPeran;
 use App\Livewire\UnitKerja;
 use App\Livewire\StandarAudit;
 use App\Livewire\Auditor;
+use App\Livewire\JadwalAudit;
+use App\Livewire\PemetaanAuditor;
 use App\Livewire\PemetaanStandarAudit;
 use App\Livewire\PeriodeAudit;
 use Illuminate\Support\Facades\Route;
@@ -41,9 +43,15 @@ Route::middleware([
     Route::get('/unit-kerja', UnitKerja::class)->name('unit-kerja');
     Route::get('/auditor', Auditor::class)->name('auditor');
     Route::get('/kelola-peran', KelolaPeran::class)->name('kelola-peran');
+
     Route::get('/standar-audit', StandarAudit::class)->name('standar-audit');
-    Route::get('/periode-audit', PeriodeAudit::class)->name('periode-audit');
     Route::get('/indikator-standar-audit/{standarAudit}', action: IndikatorStandarAudit::class)->name('indikator-standar-audit');
+
+    Route::get('/periode-audit', PeriodeAudit::class)->name('periode-audit');
+
     Route::get('/pemetaan-standar-audit', PemetaanStandarAudit::class)->name('pemetaan-standar-audit');
     Route::get('/detail-pemetaan/{unitKerja}', action: DetailPemetaan::class)->name('detail-pemetaan');
+
+    Route::get('/jadwal-audit', JadwalAudit::class)->name('jadwal-audit');
+    Route::get('/pemetaan-auditor/{unitKerja}', action: PemetaanAuditor::class)->name('pemetaan-auditor');
 });
