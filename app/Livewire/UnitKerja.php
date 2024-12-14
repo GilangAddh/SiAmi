@@ -195,6 +195,7 @@ class UnitKerja extends Component
                     ->orWhere('email', 'ilike', '%' . $this->search . '%')
                     ->orWhere('name', 'ilike', '%' . $this->search . '%');
             })
+            ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
