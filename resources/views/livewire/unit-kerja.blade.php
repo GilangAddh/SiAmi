@@ -12,8 +12,8 @@
 
     <h1 class="font-bold text-2xl">Data Unit Kerja</h1>
 
-    <div class="flex justify-between my-6 items-center">
-        <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
+    <div class="flex justify-between my-6 items-center flex-wrap space-y-4">
+        <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-full md:w-1/4">
             <input wire:model.live.debounce.400ms="search" type="text"
                 class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full" placeholder="Cari" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
@@ -23,10 +23,18 @@
             </svg>
         </label>
 
-        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm" wire:click="openModal('tambah')">
-            Tambah
-            <i class="fa-solid fa-plus"></i>
-        </button>
+        <div class="flex justify-end space-x-4">
+            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                wire:click="openModal('import')">
+                Import Excel
+                <i class="fa-solid fa-file"></i>
+            </button>
+            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                wire:click="openModal('tambah')">
+                Tambah
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
@@ -99,153 +107,217 @@
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
-            @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{ $profileName }}</span>?
+            @if ($modalAction === 'import')
+                <p class="mb-3">Harap unggah file excel menggunakan format berikut: <a class="link link-success"
+                        href="{{ asset('excels/format_unit_kerja.xlsx') }}">Unduh
+                        Format</a>
                 </p>
-                <div class="modal-action">
-                    <div class="flex space-x-2 justify-end">
-                        <button
-                            class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
-                            wire:click="resetModal">Tutup</button>
 
-                        <button class="btn btn-error btn-sm text-white" wire:click="deleteData">Ya,
-                            hapus</button>
-                    </div>
+                <input wire:model="file" type="file"
+                    class="file-input file-input-ghost file-input-bordered w-full file-input-md  @error('file') border-red-500 @enderror" />
+
+                @error('file')
+                    <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                @enderror
+
+                <div wire:loading wire:target="file" class="text-sm text-gray-500 mt-2">
+                    Memuat file...
                 </div>
-            @else
-                <form wire:submit.prevent="saveData">
-                    <div class="text-center">
-                        <div class="avatar mt-2 justify-center flex mb-1">
-                            <div class="w-28 rounded-full border border-1">
-                                <img src='{{ $this->getProfilePhotoUrl() }}' />
-                            </div>
-                        </div>
 
-                        @if ($modalAction != 'lihat')
-                            <div class="flex justify-center">
-                                <input type="file" wire:model.live="profile_photo_path" accept="image/*"
-                                    class="file-input file-input-ghost file-input-sm w-full max-w-xs" />
-                            </div>
-                        @endif
+                @if ($rows)
+                    <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">
+                        <table class="table table-zebra">
+                            <thead class="bg-[#60c0d0] text-white font-bold">
+                                <tr class="text-md">
+                                    <td class="text-center">Nama Unit Kerja</td>
+                                    <td class="text-center">Email</td>
+                                    <td class="text-center">Username Akun</td>
+                                    <td class="text-center">Password</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($rows as $index => $row)
+                                    <tr>
+                                        @foreach ($row as $cellIndex => $cell)
+                                            <td>
+                                                <input type="text"
+                                                    wire:model="rows.{{ $index }}.{{ $cellIndex }}"
+                                                    class="input input-bordered w-36 input-md @error('rows.' . $index . '.' . $cellIndex) border-red-500 @enderror"
+                                                    value="{{ $cell }}" />
 
-                        @error('profile_photo_path')
-                            <span class="text-red-500 text-sm error-message text-center">{{ $message }}</span>
-                        @enderror
+                                                @error('rows.' . $index . '.' . $cellIndex)
+                                                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                                                @enderror
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-
-                    <label class="form-control w-full my-2">
-                        <div class="label">
-                            <span class="label-text">Nama Unit Kerja <span class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="profileName"
-                            placeholder="Masukkan nama unit kerja"
-                            class="input input-bordered w-full input-md @error('profileName') border-red-500 @enderror" />
-
-                        @error('profileName')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text">Status <span class="text-red-500">*</span></span>
-                        </div>
-                        <select wire:model="status" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
-                            class="select select-bordered select-md @error('status') border-red-500 @enderror">
-                            <option value="true" selected>Aktif</option>
-                            <option value="false">Nonaktif</option>
-                        </select>
-
-                        @error('status')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text">Email <span class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="email" wire:model="email"
-                            placeholder="Masukkan email aktif"
-                            class="input lowercase input-bordered w-full input-md @error('email') border-red-500 @enderror" />
-
-                        @error('email')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text">Username Akun <span class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="name"
-                            placeholder="Masukkan username akun"
-                            class="input lowercase input-bordered w-full input-md @error('name') border-red-500 @enderror" />
-
-                        @error('name')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    @if ($modalAction != 'lihat')
-
-                        <label class="form-control w-full mb-2">
-                            <div class="label">
-                                <span class="label-text">
-                                    @if ($modalAction === 'edit')
-                                        Reset
-                                        @endif Password @if ($modalAction === 'tambah')
-                                            <span class="text-red-500">*</span>
-                                        @endif
-                                </span>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <input type="text" placeholder="Masukkan password"
-                                    wire:model.live.debounce.300ms="password"
-                                    class="input input-bordered w-full input-md @error('password') border-red-500 @enderror" />
-                                <button type="button"
-                                    class="btn text-white btn-sm px-4 bg-[#60c0d0] border-none px-3 text-sm"
-                                    wire:click="generateRandomPassword">
-                                    Acak
-                                </button>
-                            </div>
-
-                            @error('password')
-                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                            @enderror
-                        </label>
-
-
-                        @if ($modalAction === 'tambah' || ($modalAction === 'edit' && $password))
-                            <label class="form-control w-full mb-2">
-                                <div class="label">
-                                    <span class="label-text">
-                                        Konfirmasi Password <span class="text-red-500">*</span>
-                                    </span>
-                                </div>
-                                <input type="text" placeholder="Konfirmasi password" wire:model="confirmPassword"
-                                    class="input input-bordered w-full input-md @error('confirmPassword') border-red-500 @enderror" />
-
-                                @error('confirmPassword')
-                                    <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                                @enderror
-                            </label>
-                        @endif
-                    @endif
 
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
                             <button type="button"
                                 class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
-                                wire:click="resetModal">Tutup</button>
+                                wire:click="resetModal">Batal</button>
 
-                            @if ($modalAction != 'lihat')
-                                <button type="submit"
-                                    class="btn btn-sm bg-[#60c0d0] text-white">{{ $modalAction === 'edit' ? 'Simpan' : 'Tambah' }}</button>
-                            @endif
+                            <button type="submit" class="btn btn-sm bg-[#60c0d0] text-white"
+                                wire:click="saveFromExcel">Konfirmasi Simpan</button>
                         </div>
                     </div>
-                </form>
+                @endif
+            @else
+                @if ($modalAction === 'hapus')
+                    <p>Apakah anda yakin ingin menghapus <span
+                            class="text-red-500 font-medium">{{ $profileName }}</span>?
+                    </p>
+                    <div class="modal-action">
+                        <div class="flex space-x-2 justify-end">
+                            <button
+                                class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                                wire:click="resetModal">Tutup</button>
+
+                            <button class="btn btn-error btn-sm text-white" wire:click="deleteData">Ya,
+                                hapus</button>
+                        </div>
+                    </div>
+                @else
+                    <form wire:submit.prevent="saveData">
+                        <div class="text-center">
+                            <div class="avatar mt-2 justify-center flex mb-1">
+                                <div class="w-28 rounded-full border border-1">
+                                    <img src='{{ $this->getProfilePhotoUrl() }}' />
+                                </div>
+                            </div>
+
+                            @if ($modalAction != 'lihat')
+                                <div class="flex justify-center">
+                                    <input type="file" wire:model.live="profile_photo_path" accept="image/*"
+                                        class="file-input file-input-ghost file-input-sm w-full max-w-xs" />
+                                </div>
+                            @endif
+
+                            @error('profile_photo_path')
+                                <span class="text-red-500 text-sm error-message text-center">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <label class="form-control w-full my-2">
+                            <div class="label">
+                                <span class="label-text">Nama Unit Kerja <span class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                                wire:model="profileName" placeholder="Masukkan nama unit kerja"
+                                class="input input-bordered w-full input-md @error('profileName') border-red-500 @enderror" />
+
+                            @error('profileName')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text">Status <span class="text-red-500">*</span></span>
+                            </div>
+                            <select wire:model="status" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                                class="select select-bordered select-md @error('status') border-red-500 @enderror">
+                                <option value="true" selected>Aktif</option>
+                                <option value="false">Nonaktif</option>
+                            </select>
+
+                            @error('status')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text">Email <span class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="email" wire:model="email"
+                                placeholder="Masukkan email aktif"
+                                class="input lowercase input-bordered w-full input-md @error('email') border-red-500 @enderror" />
+
+                            @error('email')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text">Username Akun <span class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="name"
+                                placeholder="Masukkan username akun"
+                                class="input lowercase input-bordered w-full input-md @error('name') border-red-500 @enderror" />
+
+                            @error('name')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        @if ($modalAction != 'lihat')
+
+                            <label class="form-control w-full mb-2">
+                                <div class="label">
+                                    <span class="label-text">
+                                        @if ($modalAction === 'edit')
+                                            Reset
+                                            @endif Password @if ($modalAction === 'tambah')
+                                                <span class="text-red-500">*</span>
+                                            @endif
+                                    </span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="text" placeholder="Masukkan password"
+                                        wire:model.live.debounce.300ms="password"
+                                        class="input input-bordered w-full input-md @error('password') border-red-500 @enderror" />
+                                    <button type="button"
+                                        class="btn text-white btn-sm px-4 bg-[#60c0d0] border-none px-3 text-sm"
+                                        wire:click="generateRandomPassword">
+                                        Acak
+                                    </button>
+                                </div>
+
+                                @error('password')
+                                    <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                                @enderror
+                            </label>
+
+
+                            @if ($modalAction === 'tambah' || ($modalAction === 'edit' && $password))
+                                <label class="form-control w-full mb-2">
+                                    <div class="label">
+                                        <span class="label-text">
+                                            Konfirmasi Password <span class="text-red-500">*</span>
+                                        </span>
+                                    </div>
+                                    <input type="text" placeholder="Konfirmasi password"
+                                        wire:model="confirmPassword"
+                                        class="input input-bordered w-full input-md @error('confirmPassword') border-red-500 @enderror" />
+
+                                    @error('confirmPassword')
+                                        <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                                    @enderror
+                                </label>
+                            @endif
+                        @endif
+
+                        <div class="modal-action">
+                            <div class="flex space-x-2 justify-end">
+                                <button type="button"
+                                    class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                                    wire:click="resetModal">Tutup</button>
+
+                                @if ($modalAction != 'lihat')
+                                    <button type="submit"
+                                        class="btn btn-sm bg-[#60c0d0] text-white">{{ $modalAction === 'edit' ? 'Simpan' : 'Tambah' }}</button>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                @endif
             @endif
         </div>
     </dialog>
