@@ -51,7 +51,9 @@ class UnitKerja extends Component
         if (!empty($data)) {
             unset($data[0][0]);
 
-            $this->rows = $data[0];
+            $this->rows = array_map(function ($row) {
+                return array_slice($row, 0, 4);
+            }, $data[0]);
         }
 
         Storage::delete($path);
