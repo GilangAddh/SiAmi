@@ -34,16 +34,16 @@
                     autocomplete="current-password" />
             </div>
 
-            <div class="block mt-4">
+            {{-- <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
                     <span class="ms-2 text-xs sm:text-sm text-gray-600">{{ __('Ingat Saya') }}</span>
                 </label>
-            </div>
+            </div> --}}
 
-            <div class="g-recaptcha mt-4" data-sitekey="{{ config('captcha.sitekey') }}"></div>
+            <div class="g-recaptcha mt-5" data-sitekey="{{ config('captcha.sitekey') }}"></div>
 
-            <div class="flex items-center justify-center mt-2">
+            <div class="flex items-center justify-center mt-4">
                 <x-button class="w-full">
                     {{ __('Masuk') }}
                 </x-button>
