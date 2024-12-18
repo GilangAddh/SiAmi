@@ -43,8 +43,8 @@
 
             <div class="g-recaptcha mt-5" data-sitekey="{{ config('captcha.sitekey') }}"></div>
 
-            <div class="flex items-center justify-center mt-4">
-                <x-button class="w-full">
+            <div class="flex items-center justify-center mt-0 md:mt-3">
+                <x-button class="w-full" type="submit">
                     {{ __('Masuk') }}
                 </x-button>
             </div>
@@ -56,6 +56,14 @@
                         {{ __('Lupa password?') }}
                     </a>
                 @endif
+            </div>
+
+            <div class="flex justify-end mt-5">
+                <a href="{{ asset('pdf/panduan.pdf') }}" target="_blank">
+                    <x-button type="button" class="btn-sm">
+                        {{ __('Unduh Panduan') }}
+                    </x-button>
+                </a>
             </div>
         </form>
 
