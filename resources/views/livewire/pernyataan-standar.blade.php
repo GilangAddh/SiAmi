@@ -7,7 +7,7 @@
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data Indikator {{ $subtitle }}</h1>
+    <h1 class="font-bold text-2xl" wire:model.live.debounce.400ms="search">Data Pernyataan {{ $subtitle }}</h1>
 
     <div class="flex justify-between my-6 items-center flex-wrap">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
@@ -33,43 +33,65 @@
                     <td class="text-center">Status</td>
                     <td class="text-center">No</td>
                     <td>Standar Audit</td>
-                    <td>Nomor Pertanyaan</td>
+                    <td>Pernyataan</td>
+                    <td>Indikator</td>
                     <td>Pertanyaan</td>
-                    <td>Indikator Pertanyaan</td>
                     <td>Bukti Objektif</td>
                     <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($indikator as $index => $item)
-                    <tr class="text-center">
-                        <td>
+                    <tr class="text-center align-top">
+                        <td class="align-top">
                             <div
                                 class="badge {{ $item->is_active ? 'bg-[#60C0D0]' : 'bg-[#ff5861]' }} p-3 text-white border-none">
                                 {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}</div>
                         </td>
-                        <td>{{ $index + 1 }}.</td>
-                        <td>
+                        <td class="align-top">{{ $index + 1 }}.</td>
+                        <td class="align-top">
                             {{ $item->standarAudit->nama_standar }}
                         </td>
-                        <td>
-                            {{ $item->nomer_pertanyaan_standar }}
+                        <td class="max-w-64 text-justify align-top">
+                            {{ $item->pernyataan_standar }}
                         </td>
-                        <td class="max-w-64 text-justify">
-                            {{ $item->pertanyaan_standar }}
+                        <td class="align-top">
+                            @if (!empty($item->indikator_pertanyaan) && count($item->indikator_pertanyaan) > 0)
+                                <ol class="list-decimal pl-5">
+                                    @foreach ($item->indikator_pertanyaan as $indikatorItem)
+                                        <li class="mb-2">{{ $indikatorItem }}</li>
+                                    @endforeach
+                                </ol>
+                            @else
+                                <p>Belum ada indikator</p>
+                            @endif
                         </td>
-                        <td>
-                            {{ $item->indikator_pertanyaan }}
+                        <td class="max-w-64 text-justify align-top">
+                            @if (!empty($item->pertanyaan) && count($item->pertanyaan) > 0)
+                                <ol class="list-decimal pl-5">
+                                    @foreach ($item->pertanyaan as $pertanyaanItem)
+                                        <li class="mb-2">{{ $pertanyaanItem }}</li>
+                                    @endforeach
+                                </ol>
+                            @else
+                                <p>Belum ada pertanyaan</p>
+                            @endif
+
                         </td>
-                        <td class="max-w-40">
-                            <a class="link link-hover" href="{{ asset('storage/' . $item->bukti_objektif) }}"
-                                target="_blank">
-                                <i class="fa-solid fa-file
+                        <td class="max-w-40 align-top">
+                            @if (!empty($item->bukti_objektif))
+                                <a class="link link-hover" href="{{ asset('storage/' . $item->bukti_objektif) }}"
+                                    target="_blank">
+                                    <i
+                                        class="fa-solid fa-file
                                             text-black"></i>
-                                <span class="ml-2">{{ $item->original_bukti_objektif }}</span>
-                            </a>
+                                    <span class="ml-2">{{ $item->original_bukti_objektif }}</span>
+                                </a>
+                            @else
+                                <p>Belum ada bukti objektif</p>
+                            @endif
                         </td>
-                        <th class="shadow-xl">
+                        <th class="shadow-xl align-top">
                             <div class="flex justify-center items-center space-x-2">
                                 <button wire:click="openModal('lihat', {{ $item->id }})">
                                     <i class="fas fa-eye text-black"></i>
@@ -133,19 +155,6 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomor Pertanyaan Standar <span class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            wire:model="nomer_pertanyaan_standar" placeholder="Masukkan nomor pertanyaan"
-                            class="input input-bordered w-full input-md @error('nomer_pertanyaan_standar') border-red-500 @enderror" />
-
-                        @error('nomer_pertanyaan_standar')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
                             <span class="label-text">Pertanyaan Standar <span class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
@@ -156,62 +165,6 @@
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text">Indikator Pertanyaan <span class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            wire:model="indikator_pertanyaan" placeholder="Masukkan indikator pertanyaan"
-                            class="input input-bordered w-full input-md @error('indikator_pertanyaan') border-red-500 @enderror" />
-
-                        @error('indikator_pertanyaan')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    @if ($modalAction == 'tambah')
-                        <label class="form-control w-full mb-2">
-                            <div class="label">
-                                <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
-                            </div>
-                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="file"
-                                class="file-input file-input-ghost file-input-bordered w-full file-input-md @error('bukti_objektif') border-red-500 @enderror"
-                                wire:model="bukti_objektif" />
-
-                            @error('bukti_objektif')
-                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                            @enderror
-                        </label>
-                    @endif
-                    @if ($modalAction == 'edit')
-                        <label class="form-control w-full mb-2">
-                            <div class="label">
-                                <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
-                            </div>
-                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="file"
-                                class="file-input file-input-ghost file-input-bordered w-full file-input-md @error('new_bukti_objektif') border-red-500 @enderror"
-                                wire:model="new_bukti_objektif" />
-
-                            @error('new_bukti_objektif')
-                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                            @enderror
-                        </label>
-                    @endif
-                    @if ($modalAction != 'tambah')
-                        <label class="form-control w-full mb-2">
-                            @if ($modalAction == 'lihat')
-                                <div class="label">
-                                    <span class="label-text">Bukti Objektif <span class="text-red-500">*</span></span>
-                                </div>
-                            @endif
-                            <a href="{{ asset('storage/' . $bukti_objektif) }}" target="_blank"
-                                class="underline text-[#60c0d0] ml-1">
-                                Lihat File
-                            </a>
-                        </label>
-                    @endif
-
                     <label class="form-control w-full mb-2">
                         <div class="label">
                             <span class="label-text">Status <span class="text-red-500">*</span></span>

@@ -12,9 +12,9 @@ class StandarAudit extends Model
     protected $table = 'standar_audit';
     protected $fillable = ['nama_standar', 'nomer_dokumen', 'nomer_revisi', 'tanggal_terbit', 'is_active'];
 
-    public function indikatorStandarAudit()
+    public function pernyataanStandar()
     {
-        return $this->hasMany(IndikatorStandarAudit::class, 'id_standar');
+        return $this->hasMany(PernyataanStandar::class, 'id_standar');
     }
 
     public function pemetaanStandarAudit()

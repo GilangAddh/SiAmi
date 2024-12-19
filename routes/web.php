@@ -12,6 +12,7 @@ use App\Livewire\JadwalAudit;
 use App\Livewire\PemetaanAuditor;
 use App\Livewire\PemetaanStandarAudit;
 use App\Livewire\PeriodeAudit;
+use App\Livewire\PernyataanStandar;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +46,7 @@ Route::middleware([
     Route::get('/kelola-peran', KelolaPeran::class)->name('kelola-peran');
 
     Route::get('/standar-audit', StandarAudit::class)->name('standar-audit');
-    Route::get('/indikator-standar-audit/{standarAudit}', action: IndikatorStandarAudit::class)->name('indikator-standar-audit');
+    Route::get('/pernyataan-standar/{standarAudit}', action: PernyataanStandar::class)->name('pernyataan-standar');
 
     Route::get('/periode-audit', PeriodeAudit::class)->name('periode-audit');
 

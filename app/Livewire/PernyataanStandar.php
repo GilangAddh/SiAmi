@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\IndikatorStandarAudit as ModelsIndikatorStandarAudit;
+use App\Models\PernyataanStandar as ModelsPernyataanStandar;
 use App\Models\StandarAudit;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
 
-class IndikatorStandarAudit extends Component
+class PernyataanStandar extends Component
 {
     use WithPagination;
     use WithFileUploads;
@@ -21,8 +21,6 @@ class IndikatorStandarAudit extends Component
     public $modalAction = '';
     public $recordId = null;
 
-
-    public $nomer_pertanyaan_standar = '';
     public $pertanyaan_standar = '';
     public $indikator_pertanyaan = '';
     public $bukti_objektif;
@@ -31,7 +29,6 @@ class IndikatorStandarAudit extends Component
     public $is_active = true;
 
     protected $rules = [
-        'nomer_pertanyaan_standar' => 'required',
         'pertanyaan_standar' => 'required|min:5',
         'indikator_pertanyaan' => 'required',
         'is_active' => 'required'
@@ -45,15 +42,12 @@ class IndikatorStandarAudit extends Component
 
     public function render()
     {
-        $indikator = ModelsIndikatorStandarAudit::where('id_standar', '=', $this->id_standar)
-            ->where('nomer_pertanyaan_standar', 'ilike', '%' . $this->search . '%')
+        $indikator = ModelsPernyataanStandar::where('id_standar', '=', $this->id_standar)
             ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.indikator-standar-audit', [
-            'indikator' => $indikator
-        ])->layout('components.layouts.app')->title("Indikator $this->subtitle");
+        return view('livewire.pernyataan-standar', compact('indikator'))->layout('components.layouts.app')->title("Indikator $this->subtitle");
     }
 
     public function updatingSearch()
@@ -78,7 +72,7 @@ class IndikatorStandarAudit extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'is_active']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'is_active']);
     }
 
     public function resetSearch()
@@ -102,8 +96,8 @@ class IndikatorStandarAudit extends Component
                     $buktiObjektifPath = $this->new_bukti_objektif->store('bukti_objektif', 'public');
                     $originalFileName = $this->new_bukti_objektif->getClientOriginalName();
                 }
-                $record = ModelsIndikatorStandarAudit::findOrFail($this->recordId);
-                $data = $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']);
+                $record = ModelsPernyataanStandar::findOrFail($this->recordId);
+                $data = $this->only(['pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']);
 
                 // Perbarui path file jika file baru diunggah
                 if ($buktiObjektifPath) {
@@ -121,9 +115,9 @@ class IndikatorStandarAudit extends Component
                     $originalFileName = $this->bukti_objektif->getClientOriginalName();
                 }
 
-                ModelsIndikatorStandarAudit::create(
+                ModelsPernyataanStandar::create(
                     array_merge(
-                        $this->only(['nomer_pertanyaan_standar', 'pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']),
+                        $this->only(['pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']),
                         [
                             'bukti_objektif' => $buktiObjektifPath,
                             'original_bukti_objektif' => $originalFileName
@@ -142,8 +136,7 @@ class IndikatorStandarAudit extends Component
 
     private function loadRecordData()
     {
-        $indikator = ModelsIndikatorStandarAudit::findOrFail($this->recordId);
-        $this->nomer_pertanyaan_standar = $indikator->nomer_pertanyaan_standar;
+        $indikator = ModelsPernyataanStandar::findOrFail($this->recordId);
         $this->pertanyaan_standar = $indikator->pertanyaan_standar;
         $this->indikator_pertanyaan = $indikator->indikator_pertanyaan;
         $this->bukti_objektif = $indikator->bukti_objektif;
@@ -152,7 +145,7 @@ class IndikatorStandarAudit extends Component
 
     public function delete()
     {
-        $indikator = ModelsIndikatorStandarAudit::findOrFail($this->recordId);
+        $indikator = ModelsPernyataanStandar::findOrFail($this->recordId);
         $filepath = 'public/' . $indikator->bukti_objektif;
         Storage::delete($filepath);
         $indikator->delete();
