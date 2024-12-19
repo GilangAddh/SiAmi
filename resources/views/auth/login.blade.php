@@ -34,17 +34,17 @@
                     autocomplete="current-password" />
             </div>
 
-            <div class="block mt-4">
+            {{-- <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
                     <span class="ms-2 text-xs sm:text-sm text-gray-600">{{ __('Ingat Saya') }}</span>
                 </label>
-            </div>
+            </div> --}}
 
-            <div class="g-recaptcha mt-4" data-sitekey="{{ config('captcha.sitekey') }}"></div>
+            <div class="g-recaptcha mt-5" data-sitekey="{{ config('captcha.sitekey') }}"></div>
 
-            <div class="flex items-center justify-center mt-2">
-                <x-button class="w-full">
+            <div class="flex items-center justify-center mt-0 md:mt-3">
+                <x-button class="w-full" type="submit">
                     {{ __('Masuk') }}
                 </x-button>
             </div>
@@ -56,6 +56,14 @@
                         {{ __('Lupa password?') }}
                     </a>
                 @endif
+            </div>
+
+            <div class="flex justify-end mt-5">
+                <a href="{{ asset('pdf/panduan.pdf') }}" target="_blank">
+                    <x-button type="button" class="btn-sm">
+                        {{ __('Unduh Panduan') }}
+                    </x-button>
+                </a>
             </div>
         </form>
 
