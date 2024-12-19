@@ -55,7 +55,7 @@
                         <td class="max-w-64 text-justify align-top">
                             {{ $item->pernyataan_standar }}
                         </td>
-                        <td class="align-top">
+                        <td class="align-top max-w-64 text-justify">
                             @if (!empty($item->indikator_pertanyaan) && count($item->indikator_pertanyaan) > 0)
                                 <ol class="list-decimal pl-5">
                                     @foreach ($item->indikator_pertanyaan as $indikatorItem)
@@ -129,8 +129,7 @@
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
             @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus pertanyaan dengan nomer<span
-                        class="text-red-500 font-medium">{{ $nomer_pertanyaan_standar }}</span>?
+                <p>Apakah anda yakin ingin menghapus pernyataan ini?
                 </p>
                 <div class="modal-action">
                     <div class="flex space-x-2 justify-end">
@@ -153,19 +152,96 @@
                             class="input input-bordered w-full input-md" />
                     </label>
 
-                    <label class="form-control w-full mb-2">
+                    <div class="form-control w-full mb-2">
                         <div class="label">
                             <span class="label-text">Pertanyaan Standar <span class="text-red-500">*</span></span>
                         </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            wire:model="pertanyaan_standar" placeholder="Masukkan pertanyaan standar"
-                            class="input input-bordered w-full input-md @error('pertanyaan_standar') border-red-500 @enderror" />
-
-                        @error('pertanyaan_standar')
+                        <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="pernyataan_standar"
+                            placeholder="Masukkan pernyataan standar"
+                            class="textarea textarea-bordered w-full @error('pernyataan_standar') border-red-500 @enderror" rows="2"></textarea>
+                        @error('pernyataan_standar')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
-                    </label>
-                    <label class="form-control w-full mb-2">
+                    </div>
+                    <div class="form-control w-full mb-2">
+                        <div class="label">
+                            <label class="label-text">Indikator</label>
+                            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
+                            <table class="table table-zebra table-pin-cols">
+                                <thead class="bg-[#60c0d0] text-white font-bold">
+                                    <tr class="text-md text-center">
+                                        <td class="text-center">No</td>
+                                        <td>Indikator</td>
+                                        @if ($modalAction !== 'lihat')
+                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($indikator_pertanyaan as $index => $indikator)
+                                        <tr class="text-center align-top">
+                                            <td class="w-[10%] p-2">{{ $index + 1 }}</td>
+                                            <td class="w-[80%] p-2">
+                                                <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} class="textarea textarea-bordered w-full"
+                                                    wire:model="indikator_pertanyaan.{{ $index }}"></textarea>
+                                            </td>
+                                            @if ($modalAction !== 'lihat')
+                                                <td class="w-[10%] p-2">
+                                                    <button class="btn btn-sm bg-[#ff5861]"
+                                                        wire:click="hapusIndikator({{ $index }})">
+                                                        <i class="fas fa-trash text-white"></i>
+                                                    </button>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="form-control w-full mb-2">
+                        <div class="label">
+                            <label class="label-text">Pertanyaan</label>
+                            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
+                            <table class="table table-zebra table-pin-cols">
+                                <thead class="bg-[#60c0d0] text-white font-bold">
+                                    <tr class="text-md text-center">
+                                        <td class="text-center">No</td>
+                                        <td>Pertanyaan</td>
+                                        @if ($modalAction !== 'lihat')
+                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pertanyaan as $index => $pertanyaanItem)
+                                        <tr class="text-center align-top">
+                                            <td class="w-[10%] p-2">{{ $index + 1 }}</td>
+                                            <td class="w-[80%] p-2">
+                                                <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} class="textarea textarea-bordered w-full"
+                                                    wire:model="pertanyaan.{{ $index }}"></textarea>
+                                            </td>
+                                            @if ($modalAction !== 'lihat')
+                                                <td class="w-[10%] p-2">
+                                                    <button class="btn btn-sm bg-[#ff5861]"><i
+                                                            class="fas fa-trash text-white"></i></button>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="form-control w-full mb-2">
                         <div class="label">
                             <span class="label-text">Status <span class="text-red-500">*</span></span>
                         </div>
@@ -178,7 +254,7 @@
                         @error('is_active')
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
-                    </label>
+                    </div>
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
                             <button

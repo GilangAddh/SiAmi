@@ -21,16 +21,16 @@ class PernyataanStandar extends Component
     public $modalAction = '';
     public $recordId = null;
 
-    public $pertanyaan_standar = '';
-    public $indikator_pertanyaan = '';
+    public $pernyataan_standar = '';
+    public $pertanyaan = [];
+    public $indikator_pertanyaan = [];
     public $bukti_objektif;
     public $new_bukti_objektif;
     public $id_standar = '';
     public $is_active = true;
 
     protected $rules = [
-        'pertanyaan_standar' => 'required|min:5',
-        'indikator_pertanyaan' => 'required',
+        'pernyataan_standar' => 'required|min:5',
         'is_active' => 'required'
     ];
 
@@ -72,7 +72,7 @@ class PernyataanStandar extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pertanyaan_standar', 'indikator_pertanyaan', 'bukti_objektif', 'is_active']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pernyataan_standar', 'pertanyaan', 'indikator_pertanyaan', 'bukti_objektif', 'is_active']);
     }
 
     public function resetSearch()
@@ -89,23 +89,31 @@ class PernyataanStandar extends Component
         try {
 
             if ($this->modalAction === 'edit') {
-                $buktiObjektifPath = null;
-                $originalFileName = null;
+                // $buktiObjektifPath = null;
+                // $originalFileName = null;
 
-                if ($this->new_bukti_objektif) {
-                    $buktiObjektifPath = $this->new_bukti_objektif->store('bukti_objektif', 'public');
-                    $originalFileName = $this->new_bukti_objektif->getClientOriginalName();
-                }
-                $record = ModelsPernyataanStandar::findOrFail($this->recordId);
-                $data = $this->only(['pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']);
+                // if ($this->new_bukti_objektif) {
+                //     $buktiObjektifPath = $this->new_bukti_objektif->store('bukti_objektif', 'public');
+                //     $originalFileName = $this->new_bukti_objektif->getClientOriginalName();
+                // }
+                // $data = $this->only(['pernyataan_standar', 'indikator_pertanyaan', 'pertanyaan', 'id_standar', 'is_active']);
 
                 // Perbarui path file jika file baru diunggah
-                if ($buktiObjektifPath) {
-                    $data['bukti_objektif'] = $buktiObjektifPath;
-                    $data['original_bukti_objektif'] = $originalFileName;
-                }
+                // if ($buktiObjektifPath) {
+                //     $data['bukti_objektif'] = $buktiObjektifPath;
+                //     $data['original_bukti_objektif'] = $originalFileName;
+                // }
 
-                $record->update($data);
+                // $record->update($data);
+                $record = ModelsPernyataanStandar::findOrFail($this->recordId);
+
+                $record->update([
+                    'pernyataan_standar' => $this->pernyataan_standar,
+                    'indikator_pertanyaan' => $this->indikator_pertanyaan,
+                    'pertanyaan' => $this->pertanyaan,
+                    'id_standar' => $this->id_standar,
+                    'is_active' => $this->is_active,
+                ]);
             } else {
                 $buktiObjektifPath = null;
                 $originalFileName = null;
@@ -137,7 +145,8 @@ class PernyataanStandar extends Component
     private function loadRecordData()
     {
         $indikator = ModelsPernyataanStandar::findOrFail($this->recordId);
-        $this->pertanyaan_standar = $indikator->pertanyaan_standar;
+        $this->pernyataan_standar = $indikator->pernyataan_standar;
+        $this->pertanyaan = $indikator->pertanyaan;
         $this->indikator_pertanyaan = $indikator->indikator_pertanyaan;
         $this->bukti_objektif = $indikator->bukti_objektif;
         $this->is_active = $indikator->is_active;
