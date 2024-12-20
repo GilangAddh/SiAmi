@@ -155,7 +155,7 @@
 
                     <div class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text md:text-[16px]">Pertanyaan Standar <span
+                            <span class="label-text md:text-[16px]">Pernyataan <span
                                     class="text-red-500">*</span></span>
                         </div>
                         <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="pernyataan_standar"
