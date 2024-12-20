@@ -124,7 +124,7 @@
     </div>
 
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-2xl">
+        <div class="modal-box w-full max-w-3xl">
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
