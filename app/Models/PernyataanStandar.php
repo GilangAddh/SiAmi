@@ -14,7 +14,9 @@ class PernyataanStandar extends Model
 
     protected $casts = [
         'pertanyaan' => 'array',
-        'indikator_pertanyaan' => 'array'
+        'indikator_pertanyaan' => 'array',
+        'bukti_objektif' => 'array',
+        'original_bukti_objektif' => 'array'
     ];
 
     public function standarAudit()

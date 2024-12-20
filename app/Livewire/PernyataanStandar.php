@@ -24,8 +24,8 @@ class PernyataanStandar extends Component
     public $pernyataan_standar = '';
     public $pertanyaan = [];
     public $indikator_pertanyaan = [];
-    public $bukti_objektif;
-    public $new_bukti_objektif;
+    public $bukti_objektif = [];
+    public $new_bukti_objektif = [];
     public $id_standar = '';
     public $is_active = true;
 
@@ -115,13 +115,17 @@ class PernyataanStandar extends Component
                     'is_active' => $this->is_active,
                 ]);
             } else {
-                // $buktiObjektifPath = null;
-                // $originalFileName = null;
+                $buktiObjektifPaths = []; // Menyimpan path file yang diunggah
+                $originalFileNames = []; // Menyimpan nama asli file
 
-                // if ($this->bukti_objektif) {
-                //     $buktiObjektifPath = $this->bukti_objektif->store('bukti_objektif', 'public');
-                //     $originalFileName = $this->bukti_objektif->getClientOriginalName();
-                // }
+                if ($this->bukti_objektif && is_array($this->bukti_objektif)) {
+                    foreach ($this->bukti_objektif as $file) {
+                        if ($file) {
+                            $buktiObjektifPaths[] = $file->store('bukti_objektif', 'public');
+                            $originalFileNames[] = $file->getClientOriginalName();
+                        }
+                    }
+                }
 
                 // ModelsPernyataanStandar::create(
                 //     array_merge(
@@ -137,6 +141,8 @@ class PernyataanStandar extends Component
                     'indikator_pertanyaan' => $this->indikator_pertanyaan,
                     'pertanyaan' => $this->pertanyaan,
                     'id_standar' => $this->id_standar,
+                    'bukti_objektif' => $buktiObjektifPaths,
+                    'original_bukti_objektif' => $originalFileNames,
                     'is_active' => $this->is_active,
                 ]);
             }
@@ -191,5 +197,16 @@ class PernyataanStandar extends Component
     {
         unset($this->pertanyaan[$index]);
         $this->pertanyaan = array_values($this->pertanyaan);
+    }
+
+    public function addBukti()
+    {
+        $this->bukti_objektif[] = '';
+    }
+
+    public function deleteBukti($index)
+    {
+        unset($this->bukti_objektif[$index]);
+        $this->bukti_objektif = array_values($this->bukti_objektif);
     }
 }

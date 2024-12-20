@@ -78,18 +78,23 @@
                             @endif
 
                         </td>
-                        <td class="max-w-40 align-top">
-                            @if (!empty($item->bukti_objektif))
-                                <a class="link link-hover" href="{{ asset('storage/' . $item->bukti_objektif) }}"
-                                    target="_blank">
-                                    <i
-                                        class="fa-solid fa-file
-                                            text-black"></i>
-                                    <span class="ml-2">{{ $item->original_bukti_objektif }}</span>
-                                </a>
+                        <td class="max-w-48 align-top text-left">
+                            @if (!empty($item->bukti_objektif) && is_array($item->bukti_objektif))
+                                <ol class="list-decimal pl-5">
+                                    @foreach ($item->bukti_objektif as $index => $bukti)
+                                        <li><a class="link link-hover" href="{{ asset('storage/' . $bukti) }}"
+                                                target="_blank">
+                                                <i class="fa-solid fa-file text-black"></i>
+                                                <span class="ml-2">
+                                                    {{ $item->original_bukti_objektif[$index] ?? 'Bukti Objektif ' . ($index + 1) }}
+                                                </span>
+                                            </a></li>
+                                    @endforeach
+                                </ol>
                             @else
                                 <p>Belum ada bukti objektif</p>
                             @endif
+
                         </td>
                         <th class="shadow-xl align-top">
                             <div class="flex justify-center items-center space-x-2">
@@ -210,7 +215,6 @@
                                     @endforelse
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                     <div class="form-control w-full mb-2">
@@ -258,7 +262,69 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="form-control w-full mb-2">
+                        <div class="label">
+                            <label class="label-text md:text-[16px]">Bukti Objektif</label>
+                            @if ($modalAction !== 'lihat')
+                                <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                                    type="button" wire:click='addBukti'><i class="fa-solid fa-plus"></i></button>
+                            @endif
+                        </div>
+                        <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
+                            <table class="table table-zebra table-pin-cols">
+                                <thead class="bg-[#60c0d0] text-white font-bold">
+                                    <tr class="text-md text-center">
+                                        <td class="text-center">No</td>
+                                        @if ($modalAction === 'edit')
+                                            <td>Bukti Objektif Lama</td>
+                                        @endif
+                                        <td>Bukti Objektif</td>
+                                        @if ($modalAction !== 'lihat')
+                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($bukti_objektif as $index => $buktiItem)
+                                        <tr class="text-center align-top">
+                                            <td class="w-[10%] p-2">{{ $index + 1 }}</td>
+                                            @if ($modalAction === 'edit')
+                                                <td class="w-[20%] p-2">
+                                                    @if ($bukti_objektif[$index] != null)
+                                                        <a class="link link-hover" href="#" target="_blank">
+                                                            {{ $bukti_objektif[$index] }}
+                                                        </a>
+                                                    @else
+                                                        <p>Bukti Baru</p>
+                                                    @endif
 
+                                                </td>
+                                            @endif
+                                            <td class="w-[60%] p-2">
+                                                <input type="file" class="file-input file-input-bordered w-full"
+                                                    wire:model="bukti_objektif.{{ $index }}"
+                                                    {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
+                                            </td>
+                                            @if ($modalAction !== 'lihat')
+                                                <td class="w-[10%] p-2">
+                                                    <button class="btn btn-sm bg-[#ff5861]" type="button"
+                                                        wire:click='deleteBukti({{ $index }})'><i
+                                                            class="fas fa-trash text-white"></i></button>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center p-4">Tidak ada bukti objektif
+                                                tersedia.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="form-control w-full mb-2">
