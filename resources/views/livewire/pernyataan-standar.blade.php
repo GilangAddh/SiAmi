@@ -145,7 +145,8 @@
                 <form wire:submit.prevent="saveData">
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Standar Audit <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Standar Audit <span
+                                    class="text-red-500">*</span></span>
                         </div>
 
                         <input disabled type="text" value="{{ $subtitle }}"
@@ -154,7 +155,8 @@
 
                     <div class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Pertanyaan Standar <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Pertanyaan Standar <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text" wire:model="pernyataan_standar"
                             placeholder="Masukkan pernyataan standar"
@@ -165,9 +167,11 @@
                     </div>
                     <div class="form-control w-full mb-2">
                         <div class="label">
-                            <label class="label-text">Indikator</label>
-                            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"><i
-                                    class="fa-solid fa-plus"></i></button>
+                            <label class="label-text md:text-[16px]">Indikator</label>
+                            @if ($modalAction !== 'lihat')
+                                <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                                    type="button" wire:click='addIndikator'><i class="fa-solid fa-plus"></i></button>
+                            @endif
                         </div>
                         <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
                             <table class="table table-zebra table-pin-cols">
@@ -181,7 +185,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($indikator_pertanyaan as $index => $indikator)
+                                    @forelse ($indikator_pertanyaan as $index => $indikator)
                                         <tr class="text-center align-top">
                                             <td class="w-[10%] p-2">{{ $index + 1 }}</td>
                                             <td class="w-[80%] p-2">
@@ -191,13 +195,19 @@
                                             @if ($modalAction !== 'lihat')
                                                 <td class="w-[10%] p-2">
                                                     <button class="btn btn-sm bg-[#ff5861]"
-                                                        wire:click="hapusIndikator({{ $index }})">
+                                                        wire:click="deleteIndikator({{ $index }})"
+                                                        type="button">
                                                         <i class="fas fa-trash text-white"></i>
                                                     </button>
                                                 </td>
                                             @endif
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center p-4">Tidak ada pertanyaan tersedia.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
 
@@ -205,9 +215,12 @@
                     </div>
                     <div class="form-control w-full mb-2">
                         <div class="label">
-                            <label class="label-text">Pertanyaan</label>
-                            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"><i
-                                    class="fa-solid fa-plus"></i></button>
+                            <label class="label-text md:text-[16px]">Pertanyaan</label>
+                            @if ($modalAction !== 'lihat')
+                                <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                                    type="button" wire:click='addPertanyaan'><i
+                                        class="fa-solid fa-plus"></i></button>
+                            @endif
                         </div>
                         <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
                             <table class="table table-zebra table-pin-cols">
@@ -221,7 +234,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pertanyaan as $index => $pertanyaanItem)
+                                    @forelse ($pertanyaan as $index => $pertanyaanItem)
                                         <tr class="text-center align-top">
                                             <td class="w-[10%] p-2">{{ $index + 1 }}</td>
                                             <td class="w-[80%] p-2">
@@ -230,12 +243,19 @@
                                             </td>
                                             @if ($modalAction !== 'lihat')
                                                 <td class="w-[10%] p-2">
-                                                    <button class="btn btn-sm bg-[#ff5861]"><i
+                                                    <button class="btn btn-sm bg-[#ff5861]" type="button"
+                                                        wire:click='deletePertanyaan({{ $index }})'><i
                                                             class="fas fa-trash text-white"></i></button>
                                                 </td>
                                             @endif
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center p-4">Tidak ada pertanyaan tersedia.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
                                 </tbody>
                             </table>
 
@@ -243,7 +263,7 @@
                     </div>
                     <div class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Status <span class="text-red-500">*</span></span>
                         </div>
                         <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
                             class="select select-bordered select-md @error('is_active') border-red-500 @enderror">

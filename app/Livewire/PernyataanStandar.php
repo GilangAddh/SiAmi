@@ -82,9 +82,9 @@ class PernyataanStandar extends Component
 
     public function saveData()
     {
-        if ($this->modalAction == 'tambah') {
-            $this->rules['bukti_objektif'] = 'required|file|mimes:pdf|max:2048';
-        }
+        // if ($this->modalAction == 'tambah') {
+        //     $this->rules['bukti_objektif'] = 'required|file|mimes:pdf|max:2048';
+        // }
         $this->validate();
         try {
 
@@ -115,23 +115,30 @@ class PernyataanStandar extends Component
                     'is_active' => $this->is_active,
                 ]);
             } else {
-                $buktiObjektifPath = null;
-                $originalFileName = null;
+                // $buktiObjektifPath = null;
+                // $originalFileName = null;
 
-                if ($this->bukti_objektif) {
-                    $buktiObjektifPath = $this->bukti_objektif->store('bukti_objektif', 'public');
-                    $originalFileName = $this->bukti_objektif->getClientOriginalName();
-                }
+                // if ($this->bukti_objektif) {
+                //     $buktiObjektifPath = $this->bukti_objektif->store('bukti_objektif', 'public');
+                //     $originalFileName = $this->bukti_objektif->getClientOriginalName();
+                // }
 
-                ModelsPernyataanStandar::create(
-                    array_merge(
-                        $this->only(['pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']),
-                        [
-                            'bukti_objektif' => $buktiObjektifPath,
-                            'original_bukti_objektif' => $originalFileName
-                        ]
-                    )
-                );
+                // ModelsPernyataanStandar::create(
+                //     array_merge(
+                //         $this->only(['pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']),
+                //         [
+                //             'bukti_objektif' => $buktiObjektifPath,
+                //             'original_bukti_objektif' => $originalFileName
+                //         ]
+                //     )
+                // );
+                ModelsPernyataanStandar::create([
+                    'pernyataan_standar' => $this->pernyataan_standar,
+                    'indikator_pertanyaan' => $this->indikator_pertanyaan,
+                    'pertanyaan' => $this->pertanyaan,
+                    'id_standar' => $this->id_standar,
+                    'is_active' => $this->is_active,
+                ]);
             }
 
             $this->resetModal();
@@ -162,5 +169,27 @@ class PernyataanStandar extends Component
         $this->resetSearch();
 
         $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data indikator berhasil dihapus."})');
+    }
+
+    public function addIndikator()
+    {
+        $this->indikator_pertanyaan[] = '';
+    }
+
+    public function deleteIndikator($index)
+    {
+        unset($this->indikator_pertanyaan[$index]);
+        $this->indikator_pertanyaan = array_values($this->indikator_pertanyaan);
+    }
+
+    public function addPertanyaan()
+    {
+        $this->pertanyaan[] = '';
+    }
+
+    public function deletePertanyaan($index)
+    {
+        unset($this->pertanyaan[$index]);
+        $this->pertanyaan = array_values($this->pertanyaan);
     }
 }
