@@ -277,9 +277,6 @@
                                 <thead class="bg-[#60c0d0] text-white font-bold">
                                     <tr class="text-md text-center">
                                         <td class="text-center">No</td>
-                                        @if ($modalAction === 'edit')
-                                            <td>Bukti Objektif Lama</td>
-                                        @endif
                                         <td>Bukti Objektif</td>
                                         @if ($modalAction !== 'lihat')
                                             <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
@@ -290,22 +287,17 @@
                                     @forelse ($bukti_objektif as $index => $buktiItem)
                                         <tr class="text-center align-top">
                                             <td class="w-[10%] p-2">{{ $index + 1 }}</td>
-                                            @if ($modalAction === 'edit')
-                                                <td class="w-[20%] p-2">
-                                                    @if ($bukti_objektif[$index] != null)
-                                                        <a class="link link-hover" href="#" target="_blank">
-                                                            {{ $bukti_objektif[$index] }}
-                                                        </a>
-                                                    @else
-                                                        <p>Bukti Baru</p>
-                                                    @endif
-
-                                                </td>
-                                            @endif
-                                            <td class="w-[60%] p-2">
-                                                <input type="file" class="file-input file-input-bordered w-full"
-                                                    wire:model="bukti_objektif.{{ $index }}"
-                                                    {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
+                                            <td class="w-[20%] p-2">
+                                                @if ($original_bukti_objektif[$index] != null)
+                                                    <a class="link link-hover" href="#" target="_blank">
+                                                        {{ $original_bukti_objektif[$index] }}
+                                                    </a>
+                                                @else
+                                                    <input type="file"
+                                                        class="file-input file-input-bordered w-full"
+                                                        wire:model="bukti_objektif.{{ $index }}"
+                                                        {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
+                                                @endif
                                             </td>
                                             @if ($modalAction !== 'lihat')
                                                 <td class="w-[10%] p-2">
