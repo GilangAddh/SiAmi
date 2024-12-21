@@ -124,7 +124,8 @@
                 <form wire:submit.prevent="saveData">
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Tanggal Mulai <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Tanggal Mulai <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
                             placeholder="Masukkan tanggal mulai" wire:model="tanggal_mulai"
@@ -137,7 +138,8 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Tanggal Akhir <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Tanggal Akhir <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
                             placeholder="Masukkan tanggal akhir" wire:model="tanggal_akhir"
@@ -150,7 +152,7 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Status <span class="text-red-500">*</span></span>
                         </div>
                         <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
                             class="select select-bordered select-md @error('is_active') border-red-500 @enderror">

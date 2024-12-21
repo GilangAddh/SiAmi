@@ -66,7 +66,7 @@
                         <th class="shadow-xl max-w-48">
                             <div class="flex gap-2 md:justify-evenly">
                                 <div>
-                                    <a href="{{ route('indikator-standar-audit', ['standarAudit' => $item]) }}"
+                                    <a href="{{ route('pernyataan-standar', ['standarAudit' => $item]) }}"
                                         class="underline text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
                                             class="hidden md:inline">Indikator</span></a>
                                 </div>
@@ -119,7 +119,8 @@
                 <form wire:submit.prevent="saveData">
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nama Standar <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Nama Standar <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             wire:model="nama_standar" placeholder="Masukkan nama standar"
@@ -132,7 +133,8 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomor Dokumen <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Nomor Dokumen <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             wire:model="nomer_dokumen" placeholder="Masukkan nomor dokumen"
@@ -145,7 +147,8 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Nomor Revisi <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Nomor Revisi <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
                             wire:model="nomer_revisi" placeholder="Masukkan nomor revisi"
@@ -158,7 +161,8 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Tanggal Terbit <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Tanggal Terbit <span
+                                    class="text-red-500">*</span></span>
                         </div>
                         <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
                             placeholder="Masukkan tanggal terbit" wire:model="tanggal_terbit"
@@ -171,7 +175,7 @@
 
                     <label class="form-control w-full mb-2">
                         <div class="label">
-                            <span class="label-text">Status <span class="text-red-500">*</span></span>
+                            <span class="label-text md:text-[16px]">Status <span class="text-red-500">*</span></span>
                         </div>
                         <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
                             class="select select-bordered select-md @error('is_active') border-red-500 @enderror">
