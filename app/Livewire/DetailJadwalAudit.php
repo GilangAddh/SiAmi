@@ -14,6 +14,8 @@ class DetailJadwalAudit extends Component
 {
     use WithPagination;
 
+    public $search = '';
+
     public $profile_name = '';
 
     public $id_unit;
@@ -37,25 +39,28 @@ class DetailJadwalAudit extends Component
     public function render()
     {
         $standar = $this->id_periode
-            ? StandarAudit::where('is_active', true)
+            ? StandarAudit::where('nama_standar', 'ilike', '%' . $this->search . '%')->where('is_active', true)
             ->orderBy('nama_standar', 'asc')
-            ->get()
+            ->paginate(10)
             : collect();
 
         $periode = PeriodeAudit::where('is_active', true)->orderBy('tanggal_mulai', 'desc')->get();
 
-        $standarWithCount = $standar->map(function ($standarItem) {
-            $count = JadwalAudit::where('id_standar', $standarItem->id)
+        foreach ($standar as $standarItem) {
+            $standarItem->pernyataan_count = JadwalAudit::where('id_standar', $standarItem->id)
                 ->where('id_unit', $this->id_unit)
                 ->where('id_periode', $this->id_periode)
-                ->count();
+                ->count();;
+        }
 
-            $standarItem->pernyataan_count = $count;
-            return $standarItem;
-        });
-
-        return view('livewire.detail-jadwal-audit', ['standar' => $standarWithCount, 'periode' => $periode])->layout('components.layouts.app')->title("Jadwal Audit " . $this->profile_name);
+        return view('livewire.detail-jadwal-audit', ['standar' => $standar, 'periode' => $periode])->layout('components.layouts.app')->title("Jadwal Audit " . $this->profile_name);
     }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
 
     public function openModal($title, $recordId, $action)
     {
@@ -118,6 +123,8 @@ class DetailJadwalAudit extends Component
             ->where('id_periode', $this->id_periode)
             ->where('id_standar', $this->id_standar)
             ->delete();
+
+        $this->reset(['search']);
 
         if ($this->modalAction == 'cancel') {
             $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Pembatalan standar berhasil disimpan."})');
