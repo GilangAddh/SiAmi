@@ -62,7 +62,7 @@ class PernyataanStandar extends Component
     {
         $this->resetModal();
         $this->modalAction = $action;
-        $this->modalTitle = ucfirst($action) . ' Data Indikator ' . $this->subtitle;
+        $this->modalTitle = ucfirst($action) . ' Data pernyataan ' . $this->subtitle;
 
         if (in_array($action, ['edit', 'lihat', 'hapus']) && $recordId) {
             $this->recordId = $recordId;
@@ -183,9 +183,9 @@ class PernyataanStandar extends Component
 
             $this->resetModal();
             $this->resetSearch();
-            $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data indikator berhasil disimpan."})');
+            $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data pernyataan berhasil disimpan."})');
         } catch (\Exception $e) {
-            $this->js('SwalGlobal.fire({icon: "error", title: "Gagal", text: "Data indikator gagal disimpan."})');
+            $this->js('SwalGlobal.fire({icon: "error", title: "Gagal", text: "Data pernyataan gagal disimpan."})');
         }
     }
 
@@ -209,7 +209,7 @@ class PernyataanStandar extends Component
         $this->resetModal();
         $this->resetSearch();
 
-        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data indikator berhasil dihapus."})');
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data pernyataan berhasil dihapus."})');
     }
 
     public function addIndikator()

@@ -23,4 +23,9 @@ class PernyataanStandar extends Model
     {
         return $this->belongsTo(StandarAudit::class, 'id_standar');
     }
+
+    public function jadwalAudit()
+    {
+        return $this->hasMany(PernyataanStandar::class, 'id_pernyataan');
+    }
 }

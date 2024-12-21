@@ -26,7 +26,7 @@
                 <tr class="text-md">
                     <td class="text-center">No</td>
                     <td>Unit Kerja</td>
-                    <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Auditor</th>
+                    <th class="bg-[#60c0d0] shadow-xl text-center">Atur Jadwal</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,11 +35,10 @@
                         <td class="text-center">{{ $index + 1 }}.</td>
 
                         <td>{{ $item->profile_name }}</td>
-                        <th class="shadow-xl">
-                            <div class="flex justify-center items-center space-x-2">
-                                <a href="{{ route('pemetaan-auditor', ['unitKerja' => $item]) }}"
-                                    class="underline text-[#60c0d0]"><i class="fa-solid fa-code-branch"></i> Auditor</a>
-                            </div>
+                        <th class="shadow-xl text-center">
+                            <a href="{{ route('detail-jadwal-audit', ['unitKerja' => $item]) }}"
+                                class="text-[#60c0d0]"><i class="fa-solid fa-calendar-days w-4 h-4 mr-1"></i> Jadwal
+                                Audit</a>
                         </th>
                     </tr>
                 @empty

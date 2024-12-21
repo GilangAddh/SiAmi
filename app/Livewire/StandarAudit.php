@@ -35,6 +35,8 @@ class StandarAudit extends Component
     public function render()
     {
         $standar = ModelsStandarAudit::where('nama_standar', 'ilike', '%' . $this->search . '%')
+            ->orWhere('nomer_dokumen', 'ilike', '%' . $this->search . '%')
+            ->orWhere('nomer_revisi', 'ilike', '%' . $this->search . '%')
             ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);

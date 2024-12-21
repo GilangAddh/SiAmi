@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemetaan_auditor', function (Blueprint $table) {
+        Schema::create('penugasan_audit', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_unit_kerja');
+            $table->unsignedBigInteger('id_jadwal');
             $table->unsignedBigInteger('id_auditor');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at');
 
-            $table->foreign('id_unit_kerja')->references('id')->on('users')
+            $table->foreign('id_jadwal')->references('id')->on('jadwal_audit')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemetaan_auditor');
+        Schema::dropIfExists('penugasan_audit');
     }
 };

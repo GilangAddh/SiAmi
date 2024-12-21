@@ -1,12 +1,12 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li>Pemetaan Standar Audit</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('pemetaan-standar-audit') }}">Index</a></li>
+            <li>Penugasan Audit</li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('penugasan-audit') }}">Index</a></li>
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl">Data Unit Kerja Aktif</h1>
+    <h1 class="font-bold text-2xl">Data Jadwal Audit</h1>
 
     <div class="flex justify-between my-6 items-center">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
@@ -18,7 +18,6 @@
                     clip-rule="evenodd" />
             </svg>
         </label>
-
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
@@ -26,8 +25,8 @@
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
                     <td class="text-center">No</td>
-                    <td>Unit Kerja</td>
-                    <th class="bg-[#60c0d0] shadow-xl text-center">Petakan Standar Unit Kerja</th>
+                    <td>Jadwal Audit</td>
+                    <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Auditor</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,12 +35,10 @@
                         <td class="text-center">{{ $index + 1 }}.</td>
 
                         <td>{{ $item->profile_name }}</td>
-                        <th class="shadow-xl">
-                            <div class="flex justify-center items-center space-x-2">
-                                <a href="{{ route('detail-pemetaan', ['unitKerja' => $item]) }}"
-                                    class="underline text-[#60c0d0]"><i class="fa-solid fa-code-branch"></i> Standar
-                                    Audit</a>
-                            </div>
+                        <th class="shadow-xl text-center">
+                            <a href="{{ route('detail-penugasan-audit', ['unitKerja' => $item]) }}"
+                                class="text-[#60c0d0]"><i class="fa-solid fa-code-branch w-4 h-4 mr-1"></i> Kelola
+                                Auditor</a>
                         </th>
                     </tr>
                 @empty

@@ -64,18 +64,13 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function pemetaanStandarAudit()
+    public function jadwalAudit()
     {
-        return $this->hasMany(PemetaanStandarAudit::class, 'id_user');
+        return $this->hasMany(JadwalAudit::class, 'id_unit');
     }
 
-    public function auditors()
+    public function penugasanAudit()
     {
-        return $this->hasManyThrough(User::class, PemetaanAuditor::class, 'id_unit_kerja', 'id', 'id', 'id_auditor');
-    }
-
-    public function mappedUnits()
-    {
-        return $this->hasManyThrough(User::class, PemetaanAuditor::class, 'id_auditor', 'id', 'id', 'id_unit_kerja');
+        return $this->hasMany(PenugasanAudit::class, 'id_auditor');
     }
 }

@@ -67,8 +67,8 @@
                             <div class="flex gap-2 md:justify-evenly">
                                 <div>
                                     <a href="{{ route('pernyataan-standar', ['standarAudit' => $item]) }}"
-                                        class="underline text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
-                                            class="hidden md:inline">Indikator</span></a>
+                                        class="text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
+                                            class="hidden md:inline">Pernyataan</span></a>
                                 </div>
                                 <div class="flex justify-center items-center space-x-2">
                                     <button wire:click="openModal('lihat', {{ $item->id }})">

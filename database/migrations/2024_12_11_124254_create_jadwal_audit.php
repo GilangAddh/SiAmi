@@ -11,17 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemetaan_standar_audit', function (Blueprint $table) {
+        Schema::create('jadwal_audit', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_periode');
+            $table->unsignedBigInteger('id_unit');
             $table->unsignedBigInteger('id_standar');
-            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_pernyataan');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at');
+
+            $table->foreign('id_periode')->references('id')->on('periode_audit')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('id_unit')->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('id_standar')->references('id')->on('standar_audit')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('id_user')->references('id')->on('users')
+
+            $table->foreign('id_pernyataan')->references('id')->on('pernyataan_standar')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -32,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemetaan_standar_audit');
+        Schema::dropIfExists('jadwal_audit');
     }
 };

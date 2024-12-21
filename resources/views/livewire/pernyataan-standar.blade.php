@@ -3,7 +3,7 @@
         <ul>
             <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
             <li>{{ $subtitle }}</li>
-            <li>Indikator {{ $subtitle }}</li>
+            <li>Pernyataan Standar {{ $subtitle }}</li>
         </ul>
     </div>
 
@@ -63,7 +63,7 @@
                                     @endforeach
                                 </ol>
                             @else
-                                <p>Belum ada indikator</p>
+                                <p class="">Belum ada indikator</p>
                             @endif
                         </td>
                         <td class="max-w-64 text-justify align-top">
@@ -74,16 +74,16 @@
                                     @endforeach
                                 </ol>
                             @else
-                                <p>Belum ada pertanyaan</p>
+                                <p class="text-center">Belum ada pertanyaan</p>
                             @endif
 
                         </td>
                         <td class="max-w-48 align-top text-left">
                             @if (!empty($item->bukti_objektif) && is_array($item->bukti_objektif))
-                                <ol class="list-decimal pl-5">
+                                <ol class="list-none pl-5">
                                     @foreach ($item->bukti_objektif as $index => $bukti)
-                                        <li><a class="link link-hover" href="{{ asset('storage/' . $bukti) }}"
-                                                target="_blank">
+                                        <li class="mb-2"><a class="link link-hover underline hover:text-[#60c0d0]"
+                                                href="{{ asset('storage/' . $bukti) }}" target="_blank">
                                                 <i class="fa-solid fa-file text-black"></i>
                                                 <span class="ml-2">
                                                     {{ $item->original_bukti_objektif[$index] ?? 'Bukti Objektif ' . ($index + 1) }}
@@ -92,7 +92,7 @@
                                     @endforeach
                                 </ol>
                             @else
-                                <p>Belum ada bukti objektif</p>
+                                <p class="text-center">Belum ada bukti objektif</p>
                             @endif
 
                         </td>
@@ -170,7 +170,7 @@
                             <span class="text-red-500 text-sm error-message">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="form-control w-full mb-2">
+                    <div class="form-control w-full my-3">
                         <div class="label">
                             <label class="label-text md:text-[16px]">Indikator</label>
                             @if ($modalAction !== 'lihat')
@@ -192,10 +192,13 @@
                                 <tbody>
                                     @forelse ($indikator_pertanyaan as $index => $indikator)
                                         <tr class="text-center align-top">
-                                            <td class="w-[10%] p-2">{{ $index + 1 }}</td>
+                                            <td class="w-[10%] p-2">{{ $index + 1 }}.</td>
                                             <td class="w-[80%] p-2">
-                                                <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} class="textarea textarea-bordered w-full"
-                                                    wire:model="indikator_pertanyaan.{{ $index }}"></textarea>
+                                                @if ($modalAction !== 'lihat')
+                                                    <textarea class="textarea textarea-bordered w-full" wire:model="indikator_pertanyaan.{{ $index }}"></textarea>
+                                                @else
+                                                    {{ $indikator_pertanyaan[$index] }}
+                                                @endif
                                             </td>
                                             @if ($modalAction !== 'lihat')
                                                 <td class="w-[10%] p-2">
@@ -209,7 +212,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="3" class="text-center p-4">Tidak ada pertanyaan tersedia.
+                                            <td colspan="3" class="text-center p-4">Tidak ada indikator tersedia.
                                             </td>
                                         </tr>
                                     @endforelse
@@ -217,7 +220,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="form-control w-full mb-2">
+                    <div class="form-control w-full my-3">
                         <div class="label">
                             <label class="label-text md:text-[16px]">Pertanyaan</label>
                             @if ($modalAction !== 'lihat')
@@ -242,8 +245,12 @@
                                         <tr class="text-center align-top">
                                             <td class="w-[10%] p-2">{{ $index + 1 }}</td>
                                             <td class="w-[80%] p-2">
-                                                <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} class="textarea textarea-bordered w-full"
-                                                    wire:model="pertanyaan.{{ $index }}"></textarea>
+                                                @if ($modalAction !== 'lihat')
+                                                    <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} class="textarea textarea-bordered w-full"
+                                                        wire:model="pertanyaan.{{ $index }}"></textarea>
+                                                @else
+                                                    {{ $pertanyaan[$index] }}
+                                                @endif
                                             </td>
                                             @if ($modalAction !== 'lihat')
                                                 <td class="w-[10%] p-2">
@@ -264,7 +271,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="form-control w-full mb-2">
+                    <div class="form-control w-full my-3">
                         <div class="label">
                             <label class="label-text md:text-[16px]">Bukti Objektif</label>
                             @if ($modalAction !== 'lihat')
@@ -286,15 +293,16 @@
                                 <tbody>
                                     @forelse ($bukti_objektif as $index => $buktiItem)
                                         <tr class="text-center align-top">
-                                            <td class="w-[10%] p-2">{{ $index + 1 }}</td>
+                                            <td class="w-[10%] p-2">{{ $index + 1 }}.</td>
                                             <td class="w-[20%] p-2">
                                                 @if ($original_bukti_objektif[$index] != null)
-                                                    <a class="link link-hover" href="#" target="_blank">
+                                                    <a class="link link-hover underline hover:text-[#60c0d0]"
+                                                        href="{{ asset('storage/' . $bukti_objektif[$index]) }}"
+                                                        target="_blank">
                                                         {{ $original_bukti_objektif[$index] }}
                                                     </a>
                                                 @else
-                                                    <input type="file"
-                                                        class="file-input file-input-bordered w-full"
+                                                    <input type="file" class="file-input file-input-ghost w-full"
                                                         wire:model="bukti_objektif.{{ $index }}"
                                                         {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
                                                 @endif

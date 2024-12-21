@@ -17,8 +17,8 @@ class StandarAudit extends Model
         return $this->hasMany(PernyataanStandar::class, 'id_standar');
     }
 
-    public function pemetaanStandarAudit()
+    public function jadwalAudit()
     {
-        return $this->hasMany(PemetaanStandarAudit::class, 'id_standar');
+        return $this->hasMany(JadwalAudit::class, 'id_standar');
     }
 }

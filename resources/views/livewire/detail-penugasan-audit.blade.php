@@ -1,12 +1,12 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('jadwal-audit') }}">Jadwal Audit</a></li>
-            <li>Penugasan Auditor {{ $this->profile_name }}</li>
+            <li><a class="text-[#60C0D0] text-medium" href="{{ route('penugasan-audit') }}">Penugasan Audit</a></li>
+            <li>Penugasan Audit {{ $this->profile_name }}</li>
         </ul>
     </div>
 
-    <h1 class="font-bold text-2xl">Auditor {{ $this->profile_name }}</h1>
+    <h1 class="font-bold text-2xl">Pemetaan Auditor {{ $this->profile_name }}</h1>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">
         <table class="table table-zebra table-pin-cols">
@@ -54,7 +54,7 @@
     <div class="my-6 flex justify-between">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            href="{{ route('jadwal-audit') }}">Kembali</a>
+            href="{{ route('penugasan-audit') }}">Kembali</a>
         <button
             class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
