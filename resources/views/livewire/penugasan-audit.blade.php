@@ -25,16 +25,19 @@
             <thead class="bg-[#60c0d0] text-white font-bold">
                 <tr class="text-md">
                     <td class="text-center">No</td>
-                    <td>Jadwal Audit</td>
+                    <td>Periode Audit</td>
+                    <td>Unit Kerja</td>
+                    <td>Standar Audit</td>
                     <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Auditor</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($unit as $index => $item)
+                @forelse ($jadwalAudit as $index => $item)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}.</td>
-
-                        <td>{{ $item->profile_name }}</td>
+                        <td>{{ $item->periodeAudit->tanggal_mulai }} - {{ $item->periodeAudit->tanggal_akhir }}</td>
+                        <td>{{ $item->unitKerja->profile_name }}</td>
+                        <td>{{ $item->standarAudit->nama_standar }}</td>
                         <th class="shadow-xl text-center">
                             <a href="{{ route('detail-penugasan-audit', ['unitKerja' => $item]) }}"
                                 class="text-[#60c0d0]"><i class="fa-solid fa-code-branch w-4 h-4 mr-1"></i> Kelola
@@ -51,7 +54,7 @@
     </div>
 
     <div class="mt-4">
-        {{ $unit->links() }}
+        {{ $jadwalAudit->links() }}
     </div>
 
 </div>

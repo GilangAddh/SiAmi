@@ -16,7 +16,7 @@ class JadwalAudit extends Model
     {
         return $this->belongsTo(PeriodeAudit::class, 'id_periode');
     }
-
+ 
     public function unitKerja()
     {
         return $this->belongsTo(User::class, 'id_unit');

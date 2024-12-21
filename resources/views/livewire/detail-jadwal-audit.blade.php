@@ -56,30 +56,27 @@
                             <td>{{ $item->nama_standar }}</td>
                             <td class="text-center">
                                 @if ($item->pernyataan_count > 0)
-                                    <span class="font-semibold text-[#60c0d0]">Standar
-                                        Digunakan</span>
+                                    <span class="font-semibold text-[#60c0d0]">Terjadwal</span>
                                 @else
-                                    <span class="font-semibold text-error">Standar
-                                        Belum Digunakan</span>
+                                    <span class="font-semibold text-error">Belum Terjadwal</span>
                                 @endif
                                 <br>{{ $item->pernyataan_count }}
-                                Pernyataan Standar Digunakan
+                                Pernyataan Standar Dijadwalkan untuk Audit
                             </td>
                             <th class="shadow-xl text-center">
                                 <div class="flex justify-center items-center space-x-2">
                                     <button class="btn btn-xs bg-[#60c0d0] text-white"
                                         wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'save')">
                                         @if ($item->pernyataan_count > 0)
-                                            Edit Penerapan
+                                            Edit Jadwal
                                         @else
-                                            Terapkan
+                                            Jadwalkan
                                         @endif
                                     </button>
 
                                     @if ($item->pernyataan_count > 0)
                                         <button class="btn btn-xs bg-error text-white"
-                                            wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'cancel')">Batal
-                                            Terapkan</button>
+                                            wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'cancel')">Batalkan</button>
                                     @endif
                                 </div>
                             </th>
@@ -140,7 +137,7 @@
                                     <td>Indikator</td>
                                     <td>Pertanyaan</td>
                                     <td>Bukti Objektif</td>
-                                    <td>Gunakan Pernyataan</td>
+                                    <td>Jadwalkan Audit</td>
                                 </tr>
                             </thead>
                             <tbody>

@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\User;
+use App\Models\JadwalAudit;
 
 class PenugasanAudit extends Component
 {
@@ -19,17 +19,12 @@ class PenugasanAudit extends Component
 
     public function render()
     {
-        $unit = User::query()
-            ->where('role', operator: 'auditee')
-            ->where('is_active', true)
-            ->where(function ($query) {
-                $query->where('profile_name', 'ilike', '%' . $this->search . '%')
-                    ->orWhere('email', 'ilike', '%' . $this->search . '%')
-                    ->orWhere('name', 'ilike', '%' . $this->search . '%');
-            })
-            ->orderBy('profile_name', 'asc')
+        $jadwalAudit = JadwalAudit::query()
+            ->with(['periodeAudit', 'unitKerja', 'standarAudit'])
             ->paginate(10);
 
-        return view('livewire.penugasan-audit', ['unit' => $unit])->layout('components.layouts.app')->title('Penugasan Audit');
+        return view('livewire.penugasan-audit', ['jadwalAudit' => $jadwalAudit])
+            ->layout('components.layouts.app')
+            ->title('Penugasan Audit');
     }
 }

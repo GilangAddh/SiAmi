@@ -302,7 +302,8 @@
                                                         {{ $original_bukti_objektif[$index] }}
                                                     </a>
                                                 @else
-                                                    <input type="file" class="file-input file-input-ghost w-full"
+                                                    <input type="file"
+                                                        class="file-input file-input-ghost w-full input-bordered"
                                                         wire:model="bukti_objektif.{{ $index }}"
                                                         {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
                                                 @endif
