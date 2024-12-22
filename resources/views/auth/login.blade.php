@@ -54,7 +54,8 @@
 
             <div class="flex items-center justify-center mt-3">
                 @if (Route::has('password.request'))
-                    <a class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
+                    <a wire:navigate.hover
+                        class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
                         href="{{ route('password.request') }}">
                         {{ __('Lupa password?') }}
                     </a>

@@ -31,7 +31,7 @@
             <div class="flex flex-col text-center">
                 <h1 class="font-semibold mb-1 text-lg sm:text-2xl">404 | Page Not Found</h1>
                 <p class="text-sm mb-5">Halaman yang anda cari tidak ditemukan</p>
-                <a href="{{ url('/') }}">
+                <a wire:navigate.hover href="{{ url('/') }}">
                     <button type ='button'
                         class='w-full inline-flex items-center justify-center py-2 bg-[#60C0D0] border border-transparent rounded-md font-medium text-xs sm:text-sm text-white capitalize tracking-widest'>
                         Kembali

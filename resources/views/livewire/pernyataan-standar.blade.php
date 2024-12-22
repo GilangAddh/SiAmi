@@ -1,7 +1,8 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar Audit</a></li>
+            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Standar
+                    Audit</a></li>
             <li>{{ $subtitle }}</li>
             <li>Pernyataan Standar {{ $subtitle }}</li>
         </ul>
@@ -125,7 +126,7 @@
     <div class="my-4">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            href="{{ route('standar-audit') }}">Kembali</a>
+            wire:navigate.hover href="{{ route('standar-audit') }}">Kembali</a>
     </div>
 
     <dialog class="modal" @if ($isModalOpen) open @endif>

@@ -5,8 +5,9 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('jadwal-audit') }}">Jadwal Audit</a></li>
-            <li><a class="text-[#60C0D0] text-medium"
+            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('jadwal-audit') }}">Jadwal
+                    Audit</a></li>
+            <li><a class="text-[#60C0D0] text-medium" wire:navigate.hover
                     href="{{ route('jadwal-unit-kerja', ['periode' => $periode]) }}">Periode
                     {{ Carbon::parse($periode->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} -
                     {{ Carbon::parse($periode->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}</a></li>
@@ -93,7 +94,7 @@
     <div class="my-6 flex justify-between">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            href="{{ route('jadwal-unit-kerja', ['periode' => $periode]) }}">Kembali</a>
+            wire:navigate.hover href="{{ route('jadwal-unit-kerja', ['periode' => $periode]) }}">Kembali</a>
     </div>
 
     <dialog class="modal" @if ($isModalOpen) open @endif>

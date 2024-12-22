@@ -6,7 +6,8 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Standar Audit</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Index</a></li>
+            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('standar-audit') }}">Index</a>
+            </li>
         </ul>
     </div>
 
@@ -66,7 +67,8 @@
                         <th class="shadow-xl max-w-48">
                             <div class="flex gap-2 md:justify-evenly">
                                 <div>
-                                    <a href="{{ route('pernyataan-standar', ['standarAudit' => $item]) }}"
+                                    <a wire:navigate.hover
+                                        href="{{ route('pernyataan-standar', ['standarAudit' => $item]) }}"
                                         class="text-[#60c0d0]"><i class="fa-solid fa-pen"></i> <span
                                             class="hidden md:inline">Pernyataan</span></a>
                                 </div>

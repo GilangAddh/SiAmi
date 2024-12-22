@@ -38,7 +38,7 @@
             </div>
 
             <div class="block mt-2">
-                <a class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
+                <a wire:navigate.hover class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
                     href="{{ route('login') }}">
                     {{ __('Kembali ke halaman masuk') }}
                 </a>

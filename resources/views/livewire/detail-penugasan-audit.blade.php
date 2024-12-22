@@ -6,7 +6,8 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('penugasan-audit') }}">Penugasan Audit</a></li>
+            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('penugasan-audit') }}">Penugasan
+                    Audit</a></li>
             <li>Auditor {{ $unitKerja->profile_name }}
                 ({{ Carbon::parse($periode->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} -
                 {{ Carbon::parse($periode->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }})</li>
@@ -63,7 +64,7 @@
     <div class="my-6 flex justify-between">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            href="{{ route('penugasan-audit') }}">Kembali</a>
+            wire:navigate.hover href="{{ route('penugasan-audit') }}">Kembali</a>
         <button
             class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"

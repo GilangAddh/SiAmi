@@ -6,7 +6,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Auditor</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('auditor') }}">Index</a></li>
+            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('auditor') }}">Index</a></li>
         </ul>
     </div>
 
