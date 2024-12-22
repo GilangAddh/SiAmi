@@ -28,6 +28,11 @@
                     clip-rule="evenodd" />
             </svg>
         </label>
+
+        <select class="select select-bordered w-full md:w-1/4" wire:model.live="sortStatus">
+            <option value="sudah" selected>Urutkan Status Sudah - Belum Dijadwalkan</option>
+            <option value="belum">Urutkan Status Belum - Sudah Dijadwalkan</option>
+        </select>
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">

@@ -12,6 +12,7 @@ class JadwalAudit extends Component
 
     public $search_start = '';
     public $search_end = '';
+    public $sortStatus = "sudah";
 
     public function updatingSearch()
     {
@@ -32,7 +33,13 @@ class JadwalAudit extends Component
                     ->whereColumn('jadwal_audit.id_periode', 'periode_audit.id');
             }, 'unit_kerja_count')
             ->where('is_active', true)
-            ->orderBy('unit_kerja_count', 'desc')
+            ->when($this->sortStatus, function ($query) {
+                if ($this->sortStatus == "sudah") {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(DISTINCT id_unit) FROM jadwal_audit WHERE jadwal_audit.id_periode = periode_audit.id) > 0 THEN 1 ELSE 0 END DESC');
+                } else {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(DISTINCT id_unit) FROM jadwal_audit WHERE jadwal_audit.id_periode = periode_audit.id) > 0 THEN 1 ELSE 0 END ASC');
+                }
+            })
             ->orderBy('tanggal_mulai', 'desc')
             ->orderBy('tanggal_akhir', 'desc');
 

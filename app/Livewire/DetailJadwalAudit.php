@@ -32,6 +32,8 @@ class DetailJadwalAudit extends Component
     public $selectedPernyataan = [];
     public $existingPernyataan = [];
 
+    public $sortStatus = "sudah";
+
     public function mount(User $unitKerja, PeriodeAudit $periode)
     {
         $this->profile_name = $unitKerja->profile_name;
@@ -53,7 +55,13 @@ class DetailJadwalAudit extends Component
             }, 'pernyataan_count')
             ->where('nama_standar', 'ilike', '%' . $this->search . '%')
             ->where('is_active', true)
-            ->orderBy('pernyataan_count', 'desc')
+            ->when($this->sortStatus, function ($query) {
+                if ($this->sortStatus == "sudah") {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(*) FROM jadwal_audit WHERE jadwal_audit.id_standar = standar_audit.id AND jadwal_audit.id_unit = ? AND jadwal_audit.id_periode = ?) > 0 THEN 1 ELSE 0 END DESC', [$this->id_unit, $this->id_periode]);
+                } else {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(*) FROM jadwal_audit WHERE jadwal_audit.id_standar = standar_audit.id AND jadwal_audit.id_unit = ? AND jadwal_audit.id_periode = ?) > 0 THEN 1 ELSE 0 END ASC', [$this->id_unit, $this->id_periode]);
+                }
+            })
             ->orderBy('nama_standar', 'asc')
             ->paginate(10);
 

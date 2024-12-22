@@ -38,11 +38,10 @@
             </label>
         </div>
 
-        {{-- <select class="select select-bordered w-full md:w-1/6" wire:model.live="filter">
-            <option value="semua" selected>Semua Jadwal</option>
-            <option value="terjadwal" selected>Terjadwal</option>
-            <option value="belum-terjadwal" selected>Belum Terjadwal</option>
-        </select> --}}
+        <select class="select select-bordered w-full md:w-1/4" wire:model.live="sortStatus">
+            <option value="sudah" selected>Urutkan Status Sudah - Belum Dijadwalkan</option>
+            <option value="belum">Urutkan Status Belum - Sudah Dijadwalkan</option>
+        </select>
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">

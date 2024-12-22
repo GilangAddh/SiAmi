@@ -3,15 +3,12 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\PeriodeAudit;
 use App\Models\PenugasanAudit;
 
 class DetailPenugasanAudit extends Component
 {
-    use WithPagination;
-
     public $selectedAuditor = [];
     public $existingAuditor = [];
 
@@ -34,6 +31,10 @@ class DetailPenugasanAudit extends Component
     public function render()
     {
         $auditor = User::where('is_active', true)->where('role', 'auditor')->orderBy('profile_name', 'asc')->get();
+
+        $auditor = $auditor->sortByDesc(function ($user) {
+            return in_array($user->id, $this->selectedAuditor);
+        });
 
         return view('livewire.detail-penugasan-audit', ['auditor' => $auditor])->layout('components.layouts.app')->title('Penugasan Audit ' . $this->unitKerja->profile_name);
     }
@@ -61,5 +62,7 @@ class DetailPenugasanAudit extends Component
         PenugasanAudit::insert($data);
 
         $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Penugasan auditor berhasil disimpan."})');
+
+        return redirect()->route('penugasan-audit');
     }
 }

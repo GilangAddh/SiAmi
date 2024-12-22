@@ -13,6 +13,7 @@ class JadwalUnitKerja extends Component
 
     public $periode;
     public $search = '';
+    public $sortStatus = "sudah";
 
     public function updatingSearch()
     {
@@ -36,7 +37,13 @@ class JadwalUnitKerja extends Component
             ->where('profile_name', 'ilike', '%' . $this->search . '%')
             ->where('role', 'auditee')
             ->where('is_active', true)
-            ->orderBy('standar_count', 'desc')
+            ->when($this->sortStatus, function ($query) {
+                if ($this->sortStatus == "sudah") {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(DISTINCT jadwal_audit.id_standar) FROM jadwal_audit WHERE jadwal_audit.id_unit = users.id AND jadwal_audit.id_periode = ?) > 0 THEN 1 ELSE 0 END DESC', [$this->periode->id]);
+                } else {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(DISTINCT jadwal_audit.id_standar) FROM jadwal_audit WHERE jadwal_audit.id_unit = users.id AND jadwal_audit.id_periode = ?) > 0 THEN 1 ELSE 0 END ASC', [$this->periode->id]);
+                }
+            })
             ->orderBy('profile_name', 'asc')
             ->paginate(10);
 

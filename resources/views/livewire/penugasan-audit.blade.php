@@ -12,6 +12,22 @@
 
     <h1 class="font-bold text-2xl">Data Jadwal Audit</h1>
 
+    <div class="flex justify-between my-6 items-center flex-wrap gap-4">
+        <select class="select select-bordered w-full md:w-1/4" wire:model.live="id_periode">
+            <option value="" selected>Seluruh Periode</option>
+            @foreach ($periode as $item)
+                <option value="{{ $item->id }}" wire:key="{{ $item->id }}">
+                    {{ Carbon::parse($item->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} -
+                    {{ Carbon::parse($item->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}</option>
+            @endforeach
+        </select>
+
+        <select class="select select-bordered w-full md:w-1/4" wire:model.live="sortStatus">
+            <option value="sudah" selected>Urutkan Status Sudah - Belum Ditugaskan</option>
+            <option value="belum">Urutkan Status Belum - Sudah Ditugaskan</option>
+        </select>
+    </div>
+
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
@@ -43,7 +59,7 @@
                         </td>
                         <th class="shadow-xl text-center">
                             <a href="{{ route('detail-penugasan-audit', ['periode' => $item->periodeAudit, 'unitKerja' => $item->unitKerja]) }}"
-                                class="text-[#60c0d0]"><i class="fa-solid fa-code-branch w-4 h-4 mr-1"></i>Auditor</a>
+                                class="text-[#60c0d0]"><i class="fa-solid fa-stamp w-4 h-4 mr-1"></i> Auditor</a>
                         </th>
                     </tr>
                 @empty
