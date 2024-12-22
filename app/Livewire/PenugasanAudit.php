@@ -37,8 +37,16 @@ class PenugasanAudit extends Component
                 'periode_audit.tanggal_mulai',
                 'periode_audit.tanggal_akhir'
             )
+            ->when($this->sortStatus, function ($query) {
+                if ($this->sortStatus == "sudah") {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(DISTINCT penugasan_audit.id_auditor) FROM penugasan_audit WHERE penugasan_audit.id_unit = jadwal_audit.id_unit AND penugasan_audit.id_periode = jadwal_audit.id_periode) > 0 THEN 1 ELSE 0 END DESC');
+                } else {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(DISTINCT penugasan_audit.id_auditor) FROM penugasan_audit WHERE penugasan_audit.id_unit = jadwal_audit.id_unit AND penugasan_audit.id_periode = jadwal_audit.id_periode) > 0 THEN 1 ELSE 0 END ASC');
+                }
+            })
             ->orderBy('periode_audit.tanggal_mulai', 'desc')
             ->orderBy('periode_audit.tanggal_akhir', 'desc')
+            ->with(['periodeAudit', 'unitKerja', 'standarAudit'])
             ->when($this->id_periode, function ($query) {
                 return $query->where('jadwal_audit.id_periode', $this->id_periode);
             })
