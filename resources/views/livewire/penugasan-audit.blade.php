@@ -35,6 +35,7 @@
                     <td class="text-center">No</td>
                     <td>Periode Audit</td>
                     <td>Unit Kerja</td>
+                    <td>Standar Audit</td>
                     <td class="text-center">Status Penugasan</td>
                     <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Auditor</th>
                 </tr>
@@ -48,6 +49,13 @@
                             {{ Carbon::parse($item->periodeAudit->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}
                         </td>
                         <td>{{ $item->unitKerja->profile_name }}</td>
+                        <td>
+                            <ol class="list-decimal pl-5">
+                                @foreach (explode('| ', $item->ordered_standards) as $standard)
+                                    <li>{{ $standard }}</li>
+                                @endforeach
+                            </ol>
+                        </td>
                         <td class="text-center">
                             @if ($item->auditor_count > 0)
                                 <span class="font-semibold text-[#60c0d0]">Sudah Ditugaskan</span>
