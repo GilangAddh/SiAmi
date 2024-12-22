@@ -12,7 +12,7 @@
 
     <h1 class="font-bold text-2xl">Data Penjadwalan Periode Audit</h1>
 
-    <div class="flex justify-between my-6 items-end flex-wrap gap-2">
+    <div class="flex justify-between my-6 items-end flex-wrap gap-4">
         <div class="w-3/5 lg:w-[30%] flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3">
             <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-full sm:w-auto">
                 <input type="text" readonly

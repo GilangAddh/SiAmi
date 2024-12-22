@@ -15,7 +15,7 @@
         ({{ Carbon::parse($periode->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} -
         {{ Carbon::parse($periode->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }})</h1>
 
-    <div class="flex justify-between my-6 items-center">
+    <div class="flex justify-between my-6 items-center flex-wrap gap-4">
         <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
             <input wire:model.live.debounce.400ms="search" type="text"
                 class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full" placeholder="Cari" />
