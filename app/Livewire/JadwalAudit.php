@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
+use App\Models\PeriodeAudit;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,26 +10,44 @@ class JadwalAudit extends Component
 {
     use WithPagination;
 
-    public $search = '';
+    public $search_start = '';
+    public $search_end = '';
 
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    public function resetSearch()
+    {
+        $this->reset(['search_start', 'search_end']);
+    }
+
     public function render()
     {
-        $unit = User::query()
-            ->where('role', operator: 'auditee')
+        $query = PeriodeAudit::select('periode_audit.*')
+            ->selectSub(function ($subquery) {
+                $subquery->from('jadwal_audit')
+                    ->selectRaw('COUNT(DISTINCT id_unit)')
+                    ->whereColumn('jadwal_audit.id_periode', 'periode_audit.id');
+            }, 'unit_kerja_count')
             ->where('is_active', true)
-            ->where(function ($query) {
-                $query->where('profile_name', 'ilike', '%' . $this->search . '%')
-                    ->orWhere('email', 'ilike', '%' . $this->search . '%')
-                    ->orWhere('name', 'ilike', '%' . $this->search . '%');
-            })
-            ->orderBy('profile_name', 'asc')
-            ->paginate(10);
+            ->orderBy('unit_kerja_count', 'desc')
+            ->orderBy('tanggal_mulai', 'desc')
+            ->orderBy('tanggal_akhir', 'desc');
 
-        return view('livewire.jadwal-audit', ['unit' => $unit])->layout('components.layouts.app')->title('Jadwal Audit');
+        if (!empty($this->search_start)) {
+            $query->where('tanggal_mulai', '>=', $this->search_start);
+        }
+
+        if (!empty($this->search_end)) {
+            $query->where('tanggal_akhir', '<=', $this->search_end);
+        }
+
+        $periode = $query->paginate(10);
+
+        return view('livewire.jadwal-audit', ['periode' => $periode])
+            ->layout('components.layouts.app')
+            ->title('Jadwal Audit');
     }
 }

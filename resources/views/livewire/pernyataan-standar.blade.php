@@ -185,7 +185,7 @@
                                         <td class="text-center">No</td>
                                         <td>Indikator</td>
                                         @if ($modalAction !== 'lihat')
-                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                            <th class="bg-[#60c0d0]">Aksi</th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -236,7 +236,7 @@
                                         <td class="text-center">No</td>
                                         <td>Pertanyaan</td>
                                         @if ($modalAction !== 'lihat')
-                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                            <th class="bg-[#60c0d0]">Aksi</th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -286,7 +286,7 @@
                                         <td class="text-center">No</td>
                                         <td>Bukti Objektif</td>
                                         @if ($modalAction !== 'lihat')
-                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                            <th class="bg-[#60c0d0]">Aksi</th>
                                         @endif
                                     </tr>
                                 </thead>

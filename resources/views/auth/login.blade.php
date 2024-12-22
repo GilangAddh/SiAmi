@@ -1,10 +1,10 @@
 <x-guest-layout>
     <x-authentication-card>
         <div class="flex justify-between items-center mb-6">
-            <img src="{{ asset('images/logo-poltekkes.png') }}" class="w-[142px] sm:w-[215px] h-auto">
-            <div class="flex space-x-1">
-                <img src="{{ asset('images/berakhlak.png') }}" class="w-[75px] sm:w-[130px] h-auto">
-                <img src="{{ asset('images/logo-blu.png') }}" class="w-[36px] sm:w-[55px] h-auto">
+            <img src="{{ asset('images/logo-poltekkes.png') }}" class="w-[160px] sm:w-[215px] h-auto">
+            <div class="flex space-x-2">
+                <img src="{{ asset('images/berakhlak.png') }}" class="w-[88px] sm:w-[130px] h-auto">
+                <img src="{{ asset('images/logo-blu.png') }}" class="w-[42px] sm:w-[55px] h-auto">
             </div>
         </div>
 

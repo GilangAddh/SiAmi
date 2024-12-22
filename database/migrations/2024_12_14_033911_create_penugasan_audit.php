@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('penugasan_audit', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_jadwal');
+            $table->unsignedBigInteger('id_periode');
+            $table->unsignedBigInteger('id_unit');
             $table->unsignedBigInteger('id_auditor');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at');
 
-            $table->foreign('id_jadwal')->references('id')->on('jadwal_audit')
+            $table->foreign('id_periode')->references('id')->on('periode_audit')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('id_unit')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 

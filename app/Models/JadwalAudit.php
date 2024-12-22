@@ -16,7 +16,7 @@ class JadwalAudit extends Model
     {
         return $this->belongsTo(PeriodeAudit::class, 'id_periode');
     }
- 
+
     public function unitKerja()
     {
         return $this->belongsTo(User::class, 'id_unit');
@@ -30,10 +30,5 @@ class JadwalAudit extends Model
     public function pernyataanStandar()
     {
         return $this->belongsTo(PernyataanStandar::class, 'id_pernyataan');
-    }
-
-    public function penugasanAudit()
-    {
-        return $this->hasMany(PenugasanAudit::class, 'id_jadwal');
     }
 }

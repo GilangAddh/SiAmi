@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
@@ -8,18 +12,6 @@
 
     <h1 class="font-bold text-2xl">Data Jadwal Audit</h1>
 
-    <div class="flex justify-between my-6 items-center">
-        <label class="input input-bordered flex items-center input-sm py-5 pr-4 pl-1 w-3/5 md:w-1/4">
-            <input wire:model.live.debounce.400ms="search" type="text"
-                class="focus:outline-none focus:ring-0 grow border-none text-sm gap-2 w-full" placeholder="Cari" />
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 opacity-70">
-                <path fill-rule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clip-rule="evenodd" />
-            </svg>
-        </label>
-    </div>
-
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
         <table class="table table-zebra table-pin-cols">
             <thead class="bg-[#60c0d0] text-white font-bold">
@@ -27,7 +19,7 @@
                     <td class="text-center">No</td>
                     <td>Periode Audit</td>
                     <td>Unit Kerja</td>
-                    <td>Standar Audit</td>
+                    <td class="text-center">Status Penugasan</td>
                     <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Auditor</th>
                 </tr>
             </thead>
@@ -35,18 +27,28 @@
                 @forelse ($jadwalAudit as $index => $item)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}.</td>
-                        <td>{{ $item->periodeAudit->tanggal_mulai }} - {{ $item->periodeAudit->tanggal_akhir }}</td>
+                        <td>{{ Carbon::parse($item->periodeAudit->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }}
+                            -
+                            {{ Carbon::parse($item->periodeAudit->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}
+                        </td>
                         <td>{{ $item->unitKerja->profile_name }}</td>
-                        <td>{{ $item->standarAudit->nama_standar }}</td>
+                        <td class="text-center">
+                            @if ($item->auditor_count > 0)
+                                <span class="font-semibold text-[#60c0d0]">Sudah Ditugaskan</span>
+                            @else
+                                <span class="font-semibold text-error">Belum Ditugaskan</span>
+                            @endif
+                            <br>{{ $item->auditor_count }}
+                            Auditor Ditugaskan untuk Audit
+                        </td>
                         <th class="shadow-xl text-center">
-                            <a href="{{ route('detail-penugasan-audit', ['unitKerja' => $item]) }}"
-                                class="text-[#60c0d0]"><i class="fa-solid fa-code-branch w-4 h-4 mr-1"></i> Kelola
-                                Auditor</a>
+                            <a href="{{ route('detail-penugasan-audit', ['periode' => $item->periodeAudit, 'unitKerja' => $item->unitKerja]) }}"
+                                class="text-[#60c0d0]"><i class="fa-solid fa-code-branch w-4 h-4 mr-1"></i>Auditor</a>
                         </th>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center">Tidak ada data yang ditemukan.</td>
+                        <td colspan="6" class="text-center">Tidak ada data yang ditemukan.</td>
                     </tr>
                 @endforelse
             </tbody>

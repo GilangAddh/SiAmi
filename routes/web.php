@@ -9,6 +9,7 @@ use App\Livewire\Auditor;
 use App\Livewire\DetailJadwalAudit;
 use App\Livewire\DetailPenugasanAudit;
 use App\Livewire\JadwalAudit;
+use App\Livewire\JadwalUnitKerja;
 use App\Livewire\PenugasanAudit;
 use App\Livewire\PeriodeAudit;
 use App\Livewire\PernyataanStandar;
@@ -49,8 +50,9 @@ Route::middleware([
     Route::get('/periode-audit', PeriodeAudit::class)->name('periode-audit');
 
     Route::get('/jadwal-audit', JadwalAudit::class)->name('jadwal-audit');
-    Route::get('/detail-jadwal-audit/{unitKerja}', action: DetailJadwalAudit::class)->name('detail-jadwal-audit');
+    Route::get('/jadwal-unit-kerja/{periode}', action: JadwalUnitKerja::class)->name('jadwal-unit-kerja');
+    Route::get('/detail-jadwal-audit/{periode}/{unitKerja}', action: DetailJadwalAudit::class)->name('detail-jadwal-audit');
 
     Route::get('/penugasan-audit', PenugasanAudit::class)->name('penugasan-audit');
-    Route::get('/detail-penugasan-audit/{unitKerja}', action: DetailPenugasanAudit::class)->name('detail-penugasan-audit');
+    Route::get('/detail-penugasan-audit/{periode}/{unitKerja}', action: DetailPenugasanAudit::class)->name('detail-penugasan-audit');
 });
