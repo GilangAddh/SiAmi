@@ -39,13 +39,12 @@
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li><a wire:navigate.hover href="{{ route('profile.show') }}">Profil</a></li>
-
+                    <li><a wire:navigate href="/user/profile">Profil</a></li>
 
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
-                        <li><a wire:navigate.hover href="{{ route('logout') }}"
-                                @click.prevent="$root.submit();">Logout</a></li>
+                        <li><a wire:navigate href="/logout" @click.prevent="$root.submit();">Logout</a>
+                        </li>
                     </form>
                 </ul>
             </div>
@@ -78,8 +77,8 @@
                                     @foreach ($menus as $child)
                                         @if ($child['type'] == $menu['menu'])
                                             <li class="mb-1 text-sm" wire:key="{{ $child->id }}">
-                                                <a wire:navigate.hover href="{{ url($child['url']) }}"
-                                                    class="{{ request()->is(trim($child['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
+                                                <a wire:navigate href="{{ $child['url'] }}"
+                                                    wire:current='bg-[#60C0D0] text-white'><i
                                                         class="{{ $child['icon'] }} w-4 h-4 mr-1"></i>
                                                     {{ $child['menu'] }}
                                                 </a>
@@ -91,8 +90,7 @@
                         </li>
                     @elseif ($menu['type'] == 'standalone')
                         <li class="mb-1 text-sm" wire:key="{{ $menu->id }}">
-                            <a wire:navigate.hover href="{{ url($menu['url']) }}"
-                                class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
+                            <a wire:navigate href="{{ $menu['url'] }}" wire:current='bg-[#60C0D0] text-white'><i
                                     class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i>
                                 {{ $menu['menu'] }}
                             </a>

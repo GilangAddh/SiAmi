@@ -5,7 +5,7 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li><a class="text-[#60C0D0] text-medium" wire:navigate.hover href="{{ route('jadwal-audit') }}">Jadwal
+            <li><a class="text-[#60C0D0] text-medium" wire:navigate href="/jadwal-audit">Jadwal
                     Audit</a></li>
             <li>Periode {{ Carbon::parse($periode->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} -
                 {{ Carbon::parse($periode->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}</li>
@@ -59,7 +59,7 @@
                             Standar Dijadwalkan untuk Audit
                         </td>
                         <th class="shadow-xl text-center">
-                            <a wire:navigate.hover
+                            <a wire:navigate
                                 href="{{ route('detail-jadwal-audit', ['unitKerja' => $item, 'periode' => $periode]) }}"
                                 class="text-[#60c0d0]"><i class="fa-solid fa-calendar-days w-4 h-4 mr-1"></i> Jadwal</a>
                         </th>
@@ -80,7 +80,7 @@
     <div class="my-6 flex justify-between">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            wire:navigate.hover href="{{ route('jadwal-audit') }}">Kembali</a>
+            wire:navigate href="/jadwal-audit">Kembali</a>
     </div>
 
 </div>

@@ -3,43 +3,68 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Swal from "sweetalert2";
 
-function initializeFlatpickr() {
-    flatpickr(".flatpickr-free", {
-        dateFormat: "j F Y",
-        disableMobile: true,
-    });
+const flatpickrConfig = {
+    free: {
+        selector: ".flatpickr-free",
+        options: {
+            dateFormat: "j F Y",
+            disableMobile: true,
+        },
+    },
+    noFuture: {
+        selector: ".flatpickr-nofuture",
+        options: {
+            dateFormat: "j F Y",
+            disableMobile: true,
+            maxDate: "today",
+        },
+    },
+};
 
-    flatpickr(".flatpickr-nofuture", {
-        dateFormat: "j F Y",
-        disableMobile: true,
-        maxDate: "today",
+function initializeFlatpickr() {
+    Object.values(flatpickrConfig).forEach(({ selector, options }) => {
+        document.querySelectorAll(selector).forEach((element) => {
+            if (!element._flatpickr) {
+                flatpickr(element, options);
+            }
+        });
     });
 }
 
-initializeFlatpickr();
-
-const modal = document.querySelector("dialog.modal");
-if (modal) {
-    const observer = new MutationObserver((mutationsList) => {
-        mutationsList.forEach((mutation) => {
+function observeModal(modal) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach(({ type, attributeName }) => {
             if (
-                mutation.type === "attributes" &&
-                mutation.attributeName === "open"
+                type === "attributes" &&
+                attributeName === "open" &&
+                modal.open
             ) {
-                if (modal.open) {
-                    initializeFlatpickr();
-                }
+                initializeFlatpickr();
             }
         });
     });
 
     observer.observe(modal, { attributes: true });
+    modal.addEventListener("close", () => observer.disconnect());
 }
 
-const SwalGlobal = Swal.mixin({
+window.SwalGlobal = Swal.mixin({
     showConfirmButton: false,
     timer: 2000,
     timerProgressBar: true,
 });
 
-window.SwalGlobal = SwalGlobal;
+initializeFlatpickr();
+
+const modal = document.querySelector("dialog.modal");
+if (modal) observeModal(modal);
+
+document.addEventListener(
+    "livewire:navigated",
+    () => {
+        initializeFlatpickr();
+    },
+    {
+        once: true,
+    }
+);

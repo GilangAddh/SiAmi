@@ -5,9 +5,9 @@
 <div class="px-5 py-4">
     <div class="breadcrumbs text-md">
         <ul>
-            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('jadwal-audit') }}">Jadwal
+            <li><a wire:navigate class="text-[#60C0D0] text-medium" href="/jadwal-audit">Jadwal
                     Audit</a></li>
-            <li><a class="text-[#60C0D0] text-medium" wire:navigate.hover
+            <li><a class="text-[#60C0D0] text-medium" wire:navigate
                     href="{{ route('jadwal-unit-kerja', ['periode' => $periode]) }}">Periode
                     {{ Carbon::parse($periode->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} -
                     {{ Carbon::parse($periode->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}</a></li>
@@ -94,11 +94,11 @@
     <div class="my-6 flex justify-between">
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            wire:navigate.hover href="{{ route('jadwal-unit-kerja', ['periode' => $periode]) }}">Kembali</a>
+            wire:navigate href="{{ route('jadwal-unit-kerja', ['periode' => $periode]) }}">Kembali</a>
     </div>
 
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-4xl">
+        <div class="modal-box w-full max-w-5xl">
             @if ($modalAction === 'cancel')
                 <p>Apakah anda yakin ingin membatalkan audit <span
                         class="text-red-500 font-medium">{{ $modalTitle }}</span>?
@@ -127,6 +127,7 @@
                                     <td>Indikator</td>
                                     <td>Pertanyaan</td>
                                     <td>Bukti Objektif</td>
+                                    <td>Auditee</td>
                                     <td>Jadwalkan Audit</td>
                                 </tr>
                             </thead>
@@ -137,7 +138,7 @@
                                         <td class="max-w-64 text-justify align-top">
                                             {{ $item->pernyataan_standar }}
                                         </td>
-                                        <td class="align-top max-w-64 text-justify">
+                                        <td class="align-top max-w-52 text-justify">
                                             @if (!empty($item->indikator_pertanyaan) && count($item->indikator_pertanyaan) > 0)
                                                 <ol class="list-decimal pl-5">
                                                     @foreach ($item->indikator_pertanyaan as $indikatorItem)
@@ -160,23 +161,30 @@
                                             @endif
 
                                         </td>
-                                        <td class="max-w-48 align-top text-left">
+                                        <td class="max-w-36 align-top text-left">
                                             @if (!empty($item->bukti_objektif) && is_array($item->bukti_objektif))
-                                                <ol class="list-none pl-5">
+                                                <ol class="list-decimal pl-5">
                                                     @foreach ($item->bukti_objektif as $index => $bukti)
-                                                        <li class="mb-2"><a
-                                                                class="link link-hover underline hover:text-[#60c0d0]"
-                                                                href="{{ asset('storage/' . $bukti) }}"
-                                                                target="_blank">
-                                                                <i class="fa-solid fa-file text-black"></i>
-                                                                <span class="ml-2">
-                                                                    {{ $item->original_bukti_objektif[$index] ?? 'Bukti Objektif ' . ($index + 1) }}
-                                                                </span>
-                                                            </a></li>
+                                                        <li class="mb-2">
+                                                            {{ $item->bukti_objektif[$index] ?? 'Bukti Objektif ' . ($index + 1) }}
+                                                        </li>
                                                     @endforeach
                                                 </ol>
                                             @else
                                                 <p class="text-center">Belum ada bukti objektif</p>
+                                            @endif
+                                        </td>
+                                        <td class="max-w-36 align-top text-left">
+                                            @if (!empty($item->auditee) && is_array($item->auditee))
+                                                <ol class="list-decimal pl-5">
+                                                    @foreach ($item->auditee as $index => $bukti)
+                                                        <li class="mb-2">
+                                                            {{ $item->auditee[$index] }}
+                                                        </li>
+                                                    @endforeach
+                                                </ol>
+                                            @else
+                                                <p class="text-center">Belum ada auditee</p>
                                             @endif
                                         </td>
                                         <th class="shadow-xl text-center">

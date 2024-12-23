@@ -2,7 +2,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Kelola Peran</li>
-            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('kelola-peran') }}">Index</a>
+            <li><a wire:navigate class="text-[#60C0D0] text-medium" href="/kelola-peran">Index</a>
             </li>
         </ul>
     </div>

@@ -38,8 +38,8 @@
             </div>
 
             <div class="block mt-2">
-                <a wire:navigate.hover class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
-                    href="{{ route('login') }}">
+                <a wire:navigate class="text-xs sm:text-sm text-[#60C0D0] hover:underline rounded-md font-medium"
+                    href="/login">
                     {{ __('Kembali ke halaman masuk') }}
                 </a>
             </div>

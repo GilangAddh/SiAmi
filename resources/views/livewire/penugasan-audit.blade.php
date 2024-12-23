@@ -6,7 +6,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Penugasan Audit</li>
-            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('penugasan-audit') }}">Index</a>
+            <li><a wire:navigate class="text-[#60C0D0] text-medium" href="/penugasan-audit">Index</a>
             </li>
         </ul>
     </div>
@@ -67,7 +67,7 @@
                             Auditor Ditugaskan untuk Audit
                         </td>
                         <th class="shadow-xl text-center">
-                            <a wire:navigate.hover
+                            <a wire:navigate
                                 href="{{ route('detail-penugasan-audit', ['periode' => $item->periodeAudit, 'unitKerja' => $item->unitKerja]) }}"
                                 class="text-[#60c0d0]"><i class="fa-solid fa-stamp w-4 h-4 mr-1"></i> Auditor</a>
                         </th>

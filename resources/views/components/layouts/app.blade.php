@@ -36,13 +36,15 @@
 
     @if (session('error'))
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener('livewire:navigated', () => {
                 SwalGlobal.fire({
                     icon: "error",
                     title: "Gagal",
                     text: "{{ session('error') }}",
                 });
-            });
+            }, {
+                once: true
+            })
         </script>
     @endif
 

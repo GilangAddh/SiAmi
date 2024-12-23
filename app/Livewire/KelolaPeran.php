@@ -68,7 +68,7 @@ class KelolaPeran extends Component
 
         $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Akses berhasil disimpan."})');
 
-        return redirect()->route('kelola-peran');
+        return $this->redirect('/kelola-peran', navigate: true);
     }
 
     public function resetModal()

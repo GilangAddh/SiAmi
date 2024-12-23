@@ -63,6 +63,6 @@ class DetailPenugasanAudit extends Component
 
         $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Penugasan auditor berhasil disimpan."})');
 
-        return redirect()->route('penugasan-audit');
+        return $this->redirect('/penugasan-audit', navigate: true);
     }
 }
