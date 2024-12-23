@@ -26,16 +26,26 @@ class PernyataanStandar extends Component
     public $indikator_pertanyaan = [];
     public $bukti_objektif = [];
     public $new_bukti_objektif = [];
-    public $original_bukti_objektif = [];
+    public $auditee = [];
     public $id_standar = '';
     public $is_active = true;
-    public $deletedBukti = [];
-
 
     protected $rules = [
         'pernyataan_standar' => 'required|min:5',
-        'is_active' => 'required'
+        'is_active' => 'required',
+        'pertanyaan' => 'nullable|array',
+        'pertanyaan.*' => 'required|string',
+        'indikator_pertanyaan' => 'nullable|array',
+        'indikator_pertanyaan.*' => 'required|string',
+        'bukti_objektif' => 'nullable|array',
+        'bukti_objektif.*' => 'required|string',
+        'auditee' => 'nullable|array',
+        'auditee.*' => 'required|string'
     ];
+
+    // protected $messages = [
+    //     'pertanyaan.*.required' => 'Pertanyaan :index tidak boleh kosong.',
+    // ];
 
     public function mount(StandarAudit $standarAudit)
     {
@@ -75,7 +85,7 @@ class PernyataanStandar extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pernyataan_standar', 'pertanyaan', 'indikator_pertanyaan', 'bukti_objektif', 'is_active', 'original_bukti_objektif']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pernyataan_standar', 'pertanyaan', 'indikator_pertanyaan', 'bukti_objektif', 'is_active', 'auditee']);
     }
 
     public function resetSearch()
@@ -85,98 +95,29 @@ class PernyataanStandar extends Component
 
     public function saveData()
     {
-        // if ($this->modalAction == 'tambah') {
-        //     $this->rules['bukti_objektif'] = 'required|file|mimes:pdf|max:2048';
-        // }
         $this->validate();
         try {
 
             if ($this->modalAction === 'edit') {
-                // $buktiObjektifPath = null;
-                // $originalFileName = null;
-
-                // if ($this->new_bukti_objektif) {
-                //     $buktiObjektifPath = $this->new_bukti_objektif->store('bukti_objektif', 'public');
-                //     $originalFileName = $this->new_bukti_objektif->getClientOriginalName();
-                // }
-                // $data = $this->only(['pernyataan_standar', 'indikator_pertanyaan', 'pertanyaan', 'id_standar', 'is_active']);
-
-                // Perbarui path file jika file baru diunggah
-                // if ($buktiObjektifPath) {
-                //     $data['bukti_objektif'] = $buktiObjektifPath;
-                //     $data['original_bukti_objektif'] = $originalFileName;
-                // }
-
-                // $record->update($data);
                 $record = ModelsPernyataanStandar::findOrFail($this->recordId);
-
-                $buktiObjektifPaths = [];
-                $originalFileNames = [];
-                $oldBukti = $record->bukti_objektif;
-                $oldOri = $record->original_bukti_objektif;
-
-                if (!empty($this->deletedBukti)) {
-                    foreach ($this->deletedBukti as $deletedFile) {
-                        $filepath = 'public/' . $deletedFile;
-                        if (Storage::exists($filepath)) {
-                            Storage::delete($filepath);
-                        }
-                    }
-                }
-
-                if ($this->bukti_objektif && is_array($this->bukti_objektif)) {
-                    foreach ($this->bukti_objektif as $file) {
-                        if ($file) {
-                            if (in_array($file, $oldBukti)) {
-                                $index = array_search($file, $oldBukti);
-                                $buktiObjektifPaths[] = $oldBukti[$index];
-                                $originalFileNames[] = $oldOri[$index];
-                            } else {
-                                $buktiObjektifPaths[] = $file->store('bukti_objektif', 'public');
-                                $originalFileNames[] = $file->getClientOriginalName();
-                            }
-                        }
-                    }
-                }
 
                 $record->update([
                     'pernyataan_standar' => $this->pernyataan_standar,
                     'indikator_pertanyaan' => $this->indikator_pertanyaan,
                     'pertanyaan' => $this->pertanyaan,
                     'id_standar' => $this->id_standar,
-                    'bukti_objektif' => $buktiObjektifPaths,
-                    'original_bukti_objektif' => $originalFileNames,
+                    'bukti_objektif' => $this->bukti_objektif,
+                    'auditee' => $this->auditee,
                     'is_active' => $this->is_active,
                 ]);
             } else {
-                $buktiObjektifPaths = []; // Menyimpan path file yang diunggah
-                $originalFileNames = []; // Menyimpan nama asli file
-
-                if ($this->bukti_objektif && is_array($this->bukti_objektif)) {
-                    foreach ($this->bukti_objektif as $file) {
-                        if ($file) {
-                            $buktiObjektifPaths[] = $file->store('bukti_objektif', 'public');
-                            $originalFileNames[] = $file->getClientOriginalName();
-                        }
-                    }
-                }
-
-                // ModelsPernyataanStandar::create(
-                //     array_merge(
-                //         $this->only(['pertanyaan_standar', 'indikator_pertanyaan', 'id_standar', 'is_active']),
-                //         [
-                //             'bukti_objektif' => $buktiObjektifPath,
-                //             'original_bukti_objektif' => $originalFileName
-                //         ]
-                //     )
-                // );
                 ModelsPernyataanStandar::create([
                     'pernyataan_standar' => $this->pernyataan_standar,
                     'indikator_pertanyaan' => $this->indikator_pertanyaan,
                     'pertanyaan' => $this->pertanyaan,
                     'id_standar' => $this->id_standar,
-                    'bukti_objektif' => $buktiObjektifPaths,
-                    'original_bukti_objektif' => $originalFileNames,
+                    'bukti_objektif' => $this->bukti_objektif,
+                    'auditee' => $this->auditee,
                     'is_active' => $this->is_active,
                 ]);
             }
@@ -192,11 +133,12 @@ class PernyataanStandar extends Component
     private function loadRecordData()
     {
         $indikator = ModelsPernyataanStandar::findOrFail($this->recordId);
+
         $this->pernyataan_standar = $indikator->pernyataan_standar;
         $this->pertanyaan = $indikator->pertanyaan;
         $this->indikator_pertanyaan = $indikator->indikator_pertanyaan;
         $this->bukti_objektif = $indikator->bukti_objektif;
-        $this->original_bukti_objektif = $indikator->original_bukti_objektif;
+        $this->auditee = $indikator->auditee;
         $this->is_active = $indikator->is_active;
     }
 
@@ -237,13 +179,22 @@ class PernyataanStandar extends Component
     public function addBukti()
     {
         $this->bukti_objektif[] = '';
-        $this->original_bukti_objektif[] = '';
     }
 
     public function deleteBukti($index)
     {
-        $this->deletedBukti[] = $this->bukti_objektif[$index];
         unset($this->bukti_objektif[$index]);
         $this->bukti_objektif = array_values($this->bukti_objektif);
+    }
+
+    public function addAuditee()
+    {
+        $this->auditee[] = '';
+    }
+
+    public function deleteAuditee($index)
+    {
+        unset($this->auditee[$index]);
+        $this->auditee = array_values($this->auditee);
     }
 }

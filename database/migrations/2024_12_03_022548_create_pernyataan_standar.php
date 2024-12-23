@@ -18,7 +18,7 @@ return new class extends Migration
             $table->json('indikator_pertanyaan')->nullable();
             $table->json('pertanyaan')->nullable();
             $table->json('bukti_objektif')->nullable();
-            $table->json('original_bukti_objektif')->nullable();
+            $table->json('auditee')->nullable();
             $table->unsignedBigInteger('id_standar');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
