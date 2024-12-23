@@ -63,8 +63,5 @@ document.addEventListener(
     "livewire:navigated",
     () => {
         initializeFlatpickr();
-    },
-    {
-        once: true,
     }
 );
