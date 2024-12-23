@@ -19,8 +19,10 @@ class DetailJadwalAudit extends Component
     public $profile_name = '';
 
     public $id_unit;
-    public $id_periode = "";
+    public $id_periode;
     public $id_standar;
+
+    public $periode;
 
     public $isModalOpen = false;
     public $modalTitle = '';
@@ -30,30 +32,40 @@ class DetailJadwalAudit extends Component
     public $selectedPernyataan = [];
     public $existingPernyataan = [];
 
-    public function mount(User $unitKerja)
+    public $sortStatus = "sudah";
+
+    public function mount(User $unitKerja, PeriodeAudit $periode)
     {
         $this->profile_name = $unitKerja->profile_name;
         $this->id_unit = $unitKerja->id;
+
+        $this->periode = $periode;
+        $this->id_periode = $periode->id;
     }
 
     public function render()
     {
-        $standar = $this->id_periode
-            ? StandarAudit::where('nama_standar', 'ilike', '%' . $this->search . '%')->where('is_active', true)
+        $standar = StandarAudit::select('standar_audit.nama_standar', 'standar_audit.id')
+            ->selectSub(function ($query) {
+                $query->from('jadwal_audit')
+                    ->selectRaw('COUNT(*)')
+                    ->whereColumn('jadwal_audit.id_standar', 'standar_audit.id')
+                    ->where('jadwal_audit.id_unit', $this->id_unit)
+                    ->where('jadwal_audit.id_periode', $this->id_periode);
+            }, 'pernyataan_count')
+            ->where('nama_standar', 'ilike', '%' . $this->search . '%')
+            ->where('is_active', true)
+            ->when($this->sortStatus, function ($query) {
+                if ($this->sortStatus == "sudah") {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(*) FROM jadwal_audit WHERE jadwal_audit.id_standar = standar_audit.id AND jadwal_audit.id_unit = ? AND jadwal_audit.id_periode = ?) > 0 THEN 1 ELSE 0 END DESC', [$this->id_unit, $this->id_periode]);
+                } else {
+                    return $query->orderByRaw('CASE WHEN (SELECT COUNT(*) FROM jadwal_audit WHERE jadwal_audit.id_standar = standar_audit.id AND jadwal_audit.id_unit = ? AND jadwal_audit.id_periode = ?) > 0 THEN 1 ELSE 0 END ASC', [$this->id_unit, $this->id_periode]);
+                }
+            })
             ->orderBy('nama_standar', 'asc')
-            ->paginate(10)
-            : collect();
+            ->paginate(10);
 
-        $periode = PeriodeAudit::where('is_active', true)->orderBy('tanggal_mulai', 'desc')->get();
-
-        foreach ($standar as $standarItem) {
-            $standarItem->pernyataan_count = JadwalAudit::where('id_standar', $standarItem->id)
-                ->where('id_unit', $this->id_unit)
-                ->where('id_periode', $this->id_periode)
-                ->count();;
-        }
-
-        return view('livewire.detail-jadwal-audit', ['standar' => $standar, 'periode' => $periode])->layout('components.layouts.app')->title("Jadwal Audit " . $this->profile_name);
+        return view('livewire.detail-jadwal-audit', ['standar' => $standar])->layout('components.layouts.app')->title("Penjadwalan " . $this->profile_name);
     }
 
     public function updatingSearch()

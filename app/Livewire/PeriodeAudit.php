@@ -32,7 +32,8 @@ class PeriodeAudit extends Component
     public function render()
     {
         $query = ModelsPeriodeAudit::orderBy('is_active', 'desc')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('tanggal_mulai', 'desc')
+            ->orderBy('tanggal_akhir', 'desc');
 
         if (!empty($this->search_start)) {
             $query->where('tanggal_mulai', '>=', $this->search_start);

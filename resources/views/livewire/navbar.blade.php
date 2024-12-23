@@ -9,10 +9,14 @@
             </label>
 
             <img src="{{ asset('images/logo-poltekkes.png') }}" class="w-[200px] hidden md:flex">
-            <img src="{{ asset('images/logo-blu.png') }}" class="w-[52px] hidden md:flex">
         </div>
-        <div class="flex-none space-x-5">
 
+        <div class="hidden md:flex space-x-4 mx-8">
+            <img src="{{ asset('images/berakhlak.png') }}" class="w-[140px]">
+            <img src="{{ asset('images/logo-blu.png') }}" class="w-[52px]">
+        </div>
+
+        <div class="flex-none space-x-5">
             <div class="indicator">
                 <label for="my-drawer-4" class="drawer-button cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -23,7 +27,6 @@
                 </label>
                 <span class="badge badge-sm indicator-item text-xs bg-white">0</span>
             </div>
-
 
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="flex items-center space-x-2 bg-gray-100 pr-4 rounded-full">
@@ -36,12 +39,13 @@
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li><a href="{{ route('profile.show') }}">Profil</a></li>
+                    <li><a wire:navigate.hover href="{{ route('profile.show') }}">Profil</a></li>
 
 
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
-                        <li><a href="{{ route('logout') }}" @click.prevent="$root.submit();">Logout</a></li>
+                        <li><a wire:navigate.hover href="{{ route('logout') }}"
+                                @click.prevent="$root.submit();">Logout</a></li>
                     </form>
                 </ul>
             </div>
@@ -53,9 +57,8 @@
         <div class="drawer-side">
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-white text-base-content min-h-full w-80 px-4">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex justify-start items-center mb-4">
                     <img src="{{ asset('images/logo-poltekkes.png') }}" class="w-[200px] h-auto">
-                    <img src="{{ asset('images/logo-blu.png') }}" class="w-[52px] h-auto">
                 </div>
 
                 <div class="flex justify-center mb-5">
@@ -75,7 +78,7 @@
                                     @foreach ($menus as $child)
                                         @if ($child['type'] == $menu['menu'])
                                             <li class="mb-1 text-sm" wire:key="{{ $child->id }}">
-                                                <a href="{{ url($child['url']) }}"
+                                                <a wire:navigate.hover href="{{ url($child['url']) }}"
                                                     class="{{ request()->is(trim($child['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
                                                         class="{{ $child['icon'] }} w-4 h-4 mr-1"></i>
                                                     {{ $child['menu'] }}
@@ -88,7 +91,7 @@
                         </li>
                     @elseif ($menu['type'] == 'standalone')
                         <li class="mb-1 text-sm" wire:key="{{ $menu->id }}">
-                            <a href="{{ url($menu['url']) }}"
+                            <a wire:navigate.hover href="{{ url($menu['url']) }}"
                                 class="{{ request()->is(trim($menu['url'], '/')) ? 'bg-[#60C0D0] text-white' : '' }}"><i
                                     class="{{ $menu['icon'] }} w-4 h-4 mr-1"></i>
                                 {{ $menu['menu'] }}

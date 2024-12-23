@@ -6,7 +6,7 @@
     <div class="breadcrumbs text-md">
         <ul>
             <li>Unit Kerja</li>
-            <li><a class="text-[#60C0D0] text-medium" href="{{ route('unit-kerja') }}">Index</a></li>
+            <li><a wire:navigate.hover class="text-[#60C0D0] text-medium" href="{{ route('unit-kerja') }}">Index</a></li>
         </ul>
     </div>
 
@@ -103,7 +103,7 @@
 
 
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-2xl">
+        <div class="modal-box w-full max-w-3xl">
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 

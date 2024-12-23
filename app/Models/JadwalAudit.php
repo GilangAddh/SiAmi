@@ -31,9 +31,4 @@ class JadwalAudit extends Model
     {
         return $this->belongsTo(PernyataanStandar::class, 'id_pernyataan');
     }
-
-    public function penugasanAudit()
-    {
-        return $this->hasMany(PenugasanAudit::class, 'id_jadwal');
-    }
 }

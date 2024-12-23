@@ -55,13 +55,14 @@ class DatabaseSeeder extends Seeder
             ['menu' => 'Periode Audit', 'type' => 'Master Data', 'url' => '/periode-audit', 'icon' => "fa-regular fa-clock", 'roles' => json_encode(['ppm'])],
 
             ['menu' => 'Jadwal Audit', 'type' => 'standalone', 'url' => '/jadwal-audit', 'icon' => "fa-solid fa-calendar-days", 'roles' => json_encode(['ppm'])],
+            ['menu' => 'Penjadwalan Unit Kerja', 'type' => 'hidden', 'url' => '/jadwal-unit-kerja', 'icon' => "", 'roles' => json_encode(['ppm'])],
             ['menu' => 'Detail Jadwal Audit', 'type' => 'hidden', 'url' => '/detail-jadwal-audit', 'icon' => "", 'roles' => json_encode(['ppm'])],
 
             ['menu' => 'Penugasan Audit', 'type' => 'standalone', 'url' => '/penugasan-audit', 'icon' => "fa-solid fa-code-branch", 'roles' => json_encode(['ppm'])],
             ['menu' => 'Detail Penugasan Audit', 'type' => 'hidden', 'url' => '/detail-penugasan-audit', 'icon' => "", 'roles' => json_encode(['ppm'])],
 
-            // ['menu' => 'Lembar Evaluasi Diri', 'type' => 'standalone', 'url' => '/lembar-evaluasi-diri', 'icon' => "fa-solid fa-code-branch", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
-            // ['menu' => 'Detail Lembar Evaluasi Diri', 'type' => 'hidden', 'url' => '/detail-lembar-evaluasi-diri', 'icon' => "", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
+            ['menu' => 'Desk Evaluasi', 'type' => 'standalone', 'url' => '/desk-evaluasi', 'icon' => "fa-regular fa-file", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
+            ['menu' => 'Detail Desk Evaluasi', 'type' => 'hidden', 'url' => '/detail-desk-evaluasi', 'icon' => "", 'roles' => json_encode(['ppm', 'auditor', 'auditee'])],
         ]);
     }
 }
