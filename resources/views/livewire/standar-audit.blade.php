@@ -24,10 +24,18 @@
             </svg>
         </label>
 
-        <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm" wire:click="openModal('tambah')">
-            Tambah
-            <i class="fa-solid fa-plus"></i>
-        </button>
+        <div class="flex justify-end space-x-4">
+            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                wire:click="openModal('import')">
+                Import Excel
+                <i class="fa-solid fa-file"></i>
+            </button>
+            <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                wire:click="openModal('tambah')">
+                Tambah
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
     </div>
 
     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
@@ -98,112 +106,191 @@
     <div class="mt-4">
         {{ $standar->links() }}
     </div>
-
     <dialog class="modal" @if ($isModalOpen) open @endif>
-        <div class="modal-box w-full max-w-2xl">
+        <div class="modal-box w-full max-w-3xl">
             <h3 class="text-lg font-bold mb-4">{{ $modalTitle }}</h3>
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="resetModal">✕</button>
 
-            @if ($modalAction === 'hapus')
-                <p>Apakah anda yakin ingin menghapus <span class="text-red-500 font-medium">{{ $nama_standar }}</span>?
+            @if ($modalAction === 'import')
+                <p class="mb-3">Harap unggah file excel menggunakan format berikut: <a class="link link-success"
+                        href="{{ asset('excels/format_unit_kerja.xlsx') }}">Unduh
+                        Format</a>
                 </p>
-                <div class="modal-action">
-                    <div class="flex space-x-2 justify-end">
-                        <button
-                            class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
-                            wire:click="resetModal">Tutup</button>
 
-                        <button class="btn btn-error btn-sm text-white" wire:click="delete">Ya,
-                            hapus</button>
-                    </div>
+                <input wire:model="file" type="file"
+                    class="file-input file-input-ghost file-input-bordered w-full file-input-md  @error('file') border-red-500 @enderror" />
+
+                @error('file')
+                    <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                @enderror
+
+                <div wire:loading wire:target="file" class="text-sm text-gray-500 mt-2">
+                    Memuat file...
                 </div>
-            @else
-                <form wire:submit.prevent="saveData">
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text md:text-[16px]">Nama Standar <span
-                                    class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            wire:model="nama_standar" placeholder="Masukkan nama standar"
-                            class="input input-bordered w-full input-md @error('nama_standar') border-red-500 @enderror" />
 
-                        @error('nama_standar')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
+                @if ($rows)
+                    <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">
+                        <table class="table table-zebra">
+                            <thead class="bg-[#60c0d0] text-white font-bold">
+                                <tr class="text-md">
+                                    <td class="text-center">Nama Standar</td>
+                                    <td class="text-center">Nomor Dokumen</td>
+                                    <td class="text-center">Nomor Revisi</td>
+                                    <td class="text-center">Tanggal Terbit</td>
+                                    <td class="text-center">Aksi</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($rows as $index => $row)
+                                    <tr>
+                                        @foreach ($row as $cellIndex => $cell)
+                                            <td>
+                                                @if ($cellIndex === count($row) - 1)
+                                                    <input type="date"
+                                                        wire:model="rows.{{ $index }}.{{ $cellIndex }}"
+                                                        class="input input-bordered w-36 input-md @error('rows.' . $index . '.' . $cellIndex) border-red-500 @enderror"
+                                                        value="{{ $cell }}" />
+                                                @else
+                                                    <input type="text"
+                                                        wire:model="rows.{{ $index }}.{{ $cellIndex }}"
+                                                        class="input input-bordered w-36 input-md @error('rows.' . $index . '.' . $cellIndex) border-red-500 @enderror"
+                                                        value="{{ $cell }}" />
+                                                @endif
 
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text md:text-[16px]">Nomor Dokumen <span
-                                    class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            wire:model="nomer_dokumen" placeholder="Masukkan nomor dokumen"
-                            class="input input-bordered w-full input-md @error('nomer_dokumen') border-red-500 @enderror" />
+                                                @error('rows.' . $index . '.' . $cellIndex)
+                                                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                                                @enderror
+                                            </td>
+                                        @endforeach
+                                        <td>
+                                            <button class="btn btn-sm bg-[#ff5861]"
+                                                wire:click="deleteRow({{ $index }})" type="button">
+                                                <i class="fas fa-trash text-white"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                        @error('nomer_dokumen')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text md:text-[16px]">Nomor Revisi <span
-                                    class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
-                            wire:model="nomer_revisi" placeholder="Masukkan nomor revisi"
-                            class="input input-bordered w-full input-md @error('nomer_revisi') border-red-500 @enderror" />
-
-                        @error('nomer_revisi')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text md:text-[16px]">Tanggal Terbit <span
-                                    class="text-red-500">*</span></span>
-                        </div>
-                        <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
-                            placeholder="Masukkan tanggal terbit" wire:model="tanggal_terbit"
-                            class="input input-bordered w-full input-md flatpickr-free @error('tanggal_terbit') border-red-500 @enderror" />
-
-                        @error('tanggal_terbit')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
-
-                    <label class="form-control w-full mb-2">
-                        <div class="label">
-                            <span class="label-text md:text-[16px]">Status <span class="text-red-500">*</span></span>
-                        </div>
-                        <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
-                            class="select select-bordered select-md @error('is_active') border-red-500 @enderror">
-                            <option value="true" selected>Aktif</option>
-                            <option value="false">Nonaktif</option>
-                        </select>
-
-                        @error('is_active')
-                            <span class="text-red-500 text-sm error-message">{{ $message }}</span>
-                        @enderror
-                    </label>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="modal-action">
                         <div class="flex space-x-2 justify-end">
                             <button type="button"
                                 class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
-                                wire:click="resetModal">Tutup</button>
+                                wire:click="resetModal">Batal</button>
 
-                            @if ($modalAction != 'lihat')
-                                <button type="submit"
-                                    class="btn btn-sm bg-[#60c0d0] text-white">{{ $modalAction === 'edit' ? 'Simpan' : 'Tambah' }}</button>
-                            @endif
+                            <button type="submit" class="btn btn-sm bg-[#60c0d0] text-white"
+                                wire:click="saveFromExcel">Konfirmasi Simpan</button>
                         </div>
                     </div>
-                </form>
+                @endif
+            @else
+                @if ($modalAction === 'hapus')
+                    <p>Apakah anda yakin ingin menghapus <span
+                            class="text-red-500 font-medium">{{ $nama_standar }}</span>?
+                    </p>
+                    <div class="modal-action">
+                        <div class="flex space-x-2 justify-end">
+                            <button
+                                class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                                wire:click="resetModal">Tutup</button>
+
+                            <button class="btn btn-error btn-sm text-white" wire:click="delete">Ya,
+                                hapus</button>
+                        </div>
+                    </div>
+                @else
+                    <form wire:submit.prevent="saveData">
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text md:text-[16px]">Nama Standar <span
+                                        class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                                wire:model="nama_standar" placeholder="Masukkan nama standar"
+                                class="input input-bordered w-full input-md @error('nama_standar') border-red-500 @enderror" />
+
+                            @error('nama_standar')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text md:text-[16px]">Nomor Dokumen <span
+                                        class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                                wire:model="nomer_dokumen" placeholder="Masukkan nomor dokumen"
+                                class="input input-bordered w-full input-md @error('nomer_dokumen') border-red-500 @enderror" />
+
+                            @error('nomer_dokumen')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text md:text-[16px]">Nomor Revisi <span
+                                        class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : '' }} type="text"
+                                wire:model="nomer_revisi" placeholder="Masukkan nomor revisi"
+                                class="input input-bordered w-full input-md @error('nomer_revisi') border-red-500 @enderror" />
+
+                            @error('nomer_revisi')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text md:text-[16px]">Tanggal Terbit <span
+                                        class="text-red-500">*</span></span>
+                            </div>
+                            <input {{ $modalAction === 'lihat' ? 'disabled' : 'readonly' }} type="text"
+                                placeholder="Masukkan tanggal terbit" wire:model="tanggal_terbit"
+                                class="input input-bordered w-full input-md flatpickr-free @error('tanggal_terbit') border-red-500 @enderror" />
+
+                            @error('tanggal_terbit')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <label class="form-control w-full mb-2">
+                            <div class="label">
+                                <span class="label-text md:text-[16px]">Status <span
+                                        class="text-red-500">*</span></span>
+                            </div>
+                            <select wire:model="is_active" {{ $modalAction === 'lihat' ? 'disabled' : '' }}
+                                class="select select-bordered select-md @error('is_active') border-red-500 @enderror">
+                                <option value="true" selected>Aktif</option>
+                                <option value="false">Nonaktif</option>
+                            </select>
+
+                            @error('is_active')
+                                <span class="text-red-500 text-sm error-message">{{ $message }}</span>
+                            @enderror
+                        </label>
+
+                        <div class="modal-action">
+                            <div class="flex space-x-2 justify-end">
+                                <button type="button"
+                                    class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                                    wire:click="resetModal">Tutup</button>
+
+                                @if ($modalAction != 'lihat')
+                                    <button type="submit"
+                                        class="btn btn-sm bg-[#60c0d0] text-white">{{ $modalAction === 'edit' ? 'Simpan' : 'Tambah' }}</button>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                @endif
             @endif
+
         </div>
     </dialog>
 </div>
