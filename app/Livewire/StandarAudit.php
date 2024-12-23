@@ -27,7 +27,7 @@ class StandarAudit extends Component
     protected $rules = [
         'nama_standar' => 'required|min:5|max:255',
         'nomer_dokumen' => 'required|min:5|max:255',
-        'nomer_revisi' => 'required|min:5|max:255',
+        'nomer_revisi' => 'required',
         'tanggal_terbit' => 'required|text_date_format',
         'is_active' => 'required'
     ];

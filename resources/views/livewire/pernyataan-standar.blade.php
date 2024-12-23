@@ -38,6 +38,7 @@
                     <td>Indikator</td>
                     <td>Pertanyaan</td>
                     <td>Bukti Objektif</td>
+                    <td>Auditee</td>
                     <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
                 </tr>
             </thead>
@@ -56,7 +57,7 @@
                         <td class="max-w-64 text-justify align-top">
                             {{ $item->pernyataan_standar }}
                         </td>
-                        <td class="align-top max-w-64 text-justify">
+                        <td class="align-top max-w-52 text-justify">
                             @if (!empty($item->indikator_pertanyaan) && count($item->indikator_pertanyaan) > 0)
                                 <ol class="list-decimal pl-5">
                                     @foreach ($item->indikator_pertanyaan as $indikatorItem)
@@ -77,25 +78,32 @@
                             @else
                                 <p class="text-center">Belum ada pertanyaan</p>
                             @endif
-
                         </td>
-                        <td class="max-w-48 align-top text-left">
+                        <td class="max-w-36 align-top text-left">
                             @if (!empty($item->bukti_objektif) && is_array($item->bukti_objektif))
-                                <ol class="list-none pl-5">
+                                <ol class="list-decimal pl-5">
                                     @foreach ($item->bukti_objektif as $index => $bukti)
-                                        <li class="mb-2"><a class="link link-hover underline hover:text-[#60c0d0]"
-                                                href="{{ asset('storage/' . $bukti) }}" target="_blank">
-                                                <i class="fa-solid fa-file text-black"></i>
-                                                <span class="ml-2">
-                                                    {{ $item->original_bukti_objektif[$index] ?? 'Bukti Objektif ' . ($index + 1) }}
-                                                </span>
-                                            </a></li>
+                                        <li class="mb-2">
+                                            {{ $item->bukti_objektif[$index] ?? 'Bukti Objektif ' . ($index + 1) }}
+                                        </li>
                                     @endforeach
                                 </ol>
                             @else
                                 <p class="text-center">Belum ada bukti objektif</p>
                             @endif
-
+                        </td>
+                        <td class="max-w-36 align-top text-left">
+                            @if (!empty($item->auditee) && is_array($item->auditee))
+                                <ol class="list-decimal pl-5">
+                                    @foreach ($item->auditee as $index => $bukti)
+                                        <li class="mb-2">
+                                            {{ $item->auditee[$index] }}
+                                        </li>
+                                    @endforeach
+                                </ol>
+                            @else
+                                <p class="text-center">Belum ada auditee</p>
+                            @endif
                         </td>
                         <th class="shadow-xl align-top">
                             <div class="flex justify-center items-center space-x-2">
@@ -113,7 +121,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="text-center">Tidak ada data yang ditemukan.</td>
+                        <td colspan="9" class="text-center">Tidak ada data yang ditemukan.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -196,9 +204,14 @@
                                             <td class="w-[10%] p-2">{{ $index + 1 }}.</td>
                                             <td class="w-[80%] p-2">
                                                 @if ($modalAction !== 'lihat')
-                                                    <textarea class="textarea textarea-bordered w-full" wire:model="indikator_pertanyaan.{{ $index }}"></textarea>
+                                                    <textarea class="textarea textarea-bordered w-full @error('indikator_pertanyaan.' . $index) border-red-500 @enderror"
+                                                        wire:model="indikator_pertanyaan.{{ $index }}"></textarea>
+                                                    @error("indikator_pertanyaan.$index")
+                                                        <p class="text-red-500 text-sm mt-1 text-left">Indikator Pertanyaan
+                                                            {{ $index + 1 }} tidak boleh kosong.</p>
+                                                    @enderror
                                                 @else
-                                                    {{ $indikator_pertanyaan[$index] }}
+                                                    {{ $pertanyaan[$index] }}
                                                 @endif
                                             </td>
                                             @if ($modalAction !== 'lihat')
@@ -247,8 +260,12 @@
                                             <td class="w-[10%] p-2">{{ $index + 1 }}</td>
                                             <td class="w-[80%] p-2">
                                                 @if ($modalAction !== 'lihat')
-                                                    <textarea {{ $modalAction === 'lihat' ? 'disabled' : '' }} class="textarea textarea-bordered w-full"
+                                                    <textarea class="textarea textarea-bordered w-full @error('pertanyaan.' . $index) border-red-500 @enderror"
                                                         wire:model="pertanyaan.{{ $index }}"></textarea>
+                                                    @error("pertanyaan.$index")
+                                                        <p class="text-red-500 text-sm mt-1 text-left">Pertanyaan
+                                                            {{ $index + 1 }} tidak boleh kosong.</p>
+                                                    @enderror
                                                 @else
                                                     {{ $pertanyaan[$index] }}
                                                 @endif
@@ -296,23 +313,80 @@
                                         <tr class="text-center align-top">
                                             <td class="w-[10%] p-2">{{ $index + 1 }}.</td>
                                             <td class="w-[20%] p-2">
-                                                @if ($original_bukti_objektif[$index] != null)
-                                                    <a class="link link-hover underline hover:text-[#60c0d0]"
-                                                        href="{{ asset('storage/' . $bukti_objektif[$index]) }}"
-                                                        target="_blank">
-                                                        {{ $original_bukti_objektif[$index] }}
-                                                    </a>
-                                                @else
-                                                    <input type="file"
-                                                        class="file-input file-input-ghost w-full input-bordered"
+                                                @if ($modalAction !== 'lihat')
+                                                    <input type="text"
+                                                        class="input input-md w-full input-bordered @error('bukti_objektif.' . $index) border-red-500 @enderror"
                                                         wire:model="bukti_objektif.{{ $index }}"
                                                         {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
+                                                    @error("bukti_objektif.$index")
+                                                        <p class="text-red-500 text-sm mt-1 text-left">Bukti Objektif
+                                                            {{ $index + 1 }} tidak boleh kosong.</p>
+                                                    @enderror
+                                                @else
+                                                    {{ $bukti_objektif[$index] }}
                                                 @endif
                                             </td>
                                             @if ($modalAction !== 'lihat')
                                                 <td class="w-[10%] p-2">
                                                     <button class="btn btn-sm bg-[#ff5861]" type="button"
                                                         wire:click='deleteBukti({{ $index }})'><i
+                                                            class="fas fa-trash text-white"></i></button>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center p-4">Tidak ada bukti objektif
+                                                tersedia.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-control w-full my-3">
+                        <div class="label">
+                            <label class="label-text md:text-[16px]">Auditee</label>
+                            @if ($modalAction !== 'lihat')
+                                <button class="btn text-white btn-sm bg-[#60c0d0] border-none px-3 text-sm"
+                                    type="button" wire:click='addAuditee'><i class="fa-solid fa-plus"></i></button>
+                            @endif
+                        </div>
+                        <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg">
+                            <table class="table table-zebra table-pin-cols">
+                                <thead class="bg-[#60c0d0] text-white font-bold">
+                                    <tr class="text-md text-center">
+                                        <td class="text-center">No</td>
+                                        <td>Auditee</td>
+                                        @if ($modalAction !== 'lihat')
+                                            <th class="bg-[#60c0d0] shadow-xl">Aksi</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($auditee as $index => $auditeeItem)
+                                        <tr class="text-center align-top">
+                                            <td class="w-[10%] p-2">{{ $index + 1 }}.</td>
+                                            <td class="w-[20%] p-2">
+                                                @if ($modalAction !== 'lihat')
+                                                    <input type="text"
+                                                        class="input input-md w-full input-bordered @error('auditee.' . $index) border-red-500 @enderror"
+                                                        wire:model="auditee.{{ $index }}"
+                                                        {{ $modalAction === 'lihat' ? 'disabled' : '' }}>
+                                                    @error("auditee.$index")
+                                                        <p class="text-red-500 text-sm mt-1 text-left">Auditee
+                                                            {{ $index + 1 }} tidak boleh kosong.</p>
+                                                    @enderror
+                                                @else
+                                                    {{ $auditee[$index] }}
+                                                @endif
+                                            </td>
+                                            @if ($modalAction !== 'lihat')
+                                                <td class="w-[10%] p-2">
+                                                    <button class="btn btn-sm bg-[#ff5861]" type="button"
+                                                        wire:click='deleteAuditee({{ $index }})'><i
                                                             class="fas fa-trash text-white"></i></button>
                                                 </td>
                                             @endif

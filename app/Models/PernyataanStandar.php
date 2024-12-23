@@ -10,13 +10,13 @@ class PernyataanStandar extends Model
     use HasFactory;
 
     protected $table = 'pernyataan_standar';
-    protected $fillable = ['pernyataan_standar', 'indikator_pertanyaan', 'pertanyaan', 'bukti_objektif', 'original_bukti_objektif', 'id_standar', 'is_active'];
+    protected $fillable = ['pernyataan_standar', 'indikator_pertanyaan', 'pertanyaan', 'bukti_objektif', 'auditee', 'id_standar', 'is_active'];
 
     protected $casts = [
         'pertanyaan' => 'array',
         'indikator_pertanyaan' => 'array',
         'bukti_objektif' => 'array',
-        'original_bukti_objektif' => 'array'
+        'auditee' => 'array'
     ];
 
     public function standarAudit()
