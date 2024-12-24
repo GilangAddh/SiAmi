@@ -113,7 +113,7 @@
 
             @if ($modalAction === 'import')
                 <p class="mb-3">Harap unggah file excel menggunakan format berikut: <a class="link link-success"
-                        href="{{ asset('excels/format_unit_kerja.xlsx') }}">Unduh
+                        href="{{ asset('excels/format_standar_audit.xlsx') }}">Unduh
                         Format</a>
                 </p>
 
@@ -130,14 +130,14 @@
 
                 @if ($rows)
                     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">
-                        <table class="table table-zebra">
+                        <table class="table table-zebra table-pin-cols">
                             <thead class="bg-[#60c0d0] text-white font-bold">
                                 <tr class="text-md">
                                     <td class="text-center">Nama Standar</td>
                                     <td class="text-center">Nomor Dokumen</td>
                                     <td class="text-center">Nomor Revisi</td>
                                     <td class="text-center">Tanggal Terbit</td>
-                                    <td class="text-center">Aksi</td>
+                                    <th class="text-center bg-[#60c0d0] shadow-xl">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,15 +162,14 @@
                                                 @enderror
                                             </td>
                                         @endforeach
-                                        <td>
+                                        <th class="shadow-xl">
                                             <button class="btn btn-sm bg-[#ff5861]"
                                                 wire:click="deleteRow({{ $index }})" type="button">
                                                 <i class="fas fa-trash text-white"></i>
                                             </button>
-                                        </td>
+                                        </th>
                                     </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
