@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\PeriodeAudit;
 use App\Models\PenugasanAudit;
+use App\Models\DeskEvaluasi;
 
 class DetailPenugasanAudit extends Component
 {
@@ -14,11 +15,16 @@ class DetailPenugasanAudit extends Component
 
     public $periode;
     public $unitKerja;
+    public $is_generated = false;
 
     public function mount(PeriodeAudit $periode, User $unitKerja)
     {
         $this->periode = $periode;
         $this->unitKerja = $unitKerja;
+
+        $this->is_generated = DeskEvaluasi::where('soft_unit', $this->unitKerja->id)
+            ->where('soft_periode', $this->periode->id)
+            ->exists();
 
         $this->existingAuditor = PenugasanAudit::where('id_unit',  $this->unitKerja->id)
             ->where('id_periode', $this->periode->id)

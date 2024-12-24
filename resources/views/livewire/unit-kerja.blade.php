@@ -126,13 +126,14 @@
 
                 @if ($rows)
                     <div class="overflow-x-auto overflow-y-hidden border border-1 rounded-lg mt-6">
-                        <table class="table table-zebra">
+                        <table class="table table-zebra table-pin-cols">
                             <thead class="bg-[#60c0d0] text-white font-bold">
                                 <tr class="text-md">
                                     <td class="text-center">Nama Unit Kerja</td>
                                     <td class="text-center">Email</td>
                                     <td class="text-center">Username Akun</td>
                                     <td class="text-center">Password</td>
+                                    <th class="bg-[#60c0d0] shadow-xl text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,6 +151,12 @@
                                                 @enderror
                                             </td>
                                         @endforeach
+                                        <th class="shadow-xl">
+                                            <button class="btn btn-sm bg-[#ff5861]"
+                                                wire:click="deleteRow({{ $index }})" type="button">
+                                                <i class="fas fa-trash text-white"></i>
+                                            </button>
+                                        </th>
                                     </tr>
                                 @endforeach
                             </tbody>

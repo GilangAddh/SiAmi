@@ -9,6 +9,7 @@ use App\Models\PeriodeAudit;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\DeskEvaluasi;
 
 class DetailJadwalAudit extends Component
 {
@@ -33,6 +34,7 @@ class DetailJadwalAudit extends Component
     public $existingPernyataan = [];
 
     public $sortStatus = "sudah";
+    public $is_generated = false;
 
     public function mount(User $unitKerja, PeriodeAudit $periode)
     {
@@ -41,6 +43,10 @@ class DetailJadwalAudit extends Component
 
         $this->periode = $periode;
         $this->id_periode = $periode->id;
+
+        $this->is_generated = DeskEvaluasi::where('soft_unit', $unitKerja->id)
+            ->where('soft_periode', $periode->id)
+            ->exists();
     }
 
     public function render()

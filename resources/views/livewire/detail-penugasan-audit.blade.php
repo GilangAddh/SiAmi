@@ -48,8 +48,9 @@
                             </div>
                         </td>
                         <th class="shadow-xl text-center">
-                            <input type="checkbox" class="checkbox [--chkbg:#60c0d0] [--chkfg:#ffffff]"
-                                wire:model="selectedAuditor" value="{{ $item->id }}">
+                            <input @if ($is_generated) disabled @endif type="checkbox"
+                                class="checkbox [--chkbg:#60c0d0] [--chkfg:#ffffff]" wire:model="selectedAuditor"
+                                value="{{ $item->id }}">
                         </th>
                     </tr>
                 @empty
@@ -65,9 +66,11 @@
         <a class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
             wire:navigate href="/penugasan-audit">Kembali</a>
-        <button
-            class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
+        @if (!$is_generated)
+            <button
+                class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white
             hover:border-none"
-            wire:click="save">Simpan</button>
+                wire:click="save">Simpan</button>
+        @endif
     </div>
 </div>
