@@ -133,12 +133,15 @@
                         <th class="shadow-xl">
                             <div class="flex gap-2 md:justify-evenly">
                                 <div class="flex justify-center items-center space-x-2">
-                                    <i class="fas fa-eye text-black cursor-pointer"></i>
+                                    <a href="{{ route('detail-desk-evaluasi', ['desk' => $item, 'action' => 'view']) }}"
+                                        wire:navigate><i class="fas fa-eye text-black cursor-pointer"></i></a>
                                     @if (
                                         $role != 'ppm' &&
                                             !Carbon::today()->lt(Carbon::parse($item->hard_periode_awal)) &&
                                             !Carbon::today()->gt(Carbon::parse($item->hard_periode_akhir)))
-                                        <i class="fas fa-edit text-black cursor-pointer"></i>
+                                        <a href="{{ route('detail-desk-evaluasi', ['desk' => $item, 'action' => 'edit']) }}"
+                                            wire:navigate><i class="fas fa-edit text-black cursor-pointer"></i>
+                                        </a>
                                     @endif
                                 </div>
                             </div>

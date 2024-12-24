@@ -7,6 +7,7 @@ use App\Livewire\UnitKerja;
 use App\Livewire\StandarAudit;
 use App\Livewire\Auditor;
 use App\Livewire\DeskEvaluasi;
+use App\Livewire\DetailDeskEvaluasi;
 use App\Livewire\DetailJadwalAudit;
 use App\Livewire\DetailPenugasanAudit;
 use App\Livewire\JadwalAudit;
@@ -58,5 +59,5 @@ Route::middleware([
     Route::get('/detail-penugasan-audit/{periode}/{unitKerja}', action: DetailPenugasanAudit::class)->name('detail-penugasan-audit');
 
     Route::get('/desk-evaluasi', DeskEvaluasi::class)->name('desk-evaluasi');
-    Route::get('/detail-desk-evaluasi/{desk}', action: DeskEvaluasi::class)->name('detail-desk-evaluasi');
+    Route::get('/detail-desk-evaluasi/{desk}/{action}', action: DetailDeskEvaluasi::class)->name('detail-desk-evaluasi');
 });
