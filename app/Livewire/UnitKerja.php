@@ -115,6 +115,13 @@ class UnitKerja extends Component
         $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Data unit kerja berhasil disimpan."})');
     }
 
+    public function deleteRow($index)
+    {
+        unset($this->rows[$index]);
+        $this->rows = array_values($this->rows);
+    }
+
+
     public function generateRandomPassword()
     {
         $this->password = Str::random(8);

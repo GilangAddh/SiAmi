@@ -11,4 +11,9 @@ class PenugasanAudit extends Model
 
     protected $table = 'penugasan_audit';
     protected $fillable = ['id_periode', 'id_unit', 'id_auditor'];
+
+    public function auditor()
+    {
+        return $this->belongsTo(User::class, 'id_auditor');
+    }
 }

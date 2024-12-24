@@ -38,7 +38,7 @@
                     <td>Unit Kerja</td>
                     <td>Standar Audit</td>
                     <td class="text-center">Status Penugasan</td>
-                    <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Auditor</th>
+                    <th class="bg-[#60c0d0] shadow-xl text-center">Penugasan Audit</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,9 +67,29 @@
                             Auditor Ditugaskan untuk Audit
                         </td>
                         <th class="shadow-xl text-center">
-                            <a wire:navigate
-                                href="{{ route('detail-penugasan-audit', ['periode' => $item->periodeAudit, 'unitKerja' => $item->unitKerja]) }}"
-                                class="text-[#60c0d0]"><i class="fa-solid fa-stamp w-4 h-4 mr-1"></i> Auditor</a>
+                            <div class="flex justify-evenly mx-3 gap-2 md:gap-0 md:mx-0 ">
+                                <a wire:navigate
+                                    href="{{ route('detail-penugasan-audit', ['periode' => $item->periodeAudit, 'unitKerja' => $item->unitKerja]) }}"
+                                    class="text-[#60c0d0]"><i class="fa-solid fa-stamp w-4 h-4 mr-1"></i>
+                                    <span class="hidden md:inline">Auditor</span></a>
+
+                                @if ($item->auditor_count > 0 && !$item->is_generated)
+                                    <button class="btn btn-xs bg-[#60c0d0] text-white"
+                                        wire:click="openModal(
+                                        '{{ $item->unitKerja->profile_name }}',
+                                        '{{ Carbon::parse($item->periodeAudit->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} - {{ Carbon::parse($item->periodeAudit->tanggal_akhir)->locale('id')->translatedFormat('d F Y') }}',
+                                        {{ $item->unitKerja->id }},
+                                        {{ $item->periodeAudit->id }}
+                                    )">
+                                        Generasi Desk
+                                    </button>
+                                @elseif ($item->auditor_count > 0 && $item->is_generated)
+                                    <button class="btn btn-xs bg-[#60c0d0] text-white" wire:navigate
+                                        href="/desk-evaluasi">
+                                        Lihat Desk
+                                    </button>
+                                @endif
+                            </div>
                         </th>
                     </tr>
                 @empty
@@ -85,4 +105,27 @@
         {{ $jadwalAudit->links() }}
     </div>
 
+    <dialog class="modal" @if ($isModalOpen) open @endif>
+        <div class="modal-box w-full max-w-2xl">
+            <h3 class="text-lg font-bold mb-4">Konfirmasi Generasi Desk evaluasi</h3>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" wire:click="closeModal">✕</button>
+
+            <p>Apakah anda yakin ingin generasi desk evaluasi untuk <span
+                    class="text-[#60c0d0]">{{ $unit }}</span>
+                periode <span class="text-[#60c0d0]">{{ $concat_periode }}</span>? Data
+                setelah generasi <span class="text-error">tidak bisa diubah!</span>
+            </p>
+
+            <div class="modal-action">
+                <div class="flex space-x-2 justify-end">
+                    <button
+                        class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
+                        wire:click="closeModal">Batal</button>
+
+                    <button class="btn bg-[#60c0d0] btn-sm text-white" wire:click="generate">Ya,
+                        konfirmasi generasi</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
 </div>

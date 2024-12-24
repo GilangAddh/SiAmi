@@ -6,6 +6,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\JadwalAudit;
 use App\Models\PeriodeAudit;
+use App\Models\DeskEvaluasi;
+use App\Models\DetailDeskEvaluasi;
+use App\Models\PenugasanAudit as ModelsPenugasanAudit;
 
 class PenugasanAudit extends Component
 {
@@ -13,6 +16,12 @@ class PenugasanAudit extends Component
 
     public $id_periode = "";
     public $sortStatus = "sudah";
+    public $isModalOpen = false;
+
+    public $unit;
+    public $concat_periode;
+    public $soft_unit;
+    public $soft_periode;
 
     public function render()
     {
@@ -30,6 +39,12 @@ class PenugasanAudit extends Component
                     ->whereColumn('penugasan_audit.id_unit', 'jadwal_audit.id_unit')
                     ->whereColumn('penugasan_audit.id_periode', 'jadwal_audit.id_periode');
             }, 'auditor_count')
+            ->selectSub(function ($query) {
+                $query->from('desk_evaluasi')
+                    ->selectRaw('CASE WHEN COUNT(*) > 0 THEN true ELSE false END')
+                    ->whereColumn('desk_evaluasi.soft_periode', 'jadwal_audit.id_periode')
+                    ->whereColumn('desk_evaluasi.soft_unit', 'jadwal_audit.id_unit');
+            }, 'is_generated')
             ->join('periode_audit', 'jadwal_audit.id_periode', '=', 'periode_audit.id')
             ->groupBy(
                 'jadwal_audit.id_periode',
@@ -61,5 +76,77 @@ class PenugasanAudit extends Component
         ])
             ->layout('components.layouts.app')
             ->title('Penugasan Audit');
+    }
+
+    public function openModal($unit, $concat_periode, $soft_unit, $soft_periode)
+    {
+        $this->unit = $unit;
+        $this->concat_periode = $concat_periode;
+        $this->soft_unit = $soft_unit;
+        $this->soft_periode = $soft_periode;
+        $this->isModalOpen = true;
+    }
+
+    public function closeModal()
+    {
+        $this->reset(['unit', 'concat_periode', 'soft_unit', 'soft_periode', 'isModalOpen']);
+    }
+
+    public function generate()
+    {
+        $jadwalAudit = JadwalAudit::with([
+            'periodeAudit',
+            'unitKerja',
+            'standarAudit',
+            'pernyataanStandar',
+        ])
+            ->where('id_unit', $this->soft_unit)
+            ->where('id_periode', $this->soft_periode)
+            ->get();
+
+        $groupedJadwals = $jadwalAudit->groupBy(fn($jadwal) => $jadwal->id_unit . '-' . $jadwal->id_periode . '-' . $jadwal->id_standar);
+        $auditors = ModelsPenugasanAudit::where('id_unit', $this->soft_unit)
+            ->where('id_periode', $this->soft_periode)
+            ->with('auditor')
+            ->get();
+
+        $auditorNames = $auditors->pluck('auditor.profile_name')->filter()->toArray();
+        $auditorIds = $auditors->pluck('auditor.id')->filter()->toArray();
+
+        $groupedJadwals->each(function ($group, $key) use ($auditorNames, $auditorIds) {
+            $uniqueJadwal = $group->first();
+
+            $desk = DeskEvaluasi::create([
+                'hard_periode_awal' => $uniqueJadwal->periodeAudit->tanggal_mulai,
+                'hard_periode_akhir' => $uniqueJadwal->periodeAudit->tanggal_akhir,
+                'hard_unit' => $uniqueJadwal->unitKerja->profile_name,
+                'hard_standar' => $uniqueJadwal->standarAudit->nama_standar,
+                'hard_auditor' => $auditorNames,
+                'soft_periode' => $uniqueJadwal->periodeAudit->id,
+                'soft_unit' => $uniqueJadwal->unitKerja->id,
+                'soft_standar' => $uniqueJadwal->standarAudit->id,
+                'soft_auditor' => $auditorIds,
+                'status' => 'Pengisian Evaluasi',
+            ]);
+
+            $relevantPernyataan = $group->pluck('pernyataanStandar')->flatten()->filter(function ($pernyataan) use ($desk) {
+                return $pernyataan->id_standar == $desk->soft_standar;
+            });
+
+            $relevantPernyataan->each(function ($pernyataan) use ($desk) {
+                DetailDeskEvaluasi::create([
+                    'id_desk' => $desk->id,
+                    'id_pernyataan' => $pernyataan->id,
+                    'pernyataan' => $pernyataan->pernyataan_standar,
+                    'indikator' => $pernyataan->indikator_pertanyaan,
+                    'pertanyaan' => $pernyataan->pertanyaan,
+                    'auditee' => $pernyataan->auditee,
+                    'bukti_objektif' => $pernyataan->bukti_objektif,
+                ]);
+            });
+        });
+
+        $this->js('SwalGlobal.fire({icon: "success", title: "Berhasil", text: "Desk Evaluasi berhasil disimpan."})');
+        $this->redirect('/penugasan-audit', navigate: true);
     }
 }

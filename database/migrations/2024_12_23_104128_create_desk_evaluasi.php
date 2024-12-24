@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('soft_unit');
             $table->unsignedBigInteger('soft_standar');
             $table->json('soft_auditor');
-            $table->string('status')->default("Menunggu Pengisian Evaluasi");
+            $table->string('status')->default("Pengisian Evaluasi");
             $table->date('tanggal_mulai_evaluasi')->nullable();
             $table->date('tanggal_mulai_audit')->nullable();
             $table->string('catatan')->nullable();

@@ -62,18 +62,30 @@
                         </td>
                         <th class="shadow-xl text-center">
                             <div class="flex justify-center items-center space-x-2">
-                                <button class="btn btn-xs bg-[#60c0d0] text-white"
-                                    wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'save')">
-                                    @if ($item->pernyataan_count > 0)
-                                        Edit Jadwal
-                                    @else
-                                        Jadwalkan
-                                    @endif
-                                </button>
+                                @if (!$is_generated)
+                                    <button class="btn btn-xs bg-[#60c0d0] text-white"
+                                        wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'save')">
+                                        @if ($item->pernyataan_count > 0)
+                                            Edit Jadwal
+                                        @else
+                                            Jadwalkan
+                                        @endif
+                                    </button>
 
-                                @if ($item->pernyataan_count > 0)
-                                    <button class="btn btn-xs bg-error text-white"
-                                        wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'cancel')">Batalkan</button>
+                                    @if ($item->pernyataan_count > 0)
+                                        <button class="btn btn-xs bg-error text-white"
+                                            wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'cancel')">Batalkan</button>
+                                    @endif
+                                @else
+                                    <button class="btn btn-xs bg-[#60c0d0] text-white"
+                                        wire:click="openModal('{{ $item->nama_standar }}', {{ $item->id }}, 'save')">
+                                        Lihat Detail
+                                    </button>
+
+                                    <button class="btn btn-xs bg-[#60c0d0] text-white" wire:navigate
+                                        href="/desk-evaluasi">
+                                        Lihat Desk
+                                    </button>
                                 @endif
                             </div>
                         </th>
@@ -188,7 +200,8 @@
                                             @endif
                                         </td>
                                         <th class="shadow-xl text-center">
-                                            <input type="checkbox" class="checkbox [--chkbg:#60c0d0] [--chkfg:#ffffff]"
+                                            <input @if ($is_generated) disabled @endif type="checkbox"
+                                                class="checkbox [--chkbg:#60c0d0] [--chkfg:#ffffff]"
                                                 wire:model="selectedPernyataan" value="{{ $item->id }}">
                                         </th>
                                     </tr>
@@ -207,7 +220,7 @@
                                 class="btn btn-sm btn-outline text-[#60c0d0] border-[#60c0d0] hover:bg-[#60c0d0] hover:text-white hover:border-none"
                                 wire:click="resetModal">Tutup</button>
 
-                            @if (count($pernyataan) > 0)
+                            @if (count($pernyataan) > 0 && !$is_generated)
                                 <button type="submit" class="btn btn-sm bg-[#60c0d0] text-white">Simpan</button>
                             @endif
                         </div>
