@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PernyataanStandar extends Component
 {
@@ -46,6 +47,71 @@ class PernyataanStandar extends Component
     // protected $messages = [
     //     'pertanyaan.*.required' => 'Pertanyaan :index tidak boleh kosong.',
     // ];
+
+    public $file;
+    public $rows = [];
+
+    public function updatedFile()
+    {
+        $this->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ]);
+
+        $this->processFile();
+    }
+
+    public function processFile()
+    {
+        $path = $this->file->store('temp');
+        $data = Excel::toArray([], Storage::path($path));
+
+        if (!empty($data)) {
+            $sheetData = $data[0];
+
+            unset($sheetData[0], $sheetData[2]);
+
+            $sheetData = array_values($sheetData);
+
+            $this->rows = array_map(function ($row) {
+                return array_filter([
+                    $row[0] ?? null,
+                    $row[1] ?? null,
+                    $row[2] ?? null,
+                    $row[3] ?? null,
+                ]);
+            }, $sheetData);
+
+            $this->rows = array_filter($this->rows, fn($row) => !empty($row));
+        }
+
+        Storage::delete($path);
+
+        if (!empty($this->rows)) {
+            $this->pernyataan_standar = $this->rows[0][0] ?? null;
+            unset($this->rows[0]);
+
+            $this->indikator_pertanyaan = array_map(fn($item) => $item[0] ?? null, $this->rows);
+            $this->pertanyaan = array_map(fn($item) => $item[1] ?? null, $this->rows);
+            $this->bukti_objektif = array_map(fn($item) => $item[2] ?? null, $this->rows);
+            $this->auditee = array_map(fn($item) => $item[3] ?? null, $this->rows);
+        } else {
+            $this->pernyataan_standar = '';
+            $this->indikator_pertanyaan = [];
+            $this->pertanyaan = [];
+            $this->bukti_objektif = [];
+            $this->auditee = [];
+        }
+    }
+
+
+    public function deleteRow($index)
+    {
+        unset($this->rows[$index]);
+
+        $this->rows = array_values($this->rows);
+    }
+
+
 
     public function mount(StandarAudit $standarAudit)
     {
@@ -86,7 +152,7 @@ class PernyataanStandar extends Component
     public function resetModal()
     {
         $this->resetValidation();
-        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pernyataan_standar', 'pertanyaan', 'indikator_pertanyaan', 'bukti_objektif', 'is_active', 'auditee']);
+        $this->reset(['isModalOpen', 'modalTitle', 'modalAction', 'recordId', 'pernyataan_standar', 'pertanyaan', 'indikator_pertanyaan', 'bukti_objektif', 'is_active', 'auditee', 'rows']);
     }
 
     public function resetSearch()
