@@ -56,6 +56,7 @@ class PernyataanStandar extends Component
     public function render()
     {
         $indikator = ModelsPernyataanStandar::where('id_standar', '=', $this->id_standar)
+            ->where('pernyataan_standar', 'ilike', '%' . $this->search . '%')
             ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
